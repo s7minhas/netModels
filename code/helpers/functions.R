@@ -8,19 +8,20 @@ loadPkg=function(toLoad){
 }
 
 # var key
-varKey = c(
-	"priv.ngo", "business v ngo",
-	"allopp", "opposition/alliance",
-	"prefdist", "pref dissim",
-	"forum", "joint forum",
-	"infrep", "influence attribution",
-	"influence.icov", "alter's influence indegree",
-	"influence.absdiff", "influence abs diff",
-	"gov.ifactor", "alter = gov actor",
-	"ngo.ofactor", "ego = environ ngo",
-	"type.nodematch", "same actor type",
-	"collab.t", "mutuality"
-	)
+varKey = matrix(
+	c(
+		"priv.ngo", "business v ngo",
+		"allopp", "opposition/alliance",
+		"prefdist", "pref dissim",
+		"forum", "joint forum",
+		"infrep", "influence attribution",
+		"influence.icov", "alter's influence indegree",
+		"influence.absdiff", "influence abs diff",
+		"gov.ifactor", "alter = gov actor",
+		"ngo.ofactor", "ego = environ ngo",
+		"type.nodematch", "same actor type",
+		"collab.t", "mutuality"
+	), ncol = 2, byrow=TRUE)
 
 # Extract coefs from ame object
 getAmeCoef = function(fit, addTypeLabel=FALSE){
