@@ -11,8 +11,8 @@ n=nrow(Y)
 Xd = Xd[,,-which(dimnames(Xd)[[3]] %in% 'collab.t')]
 
 # mcmc params
-imps = 500000
-brn = 50000
+imps = 5000000
+brn = 2000000
 ods = 100
 latDims = c(2, 4, 6)
 

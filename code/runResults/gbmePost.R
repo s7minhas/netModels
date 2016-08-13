@@ -10,7 +10,7 @@ load(paste0(dataPath, 'latFacData.rda'))
 Xd = Xd[,,-which(dimnames(Xd)[[3]] %in% 'collab.t')]
 
 # load gbme results
-out = read.table(paste0(resultsPath, 'gbmeDir/OUT_2'), header=TRUE)
+out = read.table(paste0(resultsPath, 'gbmeDir/OUT_4'), header=TRUE)
 PS = out[out$scan>round(max(out$scan)/2),-(1:3)] 
 
 # Check convergence
