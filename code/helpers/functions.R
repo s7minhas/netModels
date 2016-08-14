@@ -7,6 +7,10 @@ loadPkg=function(toLoad){
 	}
 }
 
+# misc
+char = function(x){ as.character(x) }
+num = function(x){ as.numeric(char(x)) }
+
 # var key
 varKey = matrix(
 	c(

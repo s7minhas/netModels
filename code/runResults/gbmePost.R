@@ -10,17 +10,25 @@ load(paste0(dataPath, 'latFacData.rda'))
 Xd = Xd[,,-which(dimnames(Xd)[[3]] %in% 'collab.t')]
 
 # load gbme results
-out = read.table(paste0(resultsPath, 'gbmeDir/OUT_4'), header=TRUE)
+out = read.table(paste0(resultsPath, 'gbmeDir/OUT_2'), header=TRUE)
 PS = out[out$scan>round(max(out$scan)/2),-(1:3)] 
 
 # Check convergence
 convData = data.frame( PS[,1:11], stringsAsFactors=FALSE)
 convData$iter = as.numeric( rownames(convData) )
 loadPkg(c('reshape2', 'ggplot2'))
-convData = melt(convData, id='iter')
-ggplot(convData, aes(x=iter, y=value, color=variable)) + 
+ggConvData = melt(convData, id='iter')
+ggConv = ggplot(ggConvData, aes(x=iter, y=value, color=variable)) + 
 	geom_line() + 
 	facet_wrap(~variable, scales='free_y')
+
+# Check conv using coda
+loadPkg('coda')
+convCoda = mcmc(convData[,-ncol(convData)], start=(25001*100), end=(50000*100), thin=100)
+geweke.diag(convCoda)
+heidel.diag(convCoda)
+raftery.diag(convCoda)
+HPDinterval(convCoda)
 
 #gives mean, std dev, and .025,.5,.975 quantiles
 outSumm = t(rbind( mean=apply(PS,2,mean), sd=apply(PS,2,sd), 
@@ -32,4 +40,4 @@ rownames(outSumm)[rownames(outSumm)=='b0'] = '(Intercept)'
 rownames(outSumm)[rownames(outSumm)=='bs1'] = colnames(Xs)
 
 # coef summary
-outSumm[varKey[-nrow(varKey),1],]
+outSumm[c('(Intercept)',varKey[-nrow(varKey),1]),]
