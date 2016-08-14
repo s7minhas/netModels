@@ -5,7 +5,7 @@ source('~/Research/netModels/code/helpers/paths.R')
 library(amen)
 
 # load data
-load(paste0(dataPath, 'latFacData.rda'))
+load(paste0(dataPath, 'data.rda'))
 
 # Remove exog recip term
 Xd = Xd[,,-which(dimnames(Xd)[[3]] %in% 'collab.t')]

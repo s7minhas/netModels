@@ -1,4 +1,4 @@
-source('~/Research/netModels/code/1_replicationSetup.R')
+source('~/Research/netModels/code/replicationSetup.R')
 
 ########## LATENT SPACE MODEL ##########
 
@@ -19,12 +19,11 @@ model.ls <- ergmm(nw.collab ~
     seed = seed, 
     control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100)
 )
-summary(model.ls)
-save(model.ls, file=paste0(resultsPath, 'euclLatSpaceResults.rda'))
 
 # goodness of fit assessment for the latent space model
 gof.ls <- gof.ergmm(model.ls, GOF = ~ dspartners + espartners + distance + 
     idegree + odegree, control = control.gof.ergmm(seed = seed))
+
 pdf(paste0(graphicsPath, "gof-ls.pdf"), width = 9, height = 6)
 par(mfrow = c(2, 3))
 plot(gof.ls, main = "Latent space model: goodness of fit")
@@ -32,3 +31,5 @@ set.seed(seed)
 plot(model.ls, labels = TRUE, print.formula = FALSE, 
     main = "MKL Latent positions")
 dev.off()
+
+save(model.ls, gof.ls, file=paste0(resultsPath, 'euclLatSpaceResults.rda'))
