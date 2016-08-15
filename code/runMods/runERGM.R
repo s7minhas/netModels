@@ -26,7 +26,11 @@ model.ergm <- ergm(nw.collab ~
     MCMC.interval = 5000)
 )
 
-ergmSims <- simulate.ergm(model.ergm,nsim=1000)
+# For tie predictions
+ergmSims = simulate.ergm(model.ergm,nsim=1000)
+
+# coef results
+ergmCoef = summary(model.ergm)$'coefs'
 
 # MCMC diagnostics plot (not included in the paper)
 pdf(paste0(graphicsPath, "ergm-mcmc-diagnostics.pdf"))
@@ -41,4 +45,4 @@ pdf(paste0(graphicsPath, "gof-ergm.pdf"), width = 9, height = 6)
 plot(gof.ergm)
 dev.off()
 
-save(model.ergm, ergmSims, gof.ergm, file=paste0(resultsPath, 'ergmResults.rda'))
+save(model.ergm, ergmSims, ergmCoef, gof.ergm, file=paste0(resultsPath, 'ergmResults.rda'))

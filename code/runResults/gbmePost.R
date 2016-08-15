@@ -5,7 +5,7 @@ source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
 
 # load data
-load(paste0(dataPath, 'latFacData.rda'))
+load(paste0(dataPath, 'data.rda'))
 # Remove exog recip term
 Xd = Xd[,,-which(dimnames(Xd)[[3]] %in% 'collab.t')]
 
@@ -38,6 +38,3 @@ outSumm = t(rbind( mean=apply(PS,2,mean), sd=apply(PS,2,sd),
 rownames(outSumm)[1:dim(Xd)[3]] = dimnames(Xd)[[3]]
 rownames(outSumm)[rownames(outSumm)=='b0'] = '(Intercept)'
 rownames(outSumm)[rownames(outSumm)=='bs1'] = colnames(Xs)
-
-# coef summary
-outSumm[c('(Intercept)',varKey[-nrow(varKey),1]),]

@@ -1,4 +1,4 @@
-loadPkg(c('ROCR', 'caTools'))
+loadPkg(c('ROCR', 'caTools','RColorBrewer'))
 
 # Roc curve, depends ROCR
 roc = function(prediction, actual){
@@ -16,12 +16,15 @@ getAUC = function(prediction, actual){
 }
 
 # Plot roc curves, depends RColorBrewer
-rocPlot = function(rocData, colorPal = 'Set1'){
-	tmp=ggplot(rocData, aes(x=FPR, y=TPR, color=model)) + geom_line()
-	tmp=tmp + geom_abline(intercept=0, slope=1, color='darkgrey')
-	tmp=tmp + ylab('True Positive Rate (Sensitivity)') + xlab('False Positive Rate (1-Specificity)')
-	# tmp=tmp + scale_x_continuous(expand = c(0, 0)) + scale_y_continuous(expand = c(0, 0))
-	# tmp=tmp + scale_colour_manual( values=c( rgb(222, 45, 38, maxColorValue=255), rgb(54, 144, 192, maxColorValue=255) ) )
+# plot_type is "roc" or "pr"
+rocPlot = function(rocData, colorPal = 'Set1', type='roc'){
+	if(type=='roc'){ tmp=ggplot(rocData, aes(x=FPR, y=TPR, color=model)) + geom_line() }
+  if(type=='pr'){ tmp=ggplot(rocData, aes(x=rec, y=prec, color=model)) + geom_line() }
+	if(type=='roc'){
+    tmp=tmp + geom_abline(intercept=0, slope=1, color='darkgrey')
+    tmp=tmp + ylab('True Positive Rate (Sensitivity)') + xlab('False Positive Rate (1-Specificity)')
+  }
+  if(type=='pr'){ tmp=tmp + ylab('Recall') + xlab('Precision') }
 	tmp=tmp + scale_color_brewer(palette=colorPal)
 	tmp=tmp + theme(
 		legend.position='top', legend.title=element_blank(),

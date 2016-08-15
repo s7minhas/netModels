@@ -14,7 +14,7 @@ imps = 50000000
 brn = 10000000
 ods = 100
 latDims = c(2, 4, 6)
-latDim = latDim[1]
+latDim = latDims[1]
 
 # Run gbme
 for(latDim in latDims){
