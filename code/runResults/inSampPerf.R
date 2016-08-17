@@ -68,7 +68,7 @@ aucSumm = do.call('rbind',
 	lapply(predDfs, function(x){ 
 		cbind( 'AUC'=getAUC(x$prob, x$actual), 'AUC (PR)'=auc_pr(x$actual, x$prob) ) 
 		} ) ) ; rownames(aucSumm) = names(predDfs)
-aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
+aucSumm = aucSumm[order(aucSumm[,2],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
 
 # Write out tex
@@ -99,12 +99,12 @@ sepPngList = lapply(1:length(predDfs), function(ii){
 	return(sepG)
 })
 
-tmp = rocPlot(rocData, linetypes=ggLty); yLo = -.04 ; yHi = .14
+tmp = rocPlot(rocData, linetypes=ggLty)+guides(linetype = FALSE, color = FALSE) ; yLo = -.04 ; yHi = .14
 for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
 tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-ggsave(tmp, file=paste0(graphicsPath, 'roc.pdf'), width=7, height=7, device=cairo_pdf)
+ggsave(tmp, file=paste0(graphicsPath, 'roc.pdf'), width=5, height=5, device=cairo_pdf)
 
 # area under precision-recall curves (Beger 2016 [arxiv])
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -112,6 +112,8 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 	p = cbind(r, model=names(predDfs)[ii])
 	return(p) })
 rocPrData = do.call('rbind', rocPrData)
-ggsave(rocPlot(rocPrData, type='pr', legPos=c(.38,.3), linetypes=ggLty), 
-	file=paste0(graphicsPath, 'rocPr.pdf'), width=7, height=7, device=cairo_pdf)
+
+tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
+	guides(linetype=guide_legend(reverse=TRUE), color=guide_legend(reverse=TRUE))
+ggsave(tmp, file=paste0(graphicsPath, 'rocPr.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################

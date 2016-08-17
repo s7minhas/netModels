@@ -17,7 +17,7 @@ getAUC = function(prediction, actual){
 
 # Plot roc curves, depends RColorBrewer
 # plot_type is "roc" or "pr"
-rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', linetypes, legSpace=3){
+rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', linetypes, legText=6, legSpace=3){
 
 	if(type=='roc'){ 
     tmp=ggplot(rocData, aes(x=FPR, y=TPR, color=model, linetype=model)) + 
@@ -39,15 +39,13 @@ rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', li
     theme(
   		legend.position=legPos, legend.title=element_blank(),
       legend.background=element_blank(), 
-      legend.text.align = 0,
+      legend.text.align = 0, legend.text=element_text(size=legText),
       legend.key=element_rect(colour = NA, fill = NA), legend.key.size=unit(legSpace,'lines'),
       axis.text.x=element_text(family="Source Sans Pro Light"),
       axis.text.y=element_text(family="Source Sans Pro Light"),    
       axis.ticks=element_blank(),    
   		panel.border=element_blank()
-		) + 
-    # guides(linetype = guide_legend(reverse = TRUE), color = FALSE)
-    guides(linetype = FALSE, color = FALSE)
+		)
 	return(tmp)
 }
 

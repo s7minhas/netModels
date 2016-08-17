@@ -27,7 +27,7 @@ qapCoef = matrix( with(model.qap, c(coefficients, pgreqabs)),
 qapTab = lazyCleanTable( qapCoef, 2 )
 
 load(paste0(resultsPath, 'ameFit_2.rda'))
-ameCoef = getAmeCoef(ameFit)
+ameCoef = getAmeCoef(ameFit) ; rownames(ameCoef) = gsub('.col','',rownames(ameCoef))
 ameTab = lazyCleanTable( ameCoef[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
 ################################################
 
@@ -37,11 +37,11 @@ coefDfs = list(Logit=logitTab, MRQAP=qapTab, LSM=lsEuclTab, ERGM=ergmTab, 'LSM (
 
 # table
 frameRows = rep(varKey[,2], each=2)
-frameRows = append(frameRows, 'Conflicting policy preferences', which(frameRows=='Intercept/Edges')[2])
-frameRows = append(frameRows, 'Transaction costs', which(frameRows=='Preference dissimilarity')[2])
-frameRows = append(frameRows, 'Influence', which(frameRows=='Joint forum participation')[2])
-frameRows = append(frameRows, 'Functional requirements', which(frameRows=='Alter = Government actor')[2])
-frameRows = append(frameRows, 'Endogenous dependencies', which(frameRows=='Same actor type')[2])
+frameRows = append(frameRows, '\\textbf{Conflicting policy preferences}', which(frameRows=='Intercept/Edges')[2])
+frameRows = append(frameRows, '\\textbf{Transaction costs}', which(frameRows=='Preference dissimilarity')[2])
+frameRows = append(frameRows, '\\textbf{Influence}', which(frameRows=='Joint forum participation')[2])
+frameRows = append(frameRows, '\\textbf{Functional requirements}', which(frameRows=='Alter = Government actor')[2])
+frameRows = append(frameRows, '\\textbf{Endogenous dependencies}', which(frameRows=='Same actor type')[2])
 frame = matrix('', nrow=length(frameRows), ncol=length(coefDfs)+1, 
 	dimnames=list( frameRows, c(' ', names(coefDfs)) ))
 
@@ -57,6 +57,11 @@ frame = insertCoefInfo(frame, model='LSM', error='int')
 frame = insertCoefInfo(frame, model='ERGM')
 frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
 
+# cleanup
+rownames(frame) = NULL
+frame[estRows[-1],1] = paste0('$\\;\\;\\;\\;$ ', frame[estRows[-1],1])
+
+# print
 print.xtable(
 	xtable(frame, align='llccccc',
 		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',

@@ -127,8 +127,9 @@ covariates <- list(priv.ngo, allopp, prefdist, forum, infrep,
 # Build data for amen/gbme
 n = length(unique(logit.data$rows))
 Y = matrix(logit.data$collab, nrow=n)
-Xs = Xr = matrix(logit.data$ngo.ofactor, nrow=n, ncol=1, dimnames=list(NULL, 'ngo.ofactor'))
-dvars=setdiff(names(logit.data), c('collab','ngo.ofactor','rows','cols'))
+Xs = matrix(logit.data$ngo.ofactor, nrow=n, ncol=1, dimnames=list(NULL, 'ngo.ofactor'))
+Xr = data.matrix( unique(logit.data[,c('gov.ifactor','influence.icov','cols')])[,-3] ) ; rownames(Xr) = NULL
+dvars=setdiff(names(logit.data), c('collab','ngo.ofactor','gov.ifactor','influence.icov','collab.t','rows','cols'))
 Xd = array(NA, dim=c(n, n, length(dvars)), dimnames=list(NULL,NULL,dvars))
 
 for(ii in 1:dim(Xd)[3]){
