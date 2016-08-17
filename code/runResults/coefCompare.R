@@ -1,7 +1,7 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
-loadPkg(c('reshape2', 'ergm','latentnet','sna','xtable'))
+loadPkg(c('ergm','latentnet','sna'))
 
 ################################################
 # load model results
@@ -59,7 +59,7 @@ frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
 
 print.xtable(
 	xtable(frame, align='llccccc',
-		caption='* p < 0.05 (or 0 outside the 95\\% confidence interval).',
+		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',
 		label='tab:regTable'), 
 	include.rownames=FALSE,
 	sanitize.text.function=identity,

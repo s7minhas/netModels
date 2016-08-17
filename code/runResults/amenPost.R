@@ -14,7 +14,7 @@ load(paste0(dataPath, 'data.rda'))
 # conv check
 convData = data.frame( ameFit$'BETA', stringsAsFactors=FALSE)
 convData$iter = as.numeric( rownames(convData) )
-loadPkg(c('reshape2', 'ggplot2'))
+
 ggConvData = melt(convData, id='iter')
 ggConv = ggplot(ggConvData, aes(x=iter, y=value, color=variable)) + 
 	geom_line() + 
@@ -31,6 +31,7 @@ ameVar = getAmeVar(ameFit)
 
 # perf built into amen
 GOF = ameFit$'GOF'
+pdf(file=paste0(graphicsPath, 'amenNetGoF.pdf'))
 par(mfrow=c(2,2))
 for (k in 1:4) {
 	hist(GOF[-1, k], xlim = range(GOF[, k]), 
@@ -40,3 +41,4 @@ for (k in 1:4) {
 	abline(v=quantile(GOF[-1,k], c(0.025)), col='black')
 	abline(v=quantile(GOF[-1,k], c(0.975)), col='black')
 }
+dev.off()

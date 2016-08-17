@@ -16,7 +16,7 @@ PS = out[out$scan>round(max(out$scan)/2),-(1:3)]
 # Check convergence
 convData = data.frame( PS[,1:11], stringsAsFactors=FALSE)
 convData$iter = as.numeric( rownames(convData) )
-loadPkg(c('reshape2', 'ggplot2'))
+
 ggConvData = melt(convData, id='iter')
 ggConv = ggplot(ggConvData, aes(x=iter, y=value, color=variable)) + 
 	geom_line() + 

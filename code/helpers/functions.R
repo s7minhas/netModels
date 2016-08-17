@@ -7,6 +7,16 @@ loadPkg=function(toLoad){
 	}
 }
 
+# some necessary libs
+loadPkg(c(
+	'reshape2',
+	'ggplot2', 'latex2exp', 'Cairo',	# plotting
+	'xtable' # tables
+	))
+
+# Set a theme for gg
+theme_set(theme_bw())
+
 # misc
 char = function(x){ as.character(x) }
 num = function(x){ as.numeric(char(x)) }

@@ -1,4 +1,4 @@
-\documentclass[12pt,letter]{article} 
+\documentclass[12pt,onesided]{amsart} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
@@ -9,14 +9,11 @@
 % load lots o' packages
 
 % layout control
-\usepackage[paper=a4paper,left=25mm,right=25mm,top=20mm,bottom=25mm]{geometry}
-\usepackage[onehalfspacing]{setspace}
-\setlength{\parskip}{.5em}
-\usepackage{rotating}
-\usepackage{setspace}
-\usepackage{fancyhdr}	
+\usepackage{geometry}
+\geometry{verbose,tmargin=1.25in,bmargin=1.25in,lmargin=1.1in,rmargin=1.1in}
 \usepackage{parallel}
 \usepackage{parcolumns}
+\usepackage{fancyhdr}
 
 % math typesetting
 \usepackage{array}
@@ -24,8 +21,6 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{relsize}
-
-\usepackage{verbatim}
 
 % restricts float objects to be inserted before end of section
 % creates float barriers
@@ -47,8 +42,7 @@ digitsep=fullstop
 \usepackage[font={small},labelfont=bf]{caption}
 
 % references
-\usepackage[longnamesfirst]{natbib}
-\bibpunct{(}{)}{;}{a}{}{,}
+\usepackage{natbib}
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
@@ -74,60 +68,64 @@ digitsep=fullstop
 \usepackage{graphicx}
 \usepackage[space]{grffile} % allows us to specify directories that have spaces
 \usepackage{placeins} % prevents floats from moving past a \FloatBarrier
-%\usepackage{tikz}
-% \usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage[figuresright]{rotating}
+\newenvironment{amssidewaysfigure}
+  {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
+  {\end{minipage}\end{sidewaysfigure}}
+
+% Spacing
+\usepackage[doublespacing]{setspace}
 
 % define clickable links and their colors
 \hypersetup{%
-unicode=false,          % non-Latin characters in Acrobat's bookmarks
-pdftoolbar=true,        % show Acrobat's toolbar?
-pdfmenubar=true,        % show Acrobat's menu?
-pdffitwindow=false,     % window fit to page when opened
-pdfstartview={FitH},    % fits the width of the page to the window
-pdfnewwindow=true,%
-pagebackref=false,%
-pdfauthor={Shahryar Minhas},%
-pdftitle={Title},%
-colorlinks,%
-citecolor=black,%
-filecolor=black,%
-linkcolor=black,%
-urlcolor=RoyalBlue4}
+	unicode=false,          % non-Latin characters in Acrobat's bookmarks
+	pdftoolbar=true,        % show Acrobat's toolbar?
+	pdfmenubar=true,        % show Acrobat's menu?
+	pdffitwindow=false,     % window fit to page when opened
+	pdfstartview={FitH},    % fits the width of the page to the window
+	pdfnewwindow=true,%
+	pagebackref=false,%
+	pdfauthor={Shahryar Minhas},%
+	pdftitle={Let's say Amen for Latent Space Models},%
+	colorlinks,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,%
+	urlcolor=RoyalBlue4
+}
 
-% Including External Code
-\usepackage{verbatim}
-\usepackage{listings}
-\lstset{
-	language=R,
-	basicstyle=\scriptsize\ttfamily,
-	commentstyle=\ttfamily\color{gray},
-	numbers=left,
-	numberstyle=\ttfamily\color{gray}\footnotesize,
-	stepnumber=1,
-	numbersep=5pt,
-	backgroundcolor=\color{white},
-	showspaces=false,
-	showstringspaces=false,
-	showtabs=false,
-	frame=single,
-	tabsize=2,
-	captionpos=b,
-	breaklines=true,
-	breakatwhitespace=false,
-	title=\lstname,
-	escapeinside={},
-	keywordstyle={},
-	morekeywords={}
-	}
+% Fonts
+\usepackage[default,osfigures,scale=0.95]{opensans}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+
+% Generate some fake text
+\usepackage{blindtext}
 
 % -------------------------------------------------- %
 
 
 % -------------------- title -------------------- %
 
-\title{Title}
+\title{Let's say Amen for Latent Space Models}
 \vspace{\baselineskip}
-\author{Shahryar Minhas}
+
+\author[Minhas]{Shahryar Minhas}
+\address{Shahryar Minhas: Department of Political Science}
+\curraddr{Michigan State University}
+\email{s7.minhas@gmail.com}
+
+\author[Hoff]{Peter D. Hoff}
+\address{Peter D. Hoff: Department of Statistics}
+\curraddr{Duke University}
+\email{pdhoff@duke.edu}
+
+\author[Ward]{Michael D. Ward}
+\address{Michael D. Ward: Department of Political Science}
+\curraddr{Duke University}
+\email{michael.d.ward@duke.edu}
+
 \date{\today}
 
 \setlength{\headheight}{15pt}
@@ -136,8 +134,8 @@ urlcolor=RoyalBlue4}
  
 \fancyhf{}
  
-\lhead{\fancyplain{}{Shahryar Minhas}}
-\chead{\fancyplain{}{Header Title}}
+\lhead{\fancyplain{}{}}
+\chead{\fancyplain{}{Amen for LSM}}
 \rhead{\fancyplain{}{\today}}
 \rfoot{\fancyplain{}{\thepage}}
 
@@ -146,8 +144,11 @@ urlcolor=RoyalBlue4}
 
 % -------------------- customizations -------------------- %
 
-% define the includegraphics search path
-\graphicspath{{Graphics/}}
+% references to graphics
+\makeatletter
+\def\input@path{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/}}
+\makeatother
+\graphicspath{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/}}
 
 % easy commands for number propers
 \newcommand{\first}{$1^{\text{st}}$}
@@ -158,27 +159,32 @@ urlcolor=RoyalBlue4}
 % easy command for boldface math symbols
 \newcommand{\mbs}[1]{\boldsymbol{#1}}
 
-% define bibliography style
-\bibliographystyle{/Users/janus829/Documents/APSR}
+% command for R package font
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
 % -------------------------------------------------------- %
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% \doublespacing 
-
 \begin{document}
+\maketitle\thispagestyle{empty}
 
-% \maketitle
+\begin{quote}
+\small{\singlespacing{\input{1_Abstract}}}
+\end{quote}
+
+\newpage\setcounter{page}{1} 
 
 \input{text}
 
 \newpage
 
-% \lstinputlisting{../combinedData.R}
-\bibliography{/Users/janus829/Documents/references.bib}
+% Bib stuff
+\bibliography{/Users/janus829/whistle/master, /Users/s7m/whistle/master}
+% \bibliographystyle{/Users/janus829/Dropbox/bst/APSR}
+\bibliographystyle{/Users/janus829/Dropbox/bst/jpr}
+% \bibliographystyle{/Users/janus829/Dropbox/bst/ii}
 
 \end{document} 
