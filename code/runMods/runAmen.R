@@ -12,7 +12,6 @@ imps = 100000
 brn = 50000
 ods = 10
 latDims = c(2, 4, 6)
-latDims=latDims[2:3]
 
 # Run amen
 for(latDim in latDims){

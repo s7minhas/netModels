@@ -34,6 +34,7 @@ set.seed(seed)
 
 # Extend chain due to warning meassage about too few acceptances
 load(paste0(resultsPath, 'euclLatSpaceResults.rda'))
+loadPkg('snowFT')
 model.ls2 <- ergmm(nw.collab ~ 
     euclidean(d = 2, G = 0) +  # 2 dimensions and 0 clusters
     edgecov(gov.ifactor) + 
@@ -48,7 +49,7 @@ model.ls2 <- ergmm(nw.collab ~
     edgecov(allopp), 
     seed = seed, 
     prior = model.ls$'prior', 
-    control = control.ergmm(sample.size = 10000, burnin = 10000000, interval = 100)
+    control = control.ergmm(sample.size = 30000, burnin = 30000000, interval = 100, threads=3)
 )
 
 # goodness of fit assessment for the latent space model

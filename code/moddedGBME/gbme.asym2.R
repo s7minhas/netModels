@@ -1,3 +1,4 @@
+# prior specification modded by SM
 ###################################################################
 #
 # R source code providing generalized bilinear mixed effects modeling
