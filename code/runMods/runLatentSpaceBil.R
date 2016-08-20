@@ -4,8 +4,8 @@ source('~/Research/netModels/code/replicationSetup.R')
 
 # Latent space model: collaboration
 set.seed(seed)
-model.ls <- ergmm(nw.collab ~ 
-    euclidean(d = 2, G = 0) +  # 2 dimensions and 0 clusters
+model.lsBil <- ergmm(nw.collab ~ 
+    bilinear(d = 2, G = 0) +  # 2 dimensions and 0 clusters
     edgecov(gov.ifactor) + 
     edgecov(ngo.ofactor) + 
     nodematch("orgtype") + 
@@ -21,22 +21,23 @@ model.ls <- ergmm(nw.collab ~
 )
 
 # goodness of fit assessment for the latent space model
-gof.ls <- gof.ergmm(model.ls, 
+gof.lsBil <- gof.ergmm(model.lsBil, 
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
 
-pdf(paste0(graphicsPath, "gof-ls.pdf"), width = 9, height = 6)
+pdf(paste0(graphicsPath, "gof-lsBil.pdf"), width = 9, height = 6)
 par(mfrow = c(2, 3))
-    plot(gof.ls, main = "Latent space model: goodness of fit")
+    plot(gof.lsBil, main = "Latent space model (bilinear): goodness of fit")
     set.seed(seed)
-    plot(model.ls, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions")
+    plot(model.lsBil, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (bilinear)")
 dev.off()
 
 # sender/receiver random effects
-model.lsSR <- ergmm(nw.collab ~ 
-    euclidean(d = 2, G = 0) +  # 2 dimensions and 0 clusters
+set.seed(seed)
+model.lsBilSR <- ergmm(nw.collab ~ 
+    bilinear(d = 2, G = 0) +  # 2 dimensions and 0 clusters
     rsender(var=1, var.df=3) + 
-    rreceiver(var=1, var.df=3) + 
+    rreceiver(var=1, var.df=3) +     
     edgecov(gov.ifactor) + 
     edgecov(ngo.ofactor) + 
     nodematch("orgtype") + 
@@ -52,19 +53,19 @@ model.lsSR <- ergmm(nw.collab ~
 )
 
 # goodness of fit assessment for the latent space model
-gof.lsSR <- gof.ergmm(model.lsSR, 
+gof.lsBilSR <- gof.ergmm(model.lsBilSR, 
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
 
-pdf(paste0(graphicsPath, "gof-lsSR.pdf"), width = 9, height = 6)
+pdf(paste0(graphicsPath, "gof-lsBilSR.pdf"), width = 9, height = 6)
 par(mfrow = c(2, 3))
-    plot(gof.lsSR, main = "Latent space model (sr): goodness of fit")
+    plot(gof.lsBilSR, main = "Latent space model (bilinear): goodness of fit")
     set.seed(seed)
-    plot(model.lsSR, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (sr)")
+    plot(model.lsBilSR, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (bilinear)")
 dev.off()
 
 save(
-    model.ls, gof.ls, 
-    model.lsSR, gof.lsSR, 
-    file=paste0(resultsPath, 'euclLatSpaceResults.rda')
+    model.lsBil, gof.lsBil, 
+    model.lsBilSR, gof.lsBilSR,     
+    file=paste0(resultsPath, 'bilLatSpaceResults.rda')
     )

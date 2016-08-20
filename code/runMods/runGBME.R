@@ -15,13 +15,13 @@ latDims = latDims[1]
 
 # Run gbme
 for(latDim in latDims){
-	matName = paste0(resultsPath, 'gbmeDir2/')
-	afile=paste0(matName, 'A2_', latDim )
-	bfile=paste0(matName, 'B2_', latDim )
-	ofile=paste0(matName, 'OUT2_', latDim )
+	matName = paste0(resultsPath, 'gbmeDir/')
+	afile=paste0(matName, 'A_', latDim )
+	bfile=paste0(matName, 'B_', latDim )
+	ofile=paste0(matName, 'OUT_', latDim )
 	source(paste0(gbmePath, 'gbme.asym2.R'))
-	ufile=paste(matName, 'U2_', latDim)
-	vfile=paste(matName, 'V2_', latDim)
+	ufile=paste0(matName, 'U_', latDim)
+	vfile=paste0(matName, 'V_', latDim)
 
 	gbme(Y = Y, Xd=Xd, Xs=Xs, Xr=Xr,
 	     fam='binomial', k=latDim, directed=TRUE, 

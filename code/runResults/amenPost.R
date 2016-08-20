@@ -25,10 +25,6 @@ loadPkg('coda')
 convCoda = mcmc(convData[,-ncol(convData)], start=50001, end=100000, thin=10)
 geweke.diag(convCoda); heidel.diag(convCoda); raftery.diag(convCoda); HPDinterval(convCoda)
 
-# coef
-ameCoef = getAmeCoef(ameFit)
-ameVar = getAmeVar(ameFit)
-
 # perf built into amen
 GOF = ameFit$'GOF'
 pdf(file=paste0(graphicsPath, 'amenNetGoF.pdf'))
