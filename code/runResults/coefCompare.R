@@ -33,7 +33,7 @@ ameTab = lazyCleanTable( ameCoef[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
 
 ################################################
 # summarize in q & d table
-coefDfs = list(Logit=logitTab, MRQAP=qapTab, LSM=lsEuclTab, ERGM=ergmTab, 'LSM (Bilinear)'=ameTab)
+coefDfs = list(Logit=logitTab, MRQAP=qapTab, LSM=lsEuclTab, ERGM=ergmTab, 'AME'=ameTab)
 
 # table
 frameRows = rep(varKey[,2], each=2)
@@ -55,7 +55,7 @@ frame = insertCoefInfo(frame, model='Logit')
 frame = insertCoefInfo(frame, model='MRQAP', error='none')
 frame = insertCoefInfo(frame, model='LSM', error='int')
 frame = insertCoefInfo(frame, model='ERGM')
-frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
+frame = insertCoefInfo(frame, model='AME', error='int')
 
 # cleanup
 rownames(frame) = NULL
