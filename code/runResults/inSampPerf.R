@@ -115,6 +115,7 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 rocPrData = do.call('rbind', rocPrData)
 
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
-	guides(linetype=guide_legend(reverse=TRUE), color=guide_legend(reverse=TRUE))
+	# guides(linetype=guide_legend(reverse=TRUE), color=guide_legend(reverse=TRUE))
+	guides(linetype=FALSE, color=FALSE)
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################
