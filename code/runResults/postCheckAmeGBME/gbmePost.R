@@ -8,7 +8,7 @@ load(paste0(dataPath, 'data.rda'))
 
 ############################################################
 # load gbme results
-out = read.table(paste0(resultsPath, 'gbmeDir2/OUT2_2'), header=TRUE)
+out = read.table(paste0(resultsPath, 'gbmeDir/OUT_2'), header=TRUE)
 PS = out[out$scan>round(max(out$scan)/2),-(1:3)] 
 
 # Check convergence
@@ -19,11 +19,14 @@ convData$iter = as.numeric( rownames(convData) )
 names(convData)[grepl('bd[1-9]',names(convData))] = dimnames(Xd)[[3]]
 names(convData)[grepl('bs[1-9]',names(convData))] = colnames(Xs)
 names(convData)[grepl('br[1-9]',names(convData))] = colnames(Xr)
+names(convData)[grepl('b0',names(convData))] = '(Intercept)'
 
 # calc summary stats
 summ = function(x){ c( mu=mean(x),med=median(x),quantile(x,c(0.025,0.975)) )  }
 summConv = data.frame( t(apply(convData[,-ncol(convData)], 2, summ)) )
 summConv$var = rownames(summConv) ; rownames(summConv) = NULL ; names(summConv)[3:4] = c('lo95','hi95')
+# save summary stats for use in lat space comparison
+save(summConv, file=paste0(resultsPath,'gbmePost.rda'))
 
 # get hpd interval
 loadPkg('coda')

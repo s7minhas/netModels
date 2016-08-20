@@ -26,16 +26,44 @@
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.7\textwidth]{roc}
+	\begin{tabular}{cc}
+	\includegraphics[width=.5\textwidth]{roc} & 
+	\includegraphics[width=.5\textwidth]{rocPr}	
+	\end{tabular}
 	\caption{ROC and separation plots}
 	\label{fig:roc}
 \end{figure}
 
+
+\section{Latent Space Model Comparison}
+% just in here for now for me to see what's going on with these models
+
+\input{regTable_latSpace.tex}
+
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=.7\textwidth]{rocPr}
-	\caption{ROC Precision-Recall plots}
-	\label{fig:rocPr}
+	\begin{tabular}{cc}
+	\includegraphics[width=.5\textwidth]{roc_latSpace} & 
+	\includegraphics[width=.5\textwidth]{rocPr_latSpace}
+	\end{tabular}
+	\caption{ROC and separation plots}
+	\label{fig:roc_latentSpace}
+\end{figure}
+
+\section{Conclusion}
+
+
+
+\section{Appendix}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{cc}
+	\includegraphics[width=.45\textwidth]{ameConv1} &
+	\includegraphics[width=.45\textwidth]{ameConv2}
+	\end{tabular}
+	\caption{ame convergence}
+	\label{fig:ameConv}
 \end{figure}
 
 % FLoat code:
