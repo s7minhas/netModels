@@ -178,10 +178,10 @@ getAmeNetPerf = function(fName){
 }
 
 # extract gof from ame filepath
-getAmeGOF = function(fName){
+getAmeGOF = function(fName, netNames=gofNames, netMethods=gofMethods){
 	load(paste0(resultsPath, fName))
 	yDraws = ameFit$'ysList'[ sample(1000:length(ameFit$'ysList'), 100, replace=FALSE) ]
-	yAmeSim = lapply(yDraws, function(z){ getNetStats(z, gofNames[1:5], gofMethods[1:5]) } )
+	yAmeSim = lapply(yDraws, function(z){ getNetStats(z, netNames, netMethods) } )
 	ameDist = lapply(names(yAmeSim[[1]]), function(v){
 		t( do.call('cbind', lapply(yAmeSim, function(x){ x[[v]] })) ) })
 	names(ameDist) = names(yAmeSim[[1]])

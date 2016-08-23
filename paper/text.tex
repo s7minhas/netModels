@@ -1,4 +1,12 @@
+popularity of network approaches in recent years isq special issue...
 
+notable work by cranmer on ergms re lsm
+
+set of important challenges for lsm
+
+relation to actual literature on lsm
+
+we show...
 
 \section{Replication Results}
 
@@ -11,6 +19,15 @@
 	\includegraphics[width=1\textwidth]{ggGofAll}
 	\caption{network stats }
 	\label{fig:gofAll}
+\end{figure}
+
+Figure~\ref{fig:ergmAmePerf} give posterior predictive goodness of fit summaries for four network statistics: (1) the empirical standard deviation of the row means; (2) the empirical stan- dard deviation of the column means; (3) the empirical within-dyad correlation; (4) a normalized measure of triadic dependence
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{ergmAmePerf}
+	\caption{Posterior predictive goodness of fit summary}
+	\label{fig:ergmAmePerf}
 \end{figure}
 
 \section{Tie Formation Prediction}
@@ -27,32 +44,26 @@
 	\label{fig:roc}
 \end{figure}
 
+\section{Conclusion}
 
-\section{Latent Space Model Comparison}
-% just in here for now for me to see what's going on with these models
 
-\input{regTable_latSpace.tex}
+\newpage
+\section{Appendix}
 
-\input{aucTable_latSpace.tex}
+\section{AMEN Model Convergence}
 
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.5\textwidth]{roc_latSpace} & 
-	\includegraphics[width=.5\textwidth]{rocPr_latSpace}
+	\includegraphics[width=.45\textwidth]{ameConv1_SR2} &
+	\includegraphics[width=.45\textwidth]{ameConv2_SR2}
 	\end{tabular}
-	\caption{ROC and separation plots}
-	\label{fig:roc_latentSpace}
+	\caption{ame convergence}
+	\label{fig:ameConv}
 \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{ggGofAll_latSpace}
-	\caption{network stats }
-	\label{fig:gofAll_latSpace}
-\end{figure}
 
-\section{AME Comparison}
+\section{Comparison with other AME Parameterizations}
 
 \input{regTable_ame.tex}
 
@@ -96,18 +107,26 @@
 	\label{fig:gofAll_ameSR}
 \end{figure}
 
-\section{Conclusion}
+\section{Amen \& Latent Net Comparison}
+% just in here for now for me to see what's going on with these models
 
+\input{regTable_latSpace.tex}
 
-\newpage
-\section{Appendix}
+\input{aucTable_latSpace.tex}
 
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.45\textwidth]{ameConv1_SR2} &
-	\includegraphics[width=.45\textwidth]{ameConv2_SR2}
+	\includegraphics[width=.5\textwidth]{roc_latSpace} & 
+	\includegraphics[width=.5\textwidth]{rocPr_latSpace}
 	\end{tabular}
-	\caption{ame convergence}
-	\label{fig:ameConv}
+	\caption{ROC and separation plots}
+	\label{fig:roc_latentSpace}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{ggGofAll_latSpace}
+	\caption{network stats }
+	\label{fig:gofAll_latSpace}
 \end{figure}

@@ -32,20 +32,14 @@ names(ameSRGofDist) = c('AME SR (k=0)', 'AME SR (k=1)','AME SR (k=2)','AME SR (k
 # create gof df
 ggData = getGofData(ameGofDist, actData)
 
-# limit to network related approaches and to net var that include all models
-varsToKeep = unique(ggData$var) ; ggData = ggData[which(ggData$var %in% varsToKeep[-6]),]
-
 # plot
-ggGof( ggData, pRows=length(varsToKeep), pCols=1, modSpace=.6, 
+ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
 	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll_ame.pdf'), fWidth=12, fHeight=16)
 
 # create gof data
 ggData = getGofData(ameSRGofDist, actData)
 
-# limit to network related approaches and to net var that include all models
-varsToKeep = unique(ggData$var) ; ggData = ggData[which(ggData$var %in% varsToKeep[-6]),]
-
 # plot
-ggGof( ggData, pRows=length(varsToKeep), pCols=1, modSpace=.6, 
+ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
 	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll_ameSR.pdf'), fWidth=12, fHeight=16)
 ################################################

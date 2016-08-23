@@ -14,6 +14,9 @@ names(actData) = names(actSumm)
 ################################################
 
 ################################################
+# gof names
+gofNames = c("Dyad-wise shared partners", "Edge-wise shared partners", "Geodesic distances", "Indegree", "Outdegree", "Incoming k-star")
+gofMethods = c(btergm::dsp, btergm::esp, btergm::geodesic, btergm::ideg, btergm::odeg, btergm::istar)
 getProp = function(x){ sweep(x,2,colSums(x),'/') }
 
 # Logit Mod
@@ -41,13 +44,12 @@ gofDist = list(Logit=logitDist, ERGM=ergmDist, MRQAP=qapDist, LSM=lsEuclDist, AM
 
 ################################################
 # create gof df
-gofData = getGofData(gofDist, actData)
+ggData = getGofData(gofDist, actData)
 
 # limit to network related approaches and to net var that include all models
-modsToKeep = unique(gofData$model) ; ggData = gofData[which(gofData$model %in% modsToKeep[c(2,4,5)]),]
-varsToKeep = unique(gofData$var) ; ggData = ggData[which(ggData$var %in% varsToKeep[-6]),]
+modsToKeep = unique(ggData$model) ; ggData = ggData[which(ggData$model %in% modsToKeep[c(2,4,5)]),]
 
 # plot
-ggGof( ggData, pRows=length(varsToKeep), pCols=1, modSpace=.6, 
+ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
 	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll.pdf'), fWidth=12, fHeight=16)
 ################################################
