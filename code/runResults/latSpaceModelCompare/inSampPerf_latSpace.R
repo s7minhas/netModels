@@ -51,7 +51,7 @@ lsBilPredSR = lsBilPredSR[lsBilPredSR$row != lsBilPredSR$col,]
 
 ################################################
 # Amen
-load(paste0(resultsPath, 'ameFit_2.rda'))
+load(paste0(resultsPath, 'ameFitSR_2.rda'))
 rownames(Y) = colnames(Y) = char(1:34)
 diag(Y) = NA; actual = melt(Y)
 preds = ameFit$'EZ'

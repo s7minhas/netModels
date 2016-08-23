@@ -26,7 +26,7 @@ qapCoef = matrix( with(model.qap, c(coefficients, pgreqabs)),
 		c('est', 'pval')) )
 qapTab = lazyCleanTable( qapCoef, 2 )
 
-load(paste0(resultsPath, 'ameFit_2.rda'))
+load(paste0(resultsPath, 'ameFitSR_2.rda'))
 ameCoef = getAmeCoef(ameFit) ; rownames(ameCoef) = gsub('.col','',rownames(ameCoef))
 ameTab = lazyCleanTable( ameCoef[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
 ################################################

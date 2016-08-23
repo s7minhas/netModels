@@ -19,12 +19,7 @@ lsBilTab = lazyCleanTable( lsBilCoef, sigCol=4 )
 lsBilCoefSR = summary(model.lsBilSR)$'pmean'$'coef.table'
 lsBilTabSR = lazyCleanTable( lsBilCoefSR, sigCol=4 )
 
-load(paste0(resultsPath, 'gbmePost.rda'))
-summConv$sig = (summConv$lo95*summConv$hi95<0)*1
-gbmeCoef = data.matrix(summConv[,-grep('var',names(summConv))]) ; rownames(gbmeCoef) = summConv$var
-gbmeTab = lazyCleanTable( gbmeCoef, sig=5 )
-
-load(paste0(resultsPath, 'ameFit_2.rda'))
+load(paste0(resultsPath, 'ameFitSR_2.rda'))
 ameCoef = getAmeCoef(ameFit) ; rownames(ameCoef) = gsub('.col','',rownames(ameCoef))
 ameTab = lazyCleanTable( ameCoef[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
 ################################################
@@ -33,7 +28,7 @@ ameTab = lazyCleanTable( ameCoef[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
 # summarize in q & d table
 coefDfs = list(LSM=lsEuclTab, 'LSM (Bilinear)'=lsBilTab, 
 	'LSM (SR)'=lsEuclTabSR, 'LSM (Bilinear + SR)'=lsBilTabSR, 
-	GBME=gbmeTab, AME=ameTab)
+	AME=ameTab)
 
 # table
 frameRows = rep(varKey[,2], each=2)
@@ -55,17 +50,16 @@ frame = insertCoefInfo(frame, model='LSM', error='int')
 frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
 frame = insertCoefInfo(frame, model='LSM (SR)', error='int')
 frame = insertCoefInfo(frame, model='LSM (Bilinear + SR)', error='int')
-frame = insertCoefInfo(frame, model='GBME', error='int')
 frame = insertCoefInfo(frame, model='AME', error='int')
 
 # cleanup
 rownames(frame) = NULL
 frame[estRows[-1],1] = paste0('$\\;\\;\\;\\;$ ', frame[estRows[-1],1])
-frame = frame[-(27:nrow(frame)),]
+frame = frame[-(grep('Endogenous dependencies', frame[,1]):nrow(frame)),]
 
 # print
 print.xtable(
-	xtable(frame, align='llcccccc',
+	xtable(frame, align='llccccc',
 		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',
 		label='tab:regTable_latSpace'), 
 	include.rownames=FALSE,

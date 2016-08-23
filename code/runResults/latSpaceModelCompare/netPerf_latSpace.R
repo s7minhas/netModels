@@ -14,40 +14,34 @@ names(actData) = names(actSumm)
 ################################################
 
 ################################################
-getProp = function(x){ sweep(x,2,colSums(x),'/') }
-
-# Logit Mod
-load(paste0(resultsPath, 'logitResults.rda'))
-logitDist = lapply(gof.logit, function(x){ t(data.matrix( getProp(x$'raw') )) })
-
-# ERGM
-load(paste0(resultsPath, 'ergmResults.rda'))
-ergmDist = lapply(gof.ergm, function(x){ t(data.matrix( getProp(x$'raw') )) })
-
-# QAP
-load(paste0(resultsPath, 'qapResults.rda'))
-qapDist = lapply(gof.qap, function(x){ t(data.matrix( getProp(x$'raw') )) })
+# load binaries
+load(paste0(resultsPath, 'euclLatSpaceResults.rda'))
+load(paste0(resultsPath, 'bilLatSpaceResults.rda'))
+load(paste0(resultsPath, 'ameFitSR_2.rda'))
 
 # Latent space - eucl
-load(paste0(resultsPath, 'euclLatSpaceResults.rda'))
 lsEuclDist = getLsGof(gofObject=gof.ls)
+lsEuclDistSR = getLsGof(gofObject=gof.lsSR)
+lsBilDist = getLsGof(gofObject=gof.lsBil)
+lsBilDistSR = getLsGof(gofObject=gof.lsBilSR)
 
 # Amen
 ameDist = getAmeGOF('ameFitSR_2.rda')
 
 # org
-gofDist = list(Logit=logitDist, ERGM=ergmDist, MRQAP=qapDist, LSM=lsEuclDist, AME=ameDist)
+gofDist = list(
+	LSM=lsEuclDist, 'LSM (Bilinear)'=lsBilDist, 'LSM (SR)'=lsEuclDistSR, 
+	'LSM (Bilinear + SR)'=lsBilDistSR, AME=ameDist)
 ################################################
 
 ################################################
 # create gof df
-gofData = getGofData(gofDist, actData)
+ggData = getGofData(gofDist, actData)
 
 # limit to network related approaches and to net var that include all models
-modsToKeep = unique(gofData$model) ; ggData = gofData[which(gofData$model %in% modsToKeep[c(2,4,5)]),]
-varsToKeep = unique(gofData$var) ; ggData = ggData[which(ggData$var %in% varsToKeep[-6]),]
+varsToKeep = unique(ggData$var) ; ggData = ggData[which(ggData$var %in% varsToKeep[-6]),]
 
 # plot
 ggGof( ggData, pRows=length(varsToKeep), pCols=1, modSpace=.6, 
-	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll.pdf'), fWidth=12, fHeight=16)
+	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll_latSpace.pdf'), fWidth=12, fHeight=16)
 ################################################
