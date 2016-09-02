@@ -8,7 +8,6 @@ loadPkg( c( 'ergm', 'latentnet', 'btergm', 'lme4' ) )
 load(paste0(dataPath, 'data.rda'))
 
 # make basic ame gof
-ameFileNames = paste0('ameFit_',0:4,'.rda') ; lapply(ameFileNames, getAmeNetPerf)
 ameSRFileNames = paste0('ameFitSR_',0:4,'.rda') ; lapply(ameSRFileNames, getAmeNetPerf)
 ################################################
 
@@ -21,21 +20,11 @@ names(actData) = names(actSumm)
 
 ################################################
 # Amen
-ameGofDist = lapply(ameFileNames, getAmeGOF)
-names(ameGofDist) = c('AME (k=0)', 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
-
 ameSRGofDist = lapply(ameSRFileNames, getAmeGOF)
-names(ameSRGofDist) = c('AME SR (k=0)', 'AME SR (k=1)','AME SR (k=2)','AME SR (k=3)','AME SR (k=4)')
+names(ameSRGofDist) = c('AME (k=0)', 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
 ################################################
 
 ################################################
-# create gof df
-ggData = getGofData(ameGofDist, actData)
-
-# plot
-ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
-	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll_ame.pdf'), fWidth=12, fHeight=16)
-
 # create gof data
 ggData = getGofData(ameSRGofDist, actData)
 

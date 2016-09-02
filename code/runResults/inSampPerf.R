@@ -115,7 +115,14 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 rocPrData = do.call('rbind', rocPrData)
 
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
-	# guides(linetype=guide_legend(reverse=TRUE), color=guide_legend(reverse=TRUE))
-	guides(linetype=FALSE, color=FALSE)
+	guides(linetype=FALSE, color=FALSE) + 
+	geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
+	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
+		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
+	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
+		label=rev(rownames(aucSumm)), family='Source Sans Pro Light') + 
+	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
+		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')})),
+		family='Source Sans Pro Light')
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################

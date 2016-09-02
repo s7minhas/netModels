@@ -21,6 +21,7 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{relsize}
+\usepackage{mathtools}
 
 % restricts float objects to be inserted before end of section
 % creates float barriers
@@ -164,6 +165,9 @@ digitsep=fullstop
 % command for R package font
 \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
 
+% approx iid
+\newcommand\simiid{\stackrel{\mathclap{\normalfont\mbox{\tiny{iid}}}}{\sim}}
+
 % -------------------------------------------------------- %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,7 +183,11 @@ digitsep=fullstop
 
 \newpage\setcounter{page}{1} 
 
-\input{text}
+\input{2_intro}
+% \input{3_litReview}
+\input{4_ame}
+\input{5_app}
+\input{6_concl}
 
 \newpage
 
@@ -189,5 +197,6 @@ digitsep=fullstop
 % \bibliographystyle{/Users/janus829/Dropbox/bst/APSR}
 \bibliographystyle{/Users/janus829/Dropbox/bst/jpr}
 % \bibliographystyle{/Users/janus829/Dropbox/bst/ii}
+\newpage
 
 \end{document} 

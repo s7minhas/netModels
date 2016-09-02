@@ -157,26 +157,6 @@ getLsGof = function(gofObject, lsVars=c('.dspart', '.espart', '.dist','.ideg','.
 	return(lsDist)
 }
 
-# AME net perf
-getAmeNetPerf = function(fName){
-	load(paste0(resultsPath, fName))
-
-	# perf built into amen
-	GOF = ameFit$'GOF'
-	GOF[1,] = gofstats(Y)	
-	pdf(file=paste0(graphicsPath, gsub('.rda', '', fName), '_GoF.pdf'))
-	par(mfrow=c(2,2))
-	for (k in 1:4) {
-		hist(GOF[-1, k], xlim = range(GOF[, k]), 
-		  main = "", prob = TRUE, xlab = colnames(GOF)[k], 
-		  col = "lightblue", ylab = "", yaxt = "n")
-		abline(v = GOF[1, k], col = "red")
-		abline(v=quantile(GOF[-1,k], c(0.025)), col='black')
-		abline(v=quantile(GOF[-1,k], c(0.975)), col='black')
-	}
-	dev.off()
-}
-
 # extract gof from ame filepath
 getAmeGOF = function(fName, netNames=gofNames, netMethods=gofMethods){
 	load(paste0(resultsPath, fName))
@@ -217,7 +197,7 @@ ggGof = function(
 	save=TRUE, fPath=NULL, fWidth=12, fHeight=6
 	){
 	tmp=ggplot(data, aes(obs2, value, color=model)) + 
-		# geom_point(size=.1, alpha=.25, position=position_jitterdodge(dodge.width=.6)) +
+		# geom_point(size=.1, alpha=.25, position=position_jitterdodge(dodge.width=modSpace)) +
 		# geom_boxplot(outlier.shape=NA, position=position_dodge(width=modSpace), width=.1) +		
 		geom_linerange(aes(ymin=lo95, ymax=hi95), size=.2, position=position_dodge(width=modSpace)) +
 		geom_linerange(aes(ymin=lo90, ymax=hi90), size=.8, position=position_dodge(width=modSpace)) +		
@@ -244,4 +224,126 @@ ggGof = function(
 		ggsave(tmp, file=fPath, width=fWidth, height=fHeight, device=cairo_pdf)
 	}
 }	
+
+# AME net perf
+getAmeNetPerf = function(fName){
+	load(paste0(resultsPath, fName))
+
+	# perf built into amen
+	GOF = ameFit$'GOF'
+	GOF[1,] = gofstats(Y)	
+	pdf(file=paste0(graphicsPath, gsub('.rda', '', fName), '_GoF.pdf'))
+	par(mfrow=c(2,2))
+	for (k in 1:4) {
+		hist(GOF[-1, k], xlim = range(GOF[, k]), 
+		  main = "", prob = TRUE, xlab = colnames(GOF)[k], 
+		  col = "lightblue", ylab = "", yaxt = "n")
+		abline(v = GOF[1, k], col = "red")
+		abline(v=quantile(GOF[-1,k], c(0.025)), col='black')
+		abline(v=quantile(GOF[-1,k], c(0.975)), col='black')
+	}
+	dev.off()
+}
+
+# net perf ame coefplot
+getNetPerfCoef = function(
+	perfList, perfNetKey, actVals, noModels = length(perfList),
+	summ = function(x){ c( mu=mean(x), med=median(x), quantile(x, c(0.025,0.05,0.95,0.975)) ) },
+	summNames = c('mu','med','lo95','lo90','hi90','hi95'),
+	bColPal='Set1',
+	pRows=NULL, pCols=NULL,
+	save=TRUE,
+	fPath=NULL, fWidth=9, fHeight=4
+	){
+	perfStats=data.frame( do.call('rbind', 
+		lapply(perfList, function(x){ t( apply(x, 2, summ) ) })), row.names=NULL )
+	colnames(perfStats) = summNames
+	perfStats$var = rep( colnames(perfList[[1]] ), noModels )
+	perfStats$model = factor(rep(names(perfList) , each=4), levels=names(perfList))
+	perfStats$actual = actVals[match(perfStats$var, names(actVals))]
+	perfStats$varClean = perfNetKey[,2][match(perfStats$var, perfNetKey[,1])]
+	perfStats$varClean = factor(perfStats$varClean, levels=perfNetKey[,2])
+
+	tmp=ggplot(perfStats, aes(x=model, color=factor(model))) +
+		geom_hline(aes(yintercept=actual), color='grey40', size=1.5) +
+		geom_point(aes(y=mu)) + 
+		geom_linerange(aes(ymin=lo95, ymax=hi95), size=.2) +
+		geom_linerange(aes(ymin=lo90, ymax=hi90), size=.8) +
+		xlab('') + ylab('') +
+		facet_wrap(~varClean, scales='free_y', nrow=pRows, ncol=pCols) + 	
+		scale_color_brewer(palette=bColPal) + 
+		theme(
+			legend.position='bottom', legend.title=element_blank(),
+			legend.key=element_rect(color=NA),
+			axis.ticks=element_blank(), panel.border=element_blank(),
+			axis.text.x=element_blank()		
+			)
+	if(!save){ return(tmp) }
+	if(save){
+		tmp = tmp + theme(
+			legend.text=element_text(family="Source Sans Pro Light"),
+			axis.title.y=element_text(family='Source Sans Pro Semibold'),
+			strip.text.x = element_text(family="Source Sans Pro Semibold")
+			)
+		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
+	}
+}
+
+# net perf ame dist, requires plyr
+loadPkg('plyr')
+getNetPerfDist = function(
+	perfList, perfNetKey,actVals,
+	bColPal='Set1',
+	pRows=NULL, pCols=NULL,
+	save=TRUE,
+	fPath=NULL, fWidth=9, fHeight=4	
+	){
+
+	# org data
+	ggData = do.call('rbind', lapply(1:length(perfList), function(ii){
+		cbind(melt(perfList[[ii]]), model=names(perfList)[ii]) }) )
+	ggData$key = paste(ggData$Var2, ggData$model, sep='_')
+
+	ggDensity = ddply(ggData, .(key), .fun=function(x){ 
+		tmp = density(x$value); x1 = tmp$x; y1 = tmp$y 
+		q95 = x1 >= quantile(x$value,0.025) & x1 <= quantile(x$value,0.975) 
+		q90 = x1 >= quantile(x$value,0.05) & x1 <= quantile(x$value,0.95) 
+		data.frame(x=x1,y=y1,q95=q95, q90=q90) } )
+
+	# clean up and add labels
+	ggDensity$var = unlist(lapply(strsplit(ggDensity$key, '_'), function(x){ x[1] }))
+	ggDensity$model = unlist(lapply(strsplit(ggDensity$key, '_'), function(x){ x[2] }))
+	ggDensity$model = factor(ggDensity$model, levels=names(perfList))
+	ggDensity$actual = actVals[match(ggDensity$var, names(actVals))]
+	ggDensity$varClean = perfNetKey[,2][match(ggDensity$var, perfNetKey[,1])]
+	ggDensity$varClean = factor(ggDensity$varClean, levels=perfNetKey[,2])
+
+	# plot
+	tmp=ggplot(data=ggDensity) + 
+		geom_line(aes(x=x,y=y,color=model)) + 
+		geom_ribbon(data=subset(ggDensity,q95), aes(x=x,ymax=y,fill=model),ymin=0,alpha=0.3) + 
+	  	geom_ribbon(data=subset(ggDensity,q90), aes(x=x,ymax=y,fill=model),ymin=0,alpha=0.7) + 
+		geom_vline(aes(xintercept=actual),linetype='solid',size=1.5, color='black') +   	
+	  	scale_color_brewer(palette=bColPal) +
+	  	scale_fill_brewer(palette=bColPal) +
+	  	xlab('') + ylab('') +
+	  	facet_wrap(~varClean, scales='free', nrow=pRows, ncol=pCols) + 	
+	  	theme(
+	  		panel.border=element_blank(),
+	  		axis.ticks=element_blank(),
+	  		legend.position='bottom', legend.title=element_blank(),
+	  		legend.background=element_blank(), legend.key = element_rect(colour = NA),
+			axis.text.y=element_blank()
+			)
+	if(!save){ return(tmp) }
+	if(save){
+		tmp = tmp + theme(
+				legend.text=element_text(family="Source Sans Pro Light"),
+				axis.text.x=element_text(family="Source Sans Pro Light"),
+				axis.title.y=element_text(family='Source Sans Pro Semibold'),
+				strip.text.x = element_text(family="Source Sans Pro Semibold")
+		  		)
+		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
+	}
+}
 ########################################################################

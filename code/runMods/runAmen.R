@@ -14,21 +14,19 @@ load(paste0(dataPath, 'data.rda'))
 imps = 100000
 brn = 50000
 ods = 10
-latDims = rep(0:4,2)
-rcLogic = rep(c(TRUE,FALSE),5)
+latDims = 0:4
 
 # Run amen in parallel
 loadPkg(c('doParallel', 'foreach'))
-cl=makeCluster(8) ; registerDoParallel(cl)
+cl=makeCluster(4) ; registerDoParallel(cl)
 foreach(ii=1:length(latDims), .packages=c("amen")) %dopar% {
 	
 	ameFit = ameTest(Y=Y, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
 		model='bin', symmetric=FALSE, R=latDims[ii], 
 		nscan=imps, seed=seed, burn=brn, odens=ods, 
-		rvar=rcLogic[ii], cvar=rcLogic[ii], 
+		rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
 		plot=FALSE, print=FALSE) 
 	
-	fPrefix = ifelse( rcLogic[ii] , 'ameFitSR_', 'ameFit_' )
-	save(ameFit, file=paste0(resultsPath, fPrefix, latDims[ii], '.rda'))
+	save(ameFit, file=paste0(resultsPath, 'ameFitSR_', latDims[ii], '.rda'))
 }
 stopCluster(cl)

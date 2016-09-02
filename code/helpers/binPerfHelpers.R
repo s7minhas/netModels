@@ -33,6 +33,7 @@ rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', li
 
 	tmp=tmp + 
     geom_line(lwd=1) +
+    ylim(0,1) + 
     scale_color_brewer(palette=colorPal) + 
     scale_linetype_manual(values=linetypes) + 
     theme_light(base_family="Source Sans Pro") + 

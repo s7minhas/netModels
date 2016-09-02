@@ -1,0 +1,224 @@
+\section{Social Relations Model}
+
+
+
+The Social Relations Model (SRM) provides a way to focus on, rather than avoid, the interdependencies that exist in the relationships among individuals in a family or social group.  
+
+Dyadic data in IR are rife with dependencies. For example, because states have relatively stable policies it is reasonable to expect that data emanating from a single country are likely correlated, as are data directed to a single country by others. The social relations model introduced a method to decompose variance in such data into sender and receiver effects as well as permit within-dyad correlations via the analysis of variance (ANOVA) protocol \citep{warner:etal:1979,wong:1982}. 
+
+\citet{warner:etal:1979}
+
+\begin{align}
+\begin{aligned}
+y_{i,j} &= \mu + e_{i,j}, \; i \neq j \\
+e_{i,j} &= a_{i} + b_{j} + \epsilon_{i,j}
+\end{aligned}
+\end{align}
+
+Decompose variance around $\mu$ into parts describing: 
+
+heterogeneity across row means (outdegrees)
+heterogeneity across column means (indegrees)
+correlation between row and column means
+correlation within dyads
+
+Hoff (2005) added random sender and receiver effects to model inhomogeneity of the actors, similar to those in the p2 model (van Duijn et al., 2004), and described its generalized linear model formulation, applying it to non-binary data.
+
+\citet{li:loken:2002} provide a random effects representation
+
+\begin{align}
+\begin{aligned}
+y_{i,j} &= \mu + e_{i,j} \\
+e_{i,j} &= a_{i} + b_{j} + \epsilon_{i,j} \\
+\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{a,b}) \\ 
+\{ (\epsilon_{i,j}, \epsilon_{j,i}) : \; i \neq j\} &\simiid N(0,\Sigma_{\epsilon})
+\end{aligned}
+\end{align}
+
+Modelling non-normal data...probit regression
+
+\begin{align}
+\begin{aligned}
+\epsilon_{1}, \ldots, \epsilon_{n} &\simiid N(0,1) \\
+z_{i} &= \beta^{T}x_{i} + \epsilon_{i} \\
+y_{i} &= 1(z_{i}>0)
+\end{aligned}
+\end{align}
+
+Latent variable representation
+
+\begin{align}
+\begin{aligned}
+Pr(Y_{i} = 1) &= P(z_{i}>0) = \Phi(\beta^{T}x_{i}) \\
+p(y | \beta, X) &= \prod_{i=1}^{n} \Phi(\beta^{T}x_{i})^{y_{i}} [1-\Phi(\beta^{T}x_{i})]^{1-y_{i}}
+\end{aligned}
+\end{align}
+
+Threshold model linking latent z to observed y
+
+\begin{align}
+\begin{aligned}
+y_{i,j} &= 1(z_{i,j}>0) \\
+z_{i,j} &= \beta^{T}x_{i,j} + e_{i,j}
+\end{aligned}
+\end{align}
+
+social relations model including network covariance
+
+\begin{align}
+\begin{aligned}
+e_{i,j} &= a_{i} + b_{j} + \epsilon_{i,j} \\
+\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{a,b}) \\ 
+\{ (\epsilon_{i,j}, \epsilon_{j,i}) : \; i \neq j\} &\simiid N(0,\Sigma_{\epsilon}), \text{ where } \\
+\Sigma_{a,b} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
+\end{aligned}
+\end{align}
+
+ML estimation is problematic for non-Gaussian random effects models: the likelihood involves high-dimensional integrals; MLEs of variance components can be negative.
+
+Bayes estimation provides an alternative: high-dimensional integrals are replaced with MCMC approximations; parameter estimates are within the parameter space.
+
+Z: Latent gaussian variable
+$\beta$: regression coefficients
+$\{ (a_{i}, b_{i}), \; i=1 \ldots n \}$: random effects
+$\Sigma_{a,b} \; \Sigma_{\epsilon}(\sigma^{2}, \rho)$: network covariance
+
+Gibbs sampler for Bayesian estimation
+
+Iteratively simulate unknowns from their full conditional distributions
+
+\begin{enumerate}
+	\item simulate $Z \sim p(Z | Y, X, \beta, a, b, \Sigma_{\epsilon})$
+	\item simulate $\beta \sim p(\beta | X, Z, a, b, \Sigma_{\epsilon})$
+	\item simulate $a, \,b \sim p(a,b | X, Z, \beta, \Sigma_{a,b}, \Sigma_{\epsilon})$
+	\item simulate $\Sigma_{\epsilon} \sim p(\Sigma_{\epsilon} | X, Z, a, b)$
+	\item simulate $\Sigma_{a,b} \sim p(\Sigma_{a,b} | a, b)$
+\end{enumerate}
+
+
+ordinary regression models
+
+\begin{align}
+y_{i,j} &\sim \beta^{T} x_{i,j} + e_{i,j}
+\end{align}
+
+simple latent variable might include additive node effects
+
+\begin{align}
+e_{i,j} = a_{i} + b_{j} + \epsilon_{i,j}  &\implies y_{i,j} \sim \beta^{T} x_{i,j} + a_{i} + b_{j} + \epsilon_{i,j}
+\end{align}
+
+$\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \}$ represent nodal heterogeneity, additive on the regressor scale. But this model only captures heterogeneity of outdegree/indegree, and can’t represent more complicated structure, such as clustering, transitivity, etc. The $a_{i}$ represent nodal sender features and $b_{j}$ nodal receiver features. $(\epsilon_{i,j}, \epsilon_{j,i})$ represent heterogeneity among dyads. 
+
+Networks typically shows evidence AGAINST independence of $\{e_{i,j} : i \neq j \}$. Not accounting for independence can lead to biased effect estimation, uncalibrated confidence intervals, poor predictive performance, and inaccurate description of network phenomenon. 
+
+Now we still need to account for third-order dependence patterns. 
+
+Probit versions of three latent variable models all have the following form:
+
+\begin{align}
+\begin{aligned}
+y_{i,j} &=
+	\begin{cases}
+	1 \;\;\; if \; z_{i,j} > 0 \\
+	0 \;\;\; if \; z_{i,j} \leq 0 \\
+	\end{cases} \\
+z_{i,j} &= \mu + \alpha(\mu_{i}, \mu_{j}) + \epsilon_{i,j} \\
+\{ \epsilon_{i,j} : 1 \leq i \leq j \leq n  \} &\simiid N(0,1) \\
+\{ \mu_{1}, \ldots, \mu_{n}  \} &\simiid f(a | \psi)
+\end{aligned}
+\end{align}
+
+\citet{hoff:etal:2002} % original latent space paper
+
+\citet{krivitsky:handcock:2008}
+\citet{krivitsky:handcock:2015} % implementation of latent space models
+
+\begin{itemize}
+	\item Latent class model
+		\begin{align}
+		\begin{aligned}
+			&\alpha(\mu_{i}, \mu_{j}) = \theta_{\mu_{i}, \mu_{j}} \\
+			&\mu_{i} \in \{1, \ldots, K \}, \; i \in \{1,\ldots, n\} \\
+			&\Theta \text{ a } K \times K \text{ symmetric matrix}
+		\end{aligned}
+		\end{align}
+	\item Latent distance model
+		\begin{align}
+		\begin{aligned}
+			&\alpha(\mu_{i}, \mu_{j}) = -|\mu_{i} - \mu_{j}| \\
+			&\mu_{i} \in \Re^{K}, \; i \in \{1, \ldots, n \}
+		\end{aligned}
+		\end{align}
+	\item Latent factor model
+		\begin{align}
+		\begin{aligned}
+			&\alpha(\mu_{i}, \mu_{j}) = \mu_{i}^{T} \wedge \mu_{j} \\
+			&\mu_{i} \in \Re^{K}, \; i \in \{1, \ldots, n \} \\
+			&\wedge \text{ a } K \times K \text{ diagonal matrix}
+		\end{aligned}
+		\end{align}
+\end{itemize}
+
+Latent factor models can represent row, column, and dyadic correlation, but not efficiently. It may be desirable to combine the latent factor and social relations model. 
+
+
+\citet{hoff:2005} % latent factor paper
+\citet{hoff:ward:2004} % intro of latent fac to polsci
+
+\begin{align}
+\begin{aligned}
+z_{i,j} &= \beta^{T}x_{i,j} + u^{T}_{i} D v_{j} + a_{i} + b_{j} + \epsilon_{i,j} \\
+\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{a,b}) \\ 
+\{ (\epsilon_{i,j}, \epsilon_{j,i}) : \; i \leq j\} &\simiid N(0,\Sigma_{\epsilon})
+\end{aligned}
+\end{align}
+
+In sum, additive effects can capture network covariance. Multiplicative effects can capture higher-order dependence. 
+
+% Let $Y_{1} \ldots Y_{n}$ be an exchangeable sequence for all n:
+
+% \begin{align}
+% Pr(Y_{1} = y_{1}, \ldots , Y_{n} = y_{n}) &= Pr(Y_{1} = y_{\pi_{1}}, \ldots , Y_{n} = y_{\pi_{n}}) \forall n
+% \end{align}
+
+% de Finetti's theorem says: 
+
+% \begin{align}
+% \begin{aligned}
+% Y_{i} &= g(\mu, \epsilon_{i}) \\
+% \epsilon_{1}, \ldots, \epsilon_{n} &\simiid p_{\epsilon}
+% \end{aligned}
+% \end{align}
+
+% parameter $\mu$ represents global features of the sequence
+
+% $\epsilon_{i}$ represents local features specific to individual $Y_{i}$
+
+% This theorem justifies the ubiquitous conditional iid assumption of statistical modelling
+
+\citet{hoff:2008} % critique of lat space eucl
+
+homophily versus stochastic equivalence
+
+euclidean 
+
+Most applications of this framework in political science have utilized the latent factor framework over the latent space approach \citep{hoff:ward:2004,ward:etal:2007,ward:etal:2012}. 
+
+\citet{hoff:etal:2015} develop the additive and multiplicative effects network modelling framework. 
+
+% \begin{align}
+% \begin{aligned}
+% \mu &= \phi^{-1}(\theta) \\
+% Z &\sim N(\mu, 1) \\
+% Y &= 1 \times (Z > 0)
+% \end{aligned}
+% \end{align}
+
+% \begin{align}
+% \begin{aligned}
+% z_{i,j} &= \beta^{T} x_{i,j} + u_{i}^{T}Dv_{j} + a_{i} + b_{j} + \epsilon_{i,j} \\
+% \{(a_{1},b_{1})\ldots(a_{n},b_{n})\} &\sim \text{ i.i.d. } N(0,\Sigma_{a,b}) \\
+% \{(\epsilon_{i,j},\epsilon_{j,i}) : i \leq j\} &\sim \text{ i.i.d. } N(0,\Sigma_{\epsilon}) \\
+% \end{aligned}
+% \end{align}
