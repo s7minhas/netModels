@@ -1,4 +1,4 @@
-\section{Comparison with Other Approaches}
+\section{\textbf{Comparison with Other Approaches}}
 
 \citet{ingold:2008}
 
@@ -17,16 +17,18 @@ Figure~\ref{fig:dvNet} highlights how we can expect high levels of sender and re
 
 \citet{krivitsky:handcock:2015}
 
+\subsection{Parameter Estimates}
+
 \input{regTable.tex}
 
-\section{Capturing Network Attributes}
+\subsection{Capturing Network Attributes}
 
 To assess whether the model adequately captures the network parameters of the DV. Here we compare the observed with a set of simulated networks based on certain network statistics \citep{hunter:etal:2008}. 
 
 See \citet{morris:etal:2008} for details on each of these parameters. 
 
 \begin{itemize}
-\item Dyad-wise shared partners - Number of dyads in the network with exactly i shared partners
+\item Dyad-wise shared partners - Number of dyads in the network with exactly $i$ shared partners
 \item Edge-wise shared partners - Similar to above except this counts the number of dyads with the same number of edges
 \item Geodesic distances - The proportion of pairs of nodes whose shortest connecting path is of length $k$, for $k=1,2,\ldots$ Also, pairs of nodes that are not connected are classified as $k=\infty$.
 \item Incoming k-star - Propensities for individuals to have connections with multiple network partners
@@ -41,7 +43,9 @@ See \citet{morris:etal:2008} for details on each of these parameters.
 	\label{fig:gofAll}
 \end{figure}
 
-Figure~\ref{fig:ergmAmePerf} give posterior predictive goodness of fit summaries for four network statistics: (1) the empirical standard deviation of the row means; (2) the empirical standard deviation of the column means; (3) the empirical within-dyad correlation; (4) a normalized measure of triadic dependence \citep{hoff:etal:2015}. 
+Figure~\ref{fig:ergmAmePerf} give posterior predictive goodness of fit summaries for four network statistics: (1) the empirical standard deviation of the row means; (2) the empirical standard deviation of the column means (heterogeneity of nodes with incoming activity); (3) the empirical within-dyad correlation; (4) a normalized measure of triadic dependence \citep{hoff:etal:2015}. 
+
+For a given summary statistic g() we first simulate $\mathbf{Y}_{sim} \approx p(\mathbf{Y}_{sim} | \mathbf{Y}_{obs}) = \int p(\mathbf{Y}_{sim} | \theta) p(d \theta | \mathbf{Y}_{obs})$ and then we compare $g(\mathbf{Y}_{sim})$ to $g(\mathbf{Y}_{obs})$. Histograms represent predicted value of statistics under the model and red dash line represents the observed value. 
 
 Proportion of ties that are reciprocated. 
 
@@ -51,7 +55,7 @@ t(Y) &= \frac{ \sum_{i \neq j}y_{i,j} y_{j,i} }{ \sum_{i \neq j} y_{i,j} } \\
 \end{aligned}
 \end{align}
 
-Number of transitive triplets
+Number of transitive triplets, number of triangles in network, number of times ijk are all connected.
 
 \begin{align}
 \begin{aligned}
@@ -66,7 +70,21 @@ t(Y) &= \sum_{i \neq j \neq k} y_{i,j} y_{i,k} y_{j,k}
 	\label{fig:ergmAmePerf}
 \end{figure}
 
-\section{Tie Formation Prediction}
+\subsection{Tie Formation Prediction}
+
+The results are displayed in Figure \ref{fig:roc} using separation plots and Receiver Operating Characteristic (ROC) curves.
+
+We compare the sensitivity and specificity trade-off for each model using ROC curves. Models that have a better fit according to this test should have curves that follow the left-hand border and then the top border of the ROC space. Here again it is apparent that accounting for the interstate relations and the endogenous network effects leads to noticeable improvements in performance. Last, by calculating the area under the ROC curve (AUC) we can assess the accuracy of each model.
+
+Separation plots provide a visual interpretation of model fit by plotting all observations, in this case country pairs, in the data set according to their predicted value from left (low values) to right (high values). Models with a good fit should should have all actual (dark blue) observations towards the right of the separation plot \citep{greenhill:etal:2011}.
+
+\citet{beger:2015}
+
+In addition, we also highlight the difference in performance through the utilization of a precision-recall curve. Precision is a measure of result relevancy, while recall is a measure of how many truly relevant results are returned. A high area under the curve represents both high recall and high precision, where high precision relates to a low false positive rate, and high recall relates to a low false negative rate. High scores for both show that the classifier is returning accurate results (high precision), as well as returning a majority of all positive results (high recall). 
+
+Precision is defined as the number of true positives over the number of true positives plus the number of false positives. 
+
+Recall is defined as the number of true positives over the number of true positives plus the number of false negatives. 
 
 \begin{figure}[ht]
 	\centering
