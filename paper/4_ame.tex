@@ -155,12 +155,9 @@ Of more relevance to us in this paper is the review that \citet{cranmer:etal:201
 
 In the latent distance model, each node $i$ has some unknown latent position in $k$ dimensional space and the probability of a tie between any nodes is 
 
-
-% another type of model is the latent distance model. this model is bascially an embedding of a graph into a k dimensional euclidean space. each node i has some unknown latent position in k dim space and the probaility of a tie btween any nodes is decreasing in their distance in the euclidean space. 
-
 % Each node $i$ has an unknown latent position, $u_{i} \in R^{k}$. The probability of a tie from $i$ to $j$ depends on teh distance between them. log odds Pr$(Y_{ij} = 1 | u_{i}, u_{j}) = \theta - |u_{i} - u_{j}|$. Nodes nearby one another are more likely to have a tie and will likely have similar ties to others. One of the characteristics of this model is that if nodes are nearby one another they are highly likely to have a tie. But also if the nodes are closer together then they are going to be close to the same other nodes. So if you have two nodes that interact they are also similar form the perspective of other nodes. 
 
-% SO this confounds the within tie density with something called stochastic equivalence. the model is going to do is try to put people who have ties to each other in the same location in space. characteristics of this model are a bit funny, in this model nodes that are nearby one another that means i and j have a tie, distnace between them is small, but also if i and j are very close to each other then the distance between i to k and j to k is going to be the same. so nodes that are very close to each other ar every likely to have a tie and likely to be stochastically equivalent. so this model confounds two patterns that we see in networks. 
+% this confounds the within tie density with stochastic equivalence. the model is going to do is try to put people who have ties to each other in the same location in space. characteristics of this model are a bit funny, in this model nodes that are nearby one another that means i and j have a tie, distnace between them is small, but also if i and j are very close to each other then the distance between i to k and j to k is going to be the same. so nodes that are very close to each other ar every likely to have a tie and likely to be stochastically equivalent. so this model confounds two patterns that we see in networks. 
 
 % \citet{hoff:2008} % critique of lat space eucl
 
@@ -173,7 +170,7 @@ In sum, additive effects can capture network covariance. Multiplicative effects 
 \begin{align}
 \begin{aligned}
 	y_{ij} &= g(\theta_{ij}) \\ 
-	&\z_{ij} = \beta^{T} \mathbf{X}_{ij} + e_{ij} \\
+	&z_{ij} = \beta^{T} \mathbf{X}_{ij} + e_{ij} \\
 	&e_{ij} = a_{i} + b_{j} + \epsilon_{ij} \\
 	&\epsilon_{ij} = \gamma(u_{i}, u_{j}) + \mathcal{E}_{ij} \\
 \end{aligned}
