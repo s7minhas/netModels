@@ -99,7 +99,7 @@ The relevance of modeling first- and second-order dependencies has long been rec
 
 The basic idea here is quite simple, $\mu$ provides a baseline measure of the density or sparsity of a network, and $e_{ij}$ represents residual variation. We then decompose that residual variation into parts, namely, a row/sender effect ($a_{i}$), a column/receiver effect ($b_{j}$), and a within dyad effect ($\epsilon_{ij}$). The row and column effects are modeled jointly to account for correlation in how active an actor is in sending and receiving ties. Heterogeneity in the row and column means is captured by $\sigma_{a}^{2}$ and $\sigma_{b}^{2}$, respectively, and $\sigma_{ab}$ describes the linear relationship between these two effects (i.e., whether actors who send [receive] a lot of ties also receive [send] a lot of ties). Beyond these first-order dependencies, variation across second-order dependencies is described by $\sigma_{\epsilon}^{2}$ and a within dyad correlation, or reciprocity, parameter $\rho$. 
 
-\citet{hoff:2005} shows that the SRM covariance structure described in Equation~\ref{eqn:srmCov} can be incorporated into the systematic component of the GLM framework we described earlier to produce a generalized linear mixed effects model: $\theta_{ij} = \beta^{T} \mathbf{X}_{ij} + a_{i} + b_{j} + \epsilon_{ij}$, where $ \beta^{T} \mathbf{X}_{ij}$ accommodates the inclusion of dyadic, sender, and receiver covariates. Through this approach we can effectively incorporate row, column, and within-dyad dependence in a regression framework. Further this approach can be extended to a handle a diversity of outcome distributions (e.g., binomial, ordinal, etc.). In the case of binary data this can be done by utilizing a latent variable representation of a probit regression model. Specifically, we model a latent variable, $z_{ij}$, with a linear predictor and we model the error using the SRM: $z_{ij} = \beta^{T} \mathbf{X}_{ij} + e_{ij}$. Then we can simply utilize a threshold model linking $z_{ij}$ to our observed values of $y_{ij}$: $y_{ij} = 1(z_{ij}>0)$. The result is actually a model that is very similar to the p1 and p2 ERGMs developed by \citet{holland:leinhardt1981} and \citet{duijn:etal:2004}, respectively. 
+\citet{hoff:2005} shows that the SRM covariance structure described in Equation~\ref{eqn:srmCov} can be incorporated into the systematic component of the GLM framework we described earlier to produce a generalized linear mixed effects model: $\theta_{ij} = \beta^{T} \mathbf{X}_{ij} + a_{i} + b_{j} + \epsilon_{ij}$, where $ \beta^{T} \mathbf{X}_{ij}$ accommodates the inclusion of dyadic, sender, and receiver covariates. Through this approach we can effectively incorporate row, column, and within-dyad dependence in a regression framework. Further this approach can be extended to a handle a diversity of outcome distributions (e.g., binomial, ordinal, etc.). In the case of binary data this can be done by utilizing a latent variable representation of a probit regression model. Specifically, we model a latent variable, $z_{ij}$, with a linear predictor and we model the error using the SRM from Equation~\ref{eqn:srmCov}: $z_{ij} = \beta^{T} \mathbf{X}_{ij} + e_{ij}$. Then we can simply utilize a threshold model linking $z_{ij}$ to our observed values of $y_{ij}$: $y_{ij} = I(z_{ij}>0)$. The result is actually a model that is very similar to the p1 and p2 ERGMs developed by \citet{holland:leinhardt1981} and \citet{duijn:etal:2004}, respectively. 
 
 % \begin{align}
 % \begin{aligned}
@@ -128,11 +128,11 @@ Both of these examples can be framed more generally, say that we have a binary n
 
 \begin{figure}[ht]
 	\centering
-	\begin{tabular}{lr}
-	\includegraphics[width=.4\textwidth]{homophNet} & 
+	\begin{tabular}{lcr}
+	\includegraphics[width=.4\textwidth]{homophNet} & \hspace{2cm} &
 	\includegraphics[width=.4\textwidth]{stochEquivNet}	
 	\end{tabular}
-	\caption{Plot on the left is a representation of a network that exhibits a high degree of homophily, while the network on the left exhibits stochastic equivalence. }
+	\caption{Graph on the left is a representation of an undirected network that exhibits a high degree of homophily, while on the left we show an undirected network that exhibits stochastic equivalence. }
 	\label{fig:homphStochEquivNet}
 \end{figure}
 
@@ -140,7 +140,7 @@ Both of these examples can be framed more generally, say that we have a binary n
 
 Another dependence pattern that cannot be accounted for in the framework discussed above is stochastic equivalence. A pair of actors $ij$ are stochastically equivalent if the probability of $i$ relating to, and being related to, by every other actor is the same as the probability for $j$ \citep{anderson:etal:1992}. More simply put this refers to the idea that there will be groups of nodes in a network with similar relational patterns. The occurrence of a dependence pattern such as this is not uncommon in an IR context. \citet{manger:etal:2012} theorize and estimate a stochastic equivalence structure to explain the formation of preferential trade agreements (PTAs). Specifically, they begin by dividing up countries into high, middle, and low income groups. They find that PTA formation occurs with greater probability in the following order high-middle, high-high, and middle-middle income groups, and that low income countries are rather unlikely to form PTAs with any partner. Such a structure is represented in the right-most panel of Figure~\ref{fig:homphStochEquivNet}, here the lightly shaded group of nodes at the top can represent high-income countries, nodes on the bottom-left middle-income, and the darkest shade of nodes low-income countries. The point here is just that the behavior of actors in a network can at times be governed by group level dynamics rather than attributes specific to an actor, and failing to account for patterns such as this could lead to discounting an important part of the data generating process. 
 
-If we are able to account for the variety of shared attributes that might cause third order dependence patterns to develop then the additive effects described above is likely enough to justify our assumption of conditional independence and we can proceed to interpret our results. The \pkg{amen} package even provides for the estimation of that type of model, using a Bayesian framework.\footnote{The main function in the \pkg{amen} package is titled ``ame'' and by default it runs a model assuming that no multiplicative effects are necessary. There are also a set of utilities one can use to determine whether the inclusion of multiplicative effects is necessary, we will review these in the following section.} In the context of most observational research, however, this assumption is untenable. The implausibility of an assumption such as this is, in spirit, the same reason why we no longer model time-series cross-sectional data without including, for example, country level fixed or random effects. We could not find a paper published in the AJPS or APSR in the last several years that made such an assumption. The fact that it is easy to do so in the case of studies involving relational data without any justification is troubling. 
+If we are able to account for the variety of shared attributes that might cause third order dependence patterns to develop then the additive effects described above is likely enough to justify our assumption of conditional independence and we can proceed to interpret our results. The \pkg{amen} package even provides for the estimation of that type of model using a Bayesian framework.\footnote{The main function in the \pkg{amen} package is titled ``ame'' and by default it runs a model assuming that no multiplicative effects are necessary. There are also a set of utilities one can use to determine whether the inclusion of multiplicative effects is necessary, we will review these in the following section.} In the context of most observational research, however, this assumption is untenable. The implausibility of an assumption such as this is, in spirit, the same reason why we no longer model time-series cross-sectional data without including, for example, country level fixed or random effects.
 
 As \citet{cranmer:etal:2016} note a number of solutions have been suggested to this problem. They provide brief descriptions of the MRQAP and ERGM that we will not rehash here. The only point that we would emphasize from their discussion is that ERGMs should only be used when researchers are not only interested in modeling the specific set of third order patterns that may have given rise to a certain network, but also able to provide a theoretical justification for why those endogenous dependencies were specified over others. Failure to properly account for higher order dependence structures through an appropriate specification can at best lead to model degeneracy, which provides an obvious indication that the specification needs to be altered, and at worst a result that converges but does not appropriately capture the interdependencies in the network \citep{handcock:2003b,hunter:etal:2012}.\footnote{For a related discussion on the questionable tractability and consistency of modeling relational data through ERGMs see \citet{bhamidi:etal:2008,chatterjee:diaconis:2013,chandrasekhar:jackson:2014}.} The consequence of the latter case is a set of inferences that will continue to be biased as a result of unmeasured heterogeneity, thus defeating what we see to be a major motivation for pursuing an inferential network model in the first place. 
 
@@ -148,82 +148,36 @@ As \citet{cranmer:etal:2016} note a number of solutions have been suggested to t
 
 % global network structures: how do explanatory variables relate to the socila network. how does the prevalence of ties relate to the presence of certain explantory varibales. might also be intersted in global measures like density and transitivity. 
 
-Of more relevance to us in this paper is the review that \citet{cranmer:etal:2016} provide of latent space approaches. They focus primarily on an approach that addresses third order dependency structures through embedding a graph onto a latent k-dimensional Euclidean space where the probability of a tie between any nodes is decreasing in their distance in that space. This approach was developed by \citet{hoff:etal:2002}, but, to our knowledge, the dominant approach in political science has been the latent factor, also known as the general bilinear mixed effects model, developed by \citet{hoff:2005} and introduced to political science by \citet{hoff:ward:2004}.\footnote{The latent factor approach is what has been used in: \citet{ward:etal:2007,ward:hoff:2007,cao:ward:2014,ward:etal:2013,metternich:etal:2015}.} The distinction between these approaches is consequential and also informs the choices that were made in the creation of the alternative approach, AMEN, that we are introducing here. 
+Of more relevance to us in this paper is the review that \citet{cranmer:etal:2016} provide of latent space approaches. They focus primarily on an approach that addresses third order dependency structures through embedding a graph onto a latent k-dimensional Euclidean space where the probability of a tie between any nodes is decreasing in their distance in that space (we refer to this as the latent distance model). This approach was developed by \citet{hoff:etal:2002}, but, to our knowledge, the dominant approach in political science has been the latent factor approach, also known as the GBME, developed by \citet{hoff:2005} and introduced to political science by \citet{hoff:ward:2004}.\footnote{The latent factor approach is what has been used in: \citet{ward:etal:2007,cao:ward:2014,metternich:etal:2015}. Also important to note is that \citet{cranmer:etal:2016} mistakenly equate the projection model from \citet{hoff:etal:2002} to the latent factor model introduced in \citet{hoff:ward:2004} and \citet{hoff:2005}.} The distinction between these approaches is consequential and also informs the choices that were made in the creation of the alternative approach, AMEN, that we are introducing here.\footnote{There is one other major latent variable approach that we will leave undiscussed here referred to as the latent class model, or stochastic block model. In this model, nodes are assumed to belong to an unobserved latent class and a probability distribution is used to describe the relationships between classes \citep{nowicki:snijders:2001}. The probability of a tie between a pair of actors is a function of the classes to which they have been assigned. This type of model is useful in networks that exhibit high degrees of stochastic equivalence.} 
 
-Thus we need to add something with non-additive nodal effects. In the case of directed relations we can adjust the equation we presented above to $y_{ij} \sim \beta^{T} \mathbf{X}_{ij} + a_{i} + b_{j} + \gamma(u_{i}, v_{j})$. 
+% \citet{krivitsky:handcock:2008} % \citet{krivitsky:handcock:2015} % implementation of latent space models % 
 
-We can incorporate this into the SRM regression model that we have been building up. $Y_{ij} \sim \beta^{T} \mathbf{X}_{ij} + \gamma_{ij}$. The $\gamma_{ij}$ represnts deviations from a simple regression model. The matrix of deviations is itself a relational unobserved data matrix. The latent variable structure can describe these deviations. 
 
-\begin{align}
-\begin{aligned}
-	Y_{ij} &\sim \beta^{T} \mathbf{X}_{ij} + \gamma_{ij} \\
-	\gamma_{ij} &= -|u_{i} = u_{j}| \text{  (distance model)} \\
-	\gamma_{ij} &= -|u_{i}^{T} \wedge u_{j} \text{  (factor model)} \\	
-\end{aligned}
-\end{align}
+In the latent distance model, each node $i$ has some unknown latent position in $k$ dimensional space and the probability of a tie between any nodes is 
 
-Probit versions of three latent variable models all have the following form:
 
-\begin{align}
-\begin{aligned}
-y_{ij} &=
-	\begin{cases}
-	1 \;\;\; if \; z_{ij} > 0 \\
-	0 \;\;\; if \; z_{ij} \leq 0 \\
-	\end{cases} \\
-z_{ij} &= \mu + \alpha(\mu_{i}, \mu_{j}) + \epsilon_{ij} \\
-\{ \epsilon_{ij} : 1 \leq i \leq j \leq n  \} &\simiid N(0,1) \\
-\{ \mu_{1}, \ldots, \mu_{n}  \} &\simiid f(a | \psi)
-\end{aligned}
-\end{align}
+% another type of model is the latent distance model. this model is bascially an embedding of a graph into a k dimensional euclidean space. each node i has some unknown latent position in k dim space and the probaility of a tie btween any nodes is decreasing in their distance in the euclidean space. 
 
-\citet{krivitsky:handcock:2008}
-\citet{krivitsky:handcock:2015} % implementation of latent space models
-\citet{hoff:2008} % critique of lat space eucl
+% Each node $i$ has an unknown latent position, $u_{i} \in R^{k}$. The probability of a tie from $i$ to $j$ depends on teh distance between them. log odds Pr$(Y_{ij} = 1 | u_{i}, u_{j}) = \theta - |u_{i} - u_{j}|$. Nodes nearby one another are more likely to have a tie and will likely have similar ties to others. One of the characteristics of this model is that if nodes are nearby one another they are highly likely to have a tie. But also if the nodes are closer together then they are going to be close to the same other nodes. So if you have two nodes that interact they are also similar form the perspective of other nodes. 
 
-euclidean 
+% SO this confounds the within tie density with something called stochastic equivalence. the model is going to do is try to put people who have ties to each other in the same location in space. characteristics of this model are a bit funny, in this model nodes that are nearby one another that means i and j have a tie, distnace between them is small, but also if i and j are very close to each other then the distance between i to k and j to k is going to be the same. so nodes that are very close to each other ar every likely to have a tie and likely to be stochastically equivalent. so this model confounds two patterns that we see in networks. 
 
-\begin{itemize}
-	% \item Latent class model
-	% 	\begin{align}
-	% 	\begin{aligned}
-	% 		&\alpha(\mu_{i}, \mu_{j}) = \theta_{\mu_{i}, \mu_{j}} \\
-	% 		&\mu_{i} \in \{1, \ldots, K \}, \; i \in \{1,\ldots, n\} \\
-	% 		&\Theta \text{ a } K \times K \text{ symmetric matrix}
-	% 	\end{aligned}
-	% 	\end{align}
-	\item Latent distance model
-		\begin{align}
-		\begin{aligned}
-			&\alpha(\mu_{i}, \mu_{j}) = -|\mu_{i} - \mu_{j}| \\
-			&\mu_{i} \in \Re^{K}, \; i \in \{1, \ldots, n \}
-		\end{aligned}
-		\end{align}
-	\item Latent factor model
-		\begin{align}
-		\begin{aligned}
-			&\alpha(\mu_{i}, \mu_{j}) = \mu_{i}^{T} \wedge \mu_{j} \\
-			&\mu_{i} \in \Re^{K}, \; i \in \{1, \ldots, n \} \\
-			&\wedge \text{ a } K \times K \text{ diagonal matrix}
-		\end{aligned}
-		\end{align}
-\end{itemize}
+% \citet{hoff:2008} % critique of lat space eucl
 
-% first latent variable mode is the latent class model (stochastic block model): each node i is a member of some unknown latent class, labeled 1 up to k. and each node is a member of some class. the probability of a tie between i and j is a function purely of their latent class, probability of a tie between any member of class 1 and class 2 is a functio of their class. interesting thing about this model is that the rate of ties from a member of class k to another member of class k is pheta kk, this may be a large number or small, number, the point is that members of the same class do not have to have a lot of ties to each other. have low density of common ties but they have common roles. and more generalyl nodes in the same class are stochastically equivalent, the probablity distribution for the relations that node i has is the same as the relations that node j has if i and j are in the same class. Each node $i$ is a member of an unknown latent class. $u_{i} \in (1,\ldots,K)$. The probability of a tie between i and j is only dependent upon the claseses. Nodes in the same class may have a small or high probability of ties. 
-
-% another type of model is the latent distance model. this model is bascially an embedding of a graph into a k dimensional euclidean space. each node i has some unknown latent position in k dim space and the probaility of a tie btween any nodes is decreasing in their distance in the euclidean space. conversely, is what the model is going to do is try to put people who have ties to each other in the same location in space. characteristics of this model are a bit funny and hoff dislikes it, in this model nodes that are nearby one another that means i and j have a tie, distnace between them is small, but also if i and j are very close to each other then the distance between i to k and j to k is going to be the same. so nodes that are very close to each other ar every likely to have a tie and likely to be stochastically equivalent. so this model confounds two patterns that we see in networks. Another type of latent variable model is the latent distance model. Each node $i$ has an unknown latent position, $u_{i} \in R^{k}$. The probability of a tie from $i$ to $j$ depends on teh distance between them. log odds Pr$(Y_{ij} = 1 | u_{i}, u_{j}) = \theta - |u_{i} - u_{j}|$. Nodes nearby one another are more likely to have a tie and will likely have similar ties to others. One of the characteristics of this model is that if nodes are nearby one another they are highly likely to have a tie. But also if the nodes are closer together then they are going to be close to the same other nodes. So if you have two nodes that interact they are also similar form the perspective of other nodes. SO this confounds the within tie density with something called stochastic equivalence. 
+% introduce via matrix decomposition, make a footnote to de finetti
 
 % one final model is the latent factor model. this is an exchangeable random effects model. probability of a tie based ont he k dim space, btu the probability of the tie btween the two is going to depend on the inner and product of i and j's latent vector, weighted by some egien value. unlike the distance model, nodes iwth similar factors can have a large or small probability of tie. in the distance model if two things had the same value of i, the model wanted them to have a high probability of a tie. so in other words we can have negative eigen values. so if the bs are negative you could have it so that if things that are very similar to one another are unlikely to have a tie. here we can separate out: similar factors will be approximately stoch equiv, but unlike the dist model you dont have a confouding between high prob of ties and noedes having similar roles. Each node $i$ has an unknown latent factor. The probability of a tie from i to j depends upon their latent factors. This looks like an eigen decomposition of a latent matrix. Nodes with similar factors may have a large or small probability of a tie depdening on whether you have positive or negative eigen values. modes iwth similar facotrs are approximately stochastically equivalent. 
 
+In sum, additive effects can capture network covariance. Multiplicative effects can capture higher-order dependence. 
+
 \begin{align}
 \begin{aligned}
-z_{ij} &= \beta^{T}x_{ij} + u^{T}_{i} D v_{j} + a_{i} + b_{j} + \epsilon_{ij} \\
-\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{a,b}) \\ 
-\{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \leq j\} &\simiid N(0,\Sigma_{\epsilon})
+	y_{ij} &= g(\theta_{ij}) \\ 
+	&\z_{ij} = \beta^{T} \mathbf{X}_{ij} + e_{ij} \\
+	&e_{ij} = a_{i} + b_{j} + \epsilon_{ij} \\
+	&\epsilon_{ij} = \gamma(u_{i}, u_{j}) + \mathcal{E}_{ij} \\
 \end{aligned}
 \end{align}
-
-In sum, additive effects can capture network covariance. Multiplicative effects can capture higher-order dependence. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 % de finetti's theorem will provide the basic tool and concept to generate a good statistical model. probability of obtaining one vector of random variables is the same as seeing that same vector permuted. if this condition holds for your probability model then you can describe these random variables as being equal to some global function theta, common to all random variables, and some variable specific random variable epsilon, wehere epsilon is iid from some probbaility distribution. 
@@ -251,4 +205,9 @@ In sum, additive effects can capture network covariance. Multiplicative effects 
 % $\epsilon_{i}$ represents local features specific to individual $Y_{i}$
 
 % This theorem justifies the ubiquitous conditional iid assumption of statistical modeling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  stochastic blockmodel notes
+% first latent variable mode is the latent class model (stochastic block model): each node i is a member of some unknown latent class, labeled 1 up to k. and each node is a member of some class. the probability of a tie between i and j is a function purely of their latent class, probability of a tie between any member of class 1 and class 2 is a functio of their class. interesting thing about this model is that the rate of ties from a member of class k to another member of class k is pheta kk, this may be a large number or small, number, the point is that members of the same class do not have to have a lot of ties to each other. have low density of common ties but they have common roles. and more generalyl nodes in the same class are stochastically equivalent, the probablity distribution for the relations that node i has is the same as the relations that node j has if i and j are in the same class. Each node $i$ is a member of an unknown latent class. $u_{i} \in (1,\ldots,K)$. The probability of a tie between i and j is only dependent upon the claseses. Nodes in the same class may have a small or high probability of ties. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
