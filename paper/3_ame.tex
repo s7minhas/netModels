@@ -51,7 +51,7 @@ Relational, or dyadic, data structures provide measurements of how pairs of acto
 
 \subsection{Limitations of the Standard Framework}
 
-When modeling these types of data structures, scholars typically employ a generalized linear model (GLM) estimated via maximum-likelihood. This type of model can be expressed via a stochastic and systematic component \citep{ward:ahlquist:2010}. The stochastic component reflects our assumptions about the probability distribution from which the data is generated: $y_{ij} \simiid \mathcal{F}(\theta_{ij})$, where $\mathcal{F}$ represents a probability distribution or mass function such as normal or binomial, and $\simiid$ represents the assumption that each dyad in our sample is independently drawn from that particular distribution. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. A fundamental assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of our distribution, each of the dyadic observations is conditionally independent. 
+When modeling these types of data structures, scholars typically employ a generalized linear model (GLM) estimated via maximum-likelihood. This type of model can be expressed via a stochastic and systematic component \citep{pawitan:2013}. The stochastic component reflects our assumptions about the probability distribution from which the data is generated: $y_{ij} \simiid \mathcal{F}(\theta_{ij})$, where $\mathcal{F}$ represents a probability distribution or mass function such as normal or binomial, and $\simiid$ represents the assumption that each dyad in our sample is independently drawn from that particular distribution. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. A fundamental assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of our distribution, each of the dyadic observations is conditionally independent. 
 
 The import of this assumption becomes clearer in the process of estimating a GLM via maximum likelihood. After having chosen a set of covariates and specifying a distribution, we construct joint density function over all dyads.
 
@@ -62,7 +62,7 @@ The import of this assumption becomes clearer in the process of estimating a GLM
 \end{aligned}
 \end{align}
 
-We next convert the joint probability into a likelihood by assuming the observations are fixed but the distributional parameters, $\bm{\theta}$, are assumed to be random:%\footnote{For further discussion see \citet{ward:ahlquist:2010} or other introductory sources to maximum-likelihood estimation.}
+We next convert the joint probability into a likelihood by assuming the observations are fixed but the distributional parameters, $\bm{\theta}$, are assumed to be random:%\footnote{For further discussion see \citet{pawitan:2013} or other introductory sources to maximum-likelihood estimation.}
 
 \begin{align}
 \begin{aligned}
@@ -126,7 +126,7 @@ If we are able to explicitly model the variety of shared attributes that might c
 
 \subsubsection{\textbf{ERGMs}}
 
-Within political science the two most often used approaches to accounting for third order dependencies in relational data are ERGMs and latent space models. Exponential Random Graph Models were first developed by \citet{erdos:renyi:1959,erdos:renyi}, but became more widely understood as they were applied to particular problems.  \citet{frank:1971} undertook an early examination and Julian Besag developed interesting applications and methods promoting their examination \citep{1977b}. But computing was complicated and expensive and it wasn't until \citet{frank:strauss:1986} and \citet{wasserman:pattison:1996} did
+Within political science the two most often used approaches to accounting for third order dependencies in relational data are ERGMs and latent space models. Exponential Random Graph Models were first developed by \citet{erdos:renyi:1959}, but became more widely understood as they were applied to particular problems.  \citet{frank:1971} undertook an early examination and Julian Besag developed interesting applications and methods promoting their examination \citep{besag:1977b}. But computing was complicated and expensive and it wasn't until \citet{frank:strauss:1986} and \citet{wasserman:pattison:1996} did
 these methods find widespread application.  These so-call ERGM approaches are particularly useful when researchers are interested in the role that a specific list of network statistics have in giving rise to a certain network. These network statistics could include the number of transitive triads in a network, balanced triads, reciprocal pairs and so on.\footnote{\citet{morris:etal:2008} and \citet{snijders:etal:2006} provide a detailed list of network statistics that can be included in an ERGM model specification.} Having developed a set of network statistics, $S(\mathbf{Y})$, from a given network, $\mathbf{Y}$, the distribution of that network can be parameterized as:
 
 \begin{align}
@@ -147,7 +147,7 @@ A recent handbook on using network approaches to research political issues is fo
 \citet{calvo:leiras:2012},
 \citet{lubell:etal:2012},
 \citet{robbins:etal:2012},
-\citet{leman:calvo:2013},
+\citet{aleman:calvo:2013},
 \citet{heaney:2014}, and
 \citet{kirkland:williams:2014}.
 
@@ -156,17 +156,7 @@ A recent handbook on using network approaches to research political issues is fo
 
 \subsubsection{\textbf{Latent Space Models}}
 
-Given the computational and inferential difficulties that go along with utilizing ERGMs, an alternative approach  has been utilized by political scientists in studying relational data with third order dependence patterns. This approach is referred to as latent space models.\footnote{We are not aware of any one that has used the Euclidean approach, but the bi-linear latent space approach has been used by a variety of scholars including \citet{hoff:ward:2004}
-\citet{cao:2007},
-\citet{ward:etal:2007},
-\citet{ward:hoff:2007},
-\citet{cao:2009},
-\citet{breunig:etal:2012},
-\citet{cao:2012},
-\citet{ward:etal:2012},
-\citet{ward:hoff:2008},
-\citet{metternich:etal:2015}, and
-\citet{cao:ward:2014}.}
+Given the computational and inferential difficulties that go along with utilizing ERGMs, an alternative approach  has been utilized by political scientists in studying relational data with third order dependence patterns. This approach is referred to as latent space models.\footnote{We are not aware of any one that has used the Euclidean approach, but the bi-linear latent space approach has been used by a variety of scholars including \citet{hoff:ward:2004}, \citet{ward:etal:2007}, \citet{ward:hoff:2007}, \citet{cao:2009}, \citet{breunig:etal:2012}, \citet{cao:2012}, \citet{ward:etal:2012}, \citet{ward:hoff:2008}, \citet{metternich:etal:2015}, and \citet{cao:ward:2014}.}
 
 The utilization of latent space models for network analysis is quickly becoming a popular approach for modeling relational data in a variety of fields as diverse as computer science to the social sciences. One   reason for their increased usage is that they enable researchers to capture and visualize third-order dependencies in a way that other approaches are not able to replicate. Additionally, the conditional independence assumption that these models are able to provide implies that model degeneracy is not an issue, facilitating the testing of a variety of nodal and dyadic level theories, and providing a range of computational advantages \citep{hunter:etal:2012}. 
 
