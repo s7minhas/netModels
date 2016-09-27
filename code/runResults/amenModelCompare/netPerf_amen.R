@@ -8,7 +8,7 @@ loadPkg( c( 'ergm', 'latentnet', 'btergm', 'lme4' ) )
 load(paste0(dataPath, 'data.rda'))
 
 # make basic ame gof
-ameSRFileNames = paste0('ameFitSR_',0:4,'.rda') ; lapply(ameSRFileNames, getAmeNetPerf)
+ameSRFileNames = paste0('ameFitSR_',1:4,'.rda') ; lapply(ameSRFileNames, getAmeNetPerf)
 ################################################
 
 ################################################
@@ -21,7 +21,7 @@ names(actData) = names(actSumm)
 ################################################
 # Amen
 ameSRGofDist = lapply(ameSRFileNames, getAmeGOF)
-names(ameSRGofDist) = c('AME (k=0)', 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
+names(ameSRGofDist) = c('AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
 ################################################
 
 ################################################

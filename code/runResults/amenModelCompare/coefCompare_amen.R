@@ -5,10 +5,6 @@ loadPkg(c('latentnet','sna'))
 
 ################################################
 # load model results
-load(paste0(resultsPath, 'ameFitSR_0.rda'))
-ameCoef0 = getAmeCoef(ameFit) ; rownames(ameCoef0) = gsub('.col','',rownames(ameCoef0))
-ameTab0 = lazyCleanTable( ameCoef0[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
-
 load(paste0(resultsPath, 'ameFitSR_1.rda'))
 ameCoef1 = getAmeCoef(ameFit) ; rownames(ameCoef1) = gsub('.col','',rownames(ameCoef1))
 ameTab1 = lazyCleanTable( ameCoef1[,c('pmean','lo95','hi95','p-val')], sigCol=4 )
@@ -29,7 +25,7 @@ ameTab4 = lazyCleanTable( ameCoef4[,c('pmean','lo95','hi95','p-val')], sigCol=4 
 ################################################
 # summarize in q & d table
 coefDfs = list(
-	'AME (k=0)'=ameTab0,  'AME (k=1)'=ameTab1, 'AME (k=2)'=ameTab2,
+	'AME (k=1)'=ameTab1, 'AME (k=2)'=ameTab2,
 	'AME (k=3)'=ameTab3, 'AME (k=4)'=ameTab4 )
 
 # table
@@ -48,7 +44,6 @@ estRows = varPos[seq(1,length(varPos),2)]; errorRows = varPos[seq(2,length(varPo
 varLab = frameRows; varLab[errorRows] = ''; frame[,1] = varLab; rownames(frame)[estRows] = ''
 
 # Add logit results
-frame = insertCoefInfo(frame, model='AME (k=0)', error='int')
 frame = insertCoefInfo(frame, model='AME (k=1)', error='int')
 frame = insertCoefInfo(frame, model='AME (k=2)', error='int')
 frame = insertCoefInfo(frame, model='AME (k=3)', error='int')
@@ -61,7 +56,7 @@ frame = frame[-(grep('Endogenous dependencies', frame[,1]):nrow(frame)),]
 
 # print
 print.xtable(
-	xtable(frame, align='llccccc',
+	xtable(frame, align='llcccc',
 		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',
 		label='tab:regTable_latSpace'), 
 	include.rownames=FALSE,

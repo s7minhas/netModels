@@ -23,7 +23,6 @@ getAmePred = function(fName){
 	return(amePred)
 }
 
-amePred0 = getAmePred('ameFitSR_0.rda')
 amePred1 = getAmePred('ameFitSR_1.rda')
 amePred2 = getAmePred('ameFitSR_2.rda')
 amePred3 = getAmePred('ameFitSR_3.rda')
@@ -33,7 +32,7 @@ amePred4 = getAmePred('ameFitSR_4.rda')
 ################################################
 # Organize pred DFs
 predDfs = list(
-	'AME (k=0)'=amePred0,  'AME (k=1)'=amePred1, 'AME (k=2)'=amePred2,
+	'AME (k=1)'=amePred1, 'AME (k=2)'=amePred2,
 	'AME (k=3)'=amePred3, 'AME (k=4)'=amePred4 )
 
 # get auc summary
@@ -76,10 +75,10 @@ tmp = rocPlot(rocData, linetypes=ggLty)+guides(linetype = FALSE, color = FALSE) 
 for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.35,.1), label=names(predDfs), family="Source Sans Pro Light")
 ggsave(tmp, file=paste0(graphicsPath, 'roc_ameSR.pdf'), width=5, height=5, device=cairo_pdf)
 
-# area under precision-recall curves (Beger 2016 [arxiv])
+# area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
 	r = rocdf(predDfs[[ii]]$'prob', predDfs[[ii]]$'actual', type='pr')
 	p = cbind(r, model=names(predDfs)[ii])
@@ -89,9 +88,9 @@ rocPrData = do.call('rbind', rocPrData)
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
 	guides(linetype=FALSE, color=FALSE) + 
 	geom_rect(xmin=.05, ymin=.01, xmax=.58, ymax=.55, color='white', fill='white', size=.5) + 
-	annotate('text', hjust=0, x=c(.01, .29, .47), y=.55, 
+	annotate('text', hjust=0, x=c(.01, .29, .47), y=.45, 
 		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
-	annotate('text', hjust=0, x=.01, y=seq(.05, .45, .1), 
+	annotate('text', hjust=0, x=.01, y=seq(.05, .35, .1), 
 		label=rev(apply(cbind(rownames(aucSumm), aucSumm), 1, function(x){paste(x, collapse='     ')})),
 		family='Source Sans Pro Light')
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr_ameSR.pdf'), width=5, height=5, device=cairo_pdf)

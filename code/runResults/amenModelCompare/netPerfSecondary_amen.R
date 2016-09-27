@@ -15,9 +15,9 @@ perfNetKey = cbind(v=names(actVals),
 
 ################################################
 # AME
-ameSRFileNames = paste0(resultsPath, 'ameFitSR_',0:4,'.rda')
+ameSRFileNames = paste0(resultsPath, 'ameFitSR_',1:4,'.rda')
 perfListSR = lapply(ameSRFileNames, function(x){ load(x) ; ameFit$'GOF'[-1,] })
-names(perfListSR) = c('AME (k=0)', 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
+names(perfListSR) = c( 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
 ################################################
 
 ################################################
