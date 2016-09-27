@@ -1,8 +1,7 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
-source(paste0(funcPath, 'functions.R'))
-loadPkg( c( 'devtools', 'latentnet' ) )
-devtools::install_github('s7minhas/amen') ; library(amen)
+source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
+loadPkg( c( 'devtools', 'latentnet' ) ) ; devtools::install_github('s7minhas/amen') ; library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))

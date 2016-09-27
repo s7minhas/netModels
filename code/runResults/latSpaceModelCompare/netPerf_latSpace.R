@@ -1,6 +1,6 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
-source(paste0(funcPath, 'functions.R'))
+source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
 loadPkg( c( 'ergm', 'latentnet', 'btergm', 'lme4' ) )
 
 # load data

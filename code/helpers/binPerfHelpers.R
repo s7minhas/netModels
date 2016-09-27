@@ -74,12 +74,9 @@ ggSep = function(actual, proba, color, lty, fPath, save=TRUE){
 }
 
 ####################################################################
-####################################################################
-####################################################################
 # From: https://github.com/andybega/auc-pr/blob/master/auc-pr.r
 # Author: Andy Beger
 #   Functions for Precision-recall plot and AUC-PR
-#
 
 #' Area under the ROC curve
 #'
@@ -98,20 +95,15 @@ auc_pr <- function(obs, pred) {
   xx.df <- prediction(pred, obs)
   perf  <- performance(xx.df, "prec", "rec")
   xy    <- data.frame(recall=perf@x.values[[1]], precision=perf@y.values[[1]])
-  
   # take out division by 0 for lowest threshold
   xy <- subset(xy, !is.nan(xy$precision))
-  
   res   <- trapz(xy$recall, xy$precision)
   res
 }
 
 # Function to create raw data needed to plot Precision against recall
-#
-# For a vector of observed and predicted, creates x-y coordinates for a ROC
-# or PR curve.
+# For a vector of observed and predicted, creates x-y coordinates for a ROC or PR curve.
 rocdf <- function(pred, obs, data=NULL, type=NULL) {
-  # plot_type is "roc" or "pr"
   if (!is.null(data)) {
     pred <- eval(substitute(pred), envir=data)
     obs  <- eval(substitute(obs), envir=data)
@@ -124,10 +116,4 @@ rocdf <- function(pred, obs, data=NULL, type=NULL) {
   colnames(xy) <- switch(type, roc=c("tpr", "fpr"), pr=c("rec", "prec"))
   return(xy)
 }
-
-# To plot, something like:
-#xy <- rocdf(pred, obs, type="pr")
-#plot(xy[, 1], xy[, 2])
-####################################################################
-####################################################################
 ####################################################################

@@ -140,19 +140,7 @@ One issue that arises when conducting statistical inference with this model is i
 
 The MCMC-MLE approach is certainly an advancement but notable problems remain. \citet{bhamidi:etal:2008} and \citet{chatterjee:diaconis:2013} have shown that MCMC procedures can take an exponential time to converge for broad classes of ERGMs unless the dyadic observations are independent. This is a result of the fact that MCMC procedures can still visit an infinitesimally small portion of the set of possible graphs, $\mathcal{Y}$. A related issue when estimating ERGMs is that the model can become degenerate for certain combinations of estimated parameters.  This means that the model is placing a large amount of probability on a small subset of networks that fall in the set of obtainable networks, $\mathcal{Y}$, but share little resemblance with the observed network, $\mathbf{Y}$ \citep{schweinberger:2011}. Some have noted that model degeneracy is simply a result of model misspecification \citep{handcock:2003b,goodreau:etal:2008,handcock:etal:2008}. This points to an important caveat in interpreting the implications of the Hammersley-Clifford theorem. Though this theorem ensures that any network can be represented through an ERGM, it says nothing about the complexity of the sufficient statistics, $S(y)$, required to do so. Failure to properly account for higher order dependence structures through an appropriate specification can at best lead to model degeneracy, which provides an obvious indication that the specification needs to be altered, and at worst deliver a result that converges but does not appropriately capture the interdependencies in the network. The consequence of the latter case is a set of inferences that will continue to be biased as a result of unmeasured heterogeneity, thus defeating the major motivation for pursuing an inferential network model in the first place. 
 
-A recent handbook on using network approaches to research political issues is found in 
-\citet{victor:etal:2016}.  Recent research that uses exponential random graph models specifically includes 
-\citet{victor:ringe:2009},
-\citet{berardo:scholz:2010},
-\citet{calvo:leiras:2012},
-\citet{lubell:etal:2012},
-\citet{robbins:etal:2012},
-\citet{aleman:calvo:2013},
-\citet{heaney:2014}, and
-\citet{kirkland:williams:2014}.
-
-
-
+A recent handbook on using network approaches to research political issues is found in \citet{victor:etal:2016}.  Recent research that uses exponential random graph models specifically includes \citet{victor:ringe:2009}, \citet{berardo:scholz:2010}, \citet{calvo:leiras:2012}, \citet{lubell:etal:2012}, \citet{robbins:etal:2012}, \citet{aleman:calvo:2013}, \citet{heaney:2014}, and \citet{kirkland:williams:2014}.
 
 \subsubsection{\textbf{Latent Space Models}}
 

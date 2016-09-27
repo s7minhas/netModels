@@ -1,6 +1,6 @@
 rm(list=ls())
 source('~/Research/netModels/code/replicationSetup.R')
-# install amen from s7minhas/github
+source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
 loadPkg('devtools') ; devtools::install_github('s7minhas/amen') ; library(amen)
 loadPkg( c( 'ergm', 'latentnet', 'btergm', 'lme4' ) )
 
