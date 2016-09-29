@@ -1,9 +1,18 @@
 \clearpage
+
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A.\arabic{table}}
+\setcounter{table}{0}
+\renewcommand{\thesection}{A.\arabic{section}}
+\setcounter{section}{0}
+
 \section{\textbf{Appendix}}
 
-\subsection{AMEN Model Convergence}
+\subsection{AME Model Convergence}
+\label{sec:ameConvAppendix}
 
-MCMC chain analysis for AMEN model presented in paper.  
+Trace plot for AME model presented in paper.  
 
 \begin{figure}[ht]
 	\centering
@@ -11,15 +20,16 @@ MCMC chain analysis for AMEN model presented in paper.
 	\includegraphics[width=.45\textwidth]{ameConv1_SR2} &
 	\includegraphics[width=.45\textwidth]{ameConv2_SR2}
 	\end{tabular}
-	\caption{MCMC chain for AMEN model presented in paper. In this model, we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach discussed earlier with $K=2$.}
+	\caption{Trace plot for AME model presented in paper. In this model, we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach with $K=2$.}
 	\label{fig:ameConv}
 \end{figure}
 \FloatBarrier
 \newpage
 
 \subsection{Comparison of \pkg{amen} \& \pkg{latentnet} $\mathcal{R}$ Packages}
+\label{sec:ameVsLatentnetAppendix}
 
-Here we provide a comparison of the AMEN model we presented in the paper with a variety of parameterizations from the \pkg{latentnet} package. 
+Here we provide a comparison of the AME model we present in the paper with a variety of parameterizations from the \pkg{latentnet} package. The number of dimensions in the latent space in each of these cases is set to 2. LSM (SR) represents a model in which random sender and receiver effects are included. LSM (Bilinear) represents a model in which a bilinear latent model term is used instead of the default Euclidean distance term. A bilinear latent model with sender and receiver random effects is not equivalent to the AME approach that we introduce here for reasons that we have already discussed in the paper. 
 
 \input{regTable_latSpace.tex}
 
@@ -29,29 +39,30 @@ Here we provide a comparison of the AMEN model we presented in the paper with a 
 	\includegraphics[width=.5\textwidth]{roc_latSpace} & 
 	\includegraphics[width=.5\textwidth]{rocPr_latSpace}
 	\end{tabular}
-	\caption{ROC and separation plots}
+	\caption{Assessments of predictive performance using ROC curves, separation plots, and precision-recall curves. AUC statistics are provided as well for both the ROC and precision-recall curves.}
 	\label{fig:roc_latentSpace}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{netPerfCoef_latSpace}
-	\caption{Posterior predictive goodness of fit summary}
+	\caption{Network goodness of fit summary using \pkg{amen}.}
 	\label{fig:netPerfCoef_latSpace}
 \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{ggGofAll_latSpace}
-	\caption{network stats }
-	\label{fig:gofAll_latSpace}
-\end{figure}
+% \begin{figure}[ht]
+% 	\centering
+% 	\includegraphics[width=1\textwidth]{ggGofAll_latSpace}
+% 	\caption{network stats }
+% 	\label{fig:gofAll_latSpace}
+% \end{figure}
 \FloatBarrier
-\newpage
 
+\clearpage
 \subsection{Comparison with other AME Parameterizations}
+\label{sec:ameVsAmeAppendix}
 
-Here we provide a comparison of the AMEN model we presented in the paper that uses $K=2$ for multiplicative effects and show how results change when we use $K=/{1,3,4/}$. 
+Here we provide a comparison of the AME model we present in the paper that uses $K=2$ for multiplicative effects and show how results change when we use $K=\{1,3,4\}$. Trace plots for $K=\{1,3,4\}$ are available upon request.
 
 \input{regTable_ameSR.tex}
 
@@ -61,53 +72,53 @@ Here we provide a comparison of the AMEN model we presented in the paper that us
 	\includegraphics[width=.5\textwidth]{roc_ameSR} & 
 	\includegraphics[width=.5\textwidth]{rocPr_ameSR}
 	\end{tabular}
-	\caption{ROC and separation plots}
-	\label{fig:roc_latentSpace}
+	\caption{Assessments of predictive performance using ROC curves, separation plots, and precision-recall curves. AUC statistics are provided as well for both the ROC and precision-recall curves.}
+	\label{fig:roc_ame}
 \end{figure}
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{netPerfCoef_ameSR}
-	\caption{Posterior predictive goodness of fit summary}
+	\caption{Network goodness of fit summary using \pkg{amen}.}
 	\label{fig:netPerfCoef_ameSR}
 \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{ggGofAll_ameSR}
-	\caption{network stats }
-	\label{fig:gofAll_ameSR}
-\end{figure}
+% \begin{figure}[ht]
+% 	\centering
+% 	\includegraphics[width=1\textwidth]{ggGofAll_ameSR}
+% 	\caption{network stats }
+% 	\label{fig:gofAll_ameSR}
+% \end{figure}
 \FloatBarrier
 
-\newpage
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{cc}
-	\includegraphics[width=.45\textwidth]{ameConv1_SR1} &
-	\includegraphics[width=.45\textwidth]{ameConv2_SR1}
-	\end{tabular}
-	\caption{MCMC chain for AMEN model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach discussed earlier with $K=1$.}
-	\label{fig:ameConv}
-\end{figure}
+% \newpage
+% \begin{figure}[ht]
+% 	\centering
+% 	\begin{tabular}{cc}
+% 	\includegraphics[width=.45\textwidth]{ameConv1_SR1} &
+% 	\includegraphics[width=.45\textwidth]{ameConv2_SR1}
+% 	\end{tabular}
+% 	\caption{Trace plot for AME model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach with $K=1$.}
+% 	\label{fig:ameConv}
+% \end{figure}
 
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{cc}
-	\includegraphics[width=.45\textwidth]{ameConv1_SR3} &
-	\includegraphics[width=.45\textwidth]{ameConv2_SR3}
-	\end{tabular}
-	\caption{MCMC chain for AMEN model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach discussed earlier with $K=3$.}
-	\label{fig:ameConv}
-\end{figure}
-\FloatBarrier
+% \begin{figure}[ht]
+% 	\centering
+% 	\begin{tabular}{cc}
+% 	\includegraphics[width=.45\textwidth]{ameConv1_SR3} &
+% 	\includegraphics[width=.45\textwidth]{ameConv2_SR3}
+% 	\end{tabular}
+% 	\caption{Trace plot for AME model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach with $K=3$.}
+% 	\label{fig:ameConv}
+% \end{figure}
+% \FloatBarrier
 
-\begin{figure}[ht]
-	\centering
-	\begin{tabular}{cc}
-	\includegraphics[width=.45\textwidth]{ameConv1_SR4} &
-	\includegraphics[width=.45\textwidth]{ameConv2_SR4}
-	\end{tabular}
-	\caption{MCMC chain for AMEN model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach discussed earlier with $K=4$.}
-	\label{fig:ameConv}
-\end{figure}
+% \begin{figure}[ht]
+% 	\centering
+% 	\begin{tabular}{cc}
+% 	\includegraphics[width=.45\textwidth]{ameConv1_SR4} &
+% 	\includegraphics[width=.45\textwidth]{ameConv2_SR4}
+% 	\end{tabular}
+% 	\caption{Trace plot for AME model in which we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach with $K=4$.}
+% 	\label{fig:ameConv}
+% \end{figure}

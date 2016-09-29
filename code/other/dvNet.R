@@ -11,8 +11,9 @@ actorType = as.matrix(read.table(file = paste0(dataPath, "climate0205-type.csv")
     header = TRUE, row.names = 1, sep = ";"))[,2]
 actorType2 = paste0(toupper(substr(actorType, 1, 1)), substr(actorType, 2, nchar(actorType)))
 actorType2[actorType2=='Ngo']='NGO' ; actorType2[actorType2=='Gov']='State'
-typeKey = data.frame(type=unique(actorType), stringsAsFactors=FALSE)
-typeKey$col = brewer.pal(nrow(typeKey), 'Accent')
+actorType2[actorType2=='Private']='Business'
+typeKey = data.frame(type=unique(actorType2), stringsAsFactors=FALSE)
+typeKey$col = brewer.pal(nrow(typeKey)*2, 'Paired')[seq(2,nrow(typeKey)*2,2)]
 
 # add g attribs
 gCollab$vSizeOut = degree(gCollab, mode='out')

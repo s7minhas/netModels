@@ -78,7 +78,7 @@ ggGof = function(
 		geom_errorbar(aes(ymin=actual, ymax=actual, x=obs2), 
 			color='grey50', width=actWidth, size=1.5) +
 		geom_point(aes(y=mu, shape=model), size=3, position=position_dodge(width=modSpace)) + 
-		xlab('') + ylab('Frequency') + ylim(0,NA) + 
+		xlab('') + ylab('') + ylim(0,NA) + 
 		facet_wrap(~var, scales='free', nrow=pRows, ncol=pCols) + 
 		scale_color_brewer(palette=bColPal) +
 		theme(
@@ -93,7 +93,7 @@ ggGof = function(
 			legend.text=element_text(family="Source Sans Pro Light", size=18),
 			axis.text.x=element_text(family="Source Sans Pro Light", size=12),
 			axis.text.y=element_text(family="Source Sans Pro Light",size=12),
-			axis.title.y=element_text(family='Source Sans Pro Semibold', size=16),
+			# axis.title.y=element_text(family='Source Sans Pro Semibold', size=16),
 			strip.text.x = element_text(family="Source Sans Pro Semibold", size=18)
 			)
 		ggsave(tmp, file=fPath, width=fWidth, height=fHeight, device=cairo_pdf)
