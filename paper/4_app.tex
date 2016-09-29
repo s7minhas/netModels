@@ -1,28 +1,63 @@
 \section{\textbf{Comparison with Other Approaches}}
 
-To assess how the AMEN approach compares with alternatives in the literature we utilize the application chosen by \citet{cranmer:etal:2016}. 
-
-The application we pick to illustrate the difference between the major network approaches used in political science is the 
-
-To illustrate the strengths and weaknesses of the three models, we apply each to a simple, cross-sectional policy network on relations between 34 political actors in the Swiss climate change mitigation network \citep{ingold:2008}.
-
-The directed outcome network reflects collaboration among four government agencies, five political parties, six scientific/research organizations, eleven organized interest groups (private sector and business associations), and seven environmental NGOs \citep{ingold:2008,ingold:fischer:2014}.
-
-\citet{ingold:leifeld:2014}
-
-Figure~\ref{fig:dvNet} highlights how we can expect high levels of sender and receiver heterogeneity. 
+To assess how the AMEN approach compares with alternatives in the literature we utilize the same network dataset used by \citet{cranmer:etal:2016}. Their application utilizes a cross-sectional network measuring whether an actor indicated that they collaborated with another during the policy design of the Swiss CO$_{2}$ act \citep{ingold:2008}.\footnote{This is a directed relational matrix as an actor $i$ can indicate that they collaborated with $j$ but $j$ may not have stated that they collaborated with $i$.} The Swiss government proposed this act in 1995 with the goal of undertaking a 10\% reduction in CO$_{2}$ emissions by 2012. The act was accepted in the Swiss Parliament in 2000 and implemented in 2008. \citet{ingold:2008}, and subsequent work by \citet{ingold:fischer:2014}, sought to determine what drives collaboration among actors trying to affect climate change policy. The set of actors included in this network are those that were identified by experts as holding an important position in Swiss climate policy.\footnote{For further details on the methodology utilized in choosing the set of actors see \citet{ingold:2008,ingold:fischer:2014}.} In total, \citet{ingold:2008} identifies 34 relevant actors: five state actors, eleven industry and business representatives, seven environmental NGOs and civil society organizations, five political parties, and six scientific institutions and consultants. 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{dvNet}
-	\caption{dv net}
+	\begin{tabular}{cc}
+	\includegraphics[width=.47\textwidth]{dvNet_outDegree} & 
+	\includegraphics[width=.44\textwidth]{dvNet_inDegree}
+	\end{tabular}
+	\caption{Network visualizations of the Swiss climate change mitigation network. Nodes are colored by type of actor, and directed edges indicate relationships between actors. The network on the left weights node size by the number of out-going ties, and on the right the number of incoming-ties.}
 	\label{fig:dvNet}
 \end{figure}
 \FloatBarrier
 
-\citet{krivitsky:handcock:2015}
+Figure~\ref{fig:dvNet} provides a pair of visualizations for this directed collaboration network. Nodes are colored by the type of actor and a directed edge indicates an actor stated that they collaborated with another, and determining which actor indicated the collaboration can be ascertained by the direction of the arrow. The positions of actors in these networks is estimated using a force-directed layout algorithm.\footnote{To determine the positions of nodes in this network we use the Fruchterman-Reingold algorithm \citep{fruchterman:reingold:1991}.} These types of algorithms use information contained within the structure of the network itself to provide informative depictions of graphs. A straightforward way to understand how they work is to think of nodes connected by edges as particles that are attracted to each other, and nodes that are unconnected as particles that repulse each other. These types of algorithms simulate a system in which nodes pull and push upon each other until they reach an equilibrium position. In this case, the algorithm provides us with some useful information about relationships between nodes. Specifically, we see that the majority of the industry and business actors are clustering together, meaning that these types of actors tend to indicate they collaborated with one another during the policy design process. We can also see that three of the state actors are pushed towards the center of the graph by the algorithm, which occurs because they share relationships with a variety of types of actors. Most of the actors classified as scientific institutions are pushed towards the far left border of the graphs as it seems they tend to interact amongst themselves and just a few of the other types of actors. 
+
+An important part of our discussion from the previous section revolved around the idea that within network structures we find variation in how active nodes are in engaging with others in the network. To illustrate nodal heterogeneity in the case of the Swiss climate change mitigation networks we weight the size of nodes, in the network on the left, by the number of their outgoing ties, and on the right by their incoming ties. From the network on the left, it is clear that some nodes are much more likely to indicate that they formed collaborations with others. For example, each of the scientific institutions and consultants shown in Figure~\ref{fig:dvNet} indicate that they collaborate with relatively few organizations, especially, as compared to actors from industry and business. Additionally, there is even variation within actor types as evidenced by differences amongst NGO or political party actors. Similar findings of nodal heterogeneity emerge if we turn our attention to examining nodes by their incoming ties. 
+
+% The cursory discussion above regarding nodal heterogeneity should already point to the importance of taking into account lower order interdependencies between observations, and given the higher order structure  
+Obvious from an examination of Figure~\ref{fig:dvNet} is that collaboration among these 34 actors is not simply a function of actor type. To understand what factors may play a role in shaping collaboration in this relational data structure a modeling approach is necessary, and based on our discussion from the previous section we would argue that, specifically, a network analytic procedure is required. \citet{cranmer:etal:2016} follow \citet{ingold:fischer:2014} in developing a model specification. We do not review the specification in detail here, instead we just provide a summary of the variables to be included and the theoretical expectations of their effects in Table~\ref{tab:theorySpec}. 
+
+\newcolumntype{L}{>{\arraybackslash}m{9cm}}
+\begin{table}[ht]
+\centering
+\begingroup\scriptsize
+\begin{tabular}{lLc}
+\footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} & \footnotesize{\textbf{Expected Effect}} \\ \hline\hline
+	\multicolumn{3}{l}{\textbf{Conflicting policy preferences}} \\ 
+	\quad Business v. NGO & Binary, dyadic covariate that equals one when one actor is from the business sector and the other an NGO & $-$ \\
+	\quad Opposition/alliance & Binary, dyadic covariate that equals one when $i$, sender, perceives $j$, receiver, as having similar policy objectives regarding climate change  & $+$ \\
+	\quad Preference dissimilarity & Transformation of four core beliefs into a Manhattan distance matrix, smaller the distance the closer the beliefs of $i$ and $j$ & $-$ \\ 
+	\multicolumn{3}{l}{\textbf{Transaction costs}} \\ 
+	\quad Joint forum participation & Binary, dyadic covariate that equals one when $i$ and $j$ belong to the same policy forum & $+$ \\ 
+	\multicolumn{3}{l}{\textbf{Influence}} \\ 
+	\quad Influence attribution & Binary, dyadic covariate that equals one when $i$ considers $j$ to be influential & $+$ \\
+	\quad Alter's influence in-degree & Number of actors that mention $i$ as being influential, this is a measure of reputational power & $+$ \\
+	\quad Influence absolute diff. & Absolute difference in reputational power between $i$ and $j$ & $-$ \\
+	\quad Alter = Government Actor & Binary, nodal covariate that equals one when $j$ is a state actor & $+$ \\ 
+	\multicolumn{3}{l}{\textbf{Functional requirements}} \\ 
+	\quad Ego = Environment NGO & Binary, nodal covariate that equals one when $i$ is an NGO & $+$ \\
+	\quad Same actor type & Binary, dyadic covariate that equals when $i$ and $j$ are the same actor type & $+$ \\ 
+	\multicolumn{3}{l}{\textbf{Endogenous dependencies: ERGM Specific Parameters}} \\ 
+	\quad Mutuality & Captures concept of reciprocity, if $i$ indicates they collaborated with $j$ then $j$ likely collaborates with $i$ & $+$\\
+	\quad Outdegree popularity & Captures idea that actors sending more ties will be more popular targets themselves for collaboration  & $+$ \\
+	\quad Twopaths & Counts the number of two-paths in the network, two-path is an instance where $i$ is connected to $j$, $j$ to $k$, but $i$ is not connected to $k$ & $-$ \\
+	\quad GWIdegree (2.0) & Captures how many ties a node sends in the network, used to capture networks with some nodes that are highly active  & $+$ \\
+	\quad GWESP (1.0) & Counts the number of shared partners for each pair and sums across  & $+$ \\
+	\quad GWOdegree (0.5) & Captures how many ties a node receives in the network, used to capture networks with some nodes that are highly popular  & $+$ \\
+\hline\hline
+\end{tabular}
+\endgroup
+\caption{Summary of variables to be included in model specification. With the exception of mutuality, each of the parameters falling in the Endogenous dependencies grouping are only explicitly testable through ERGM. }
+\label{tab:theorySpec}
+\end{table}
+\FloatBarrier
 
 \subsection{Parameter Estimates}
+
+Using the specification described in Table~\ref{tab:theorySpec} we compare five different modeling approaches. The first two approaches are a simple logistic model and the MRQAP.  
 
 \input{regTable.tex}
 \FloatBarrier

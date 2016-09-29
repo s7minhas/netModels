@@ -4,8 +4,10 @@
 loadPkg('btergm')
 
 # gof names
-gofNames = c("Dyad-wise shared partners", "Edge-wise shared partners", "Geodesic distances", "Indegree", "Outdegree", "Incoming k-star")
-gofMethods = c(btergm::dsp, btergm::esp, btergm::geodesic, btergm::ideg, btergm::odeg, btergm::istar)
+gofNames = c("Dyad-wise shared partners", "Edge-wise shared partners", 
+	"Geodesic distances", "Indegree", "Outdegree", "Incoming k-star")
+gofMethods = c(btergm::dsp, btergm::esp, btergm::geodesic, btergm::ideg, 
+	btergm::odeg, btergm::istar)
 
 # generate gof stats
 getNetStats = function(mat, methodNames=gofNames, methods=gofMethods){
@@ -16,7 +18,8 @@ getNetStats = function(mat, methodNames=gofNames, methods=gofMethods){
 	return(netSumm) }
 
 # get gof dist from lseucl
-getLsGof = function(gofObject, lsVars=c('.dspart', '.espart', '.dist','.ideg','.odeg'), netNames=gofNames[1:5]){
+getLsGof = function(gofObject, lsVars=c('.dspart', '.espart', '.dist','.ideg','.odeg'), 
+	netNames=gofNames[1:5]){
 	lsDist = lapply(lsVars, function(v){
 		tmp=data.matrix( gofObject[[paste0('psim',v)]] )
 		colnames(tmp) = rownames(gofObject[[paste0('pval', v)]])
@@ -68,9 +71,12 @@ ggGof = function(
 	tmp=ggplot(data, aes(obs2, value, color=model)) + 
 		# geom_point(size=.1, alpha=.25, position=position_jitterdodge(dodge.width=modSpace)) +
 		# geom_boxplot(outlier.shape=NA, position=position_dodge(width=modSpace), width=.1) +		
-		geom_linerange(aes(ymin=lo95, ymax=hi95), size=.2, position=position_dodge(width=modSpace)) +
-		geom_linerange(aes(ymin=lo90, ymax=hi90), size=.8, position=position_dodge(width=modSpace)) +		
-		geom_errorbar(aes(ymin=actual, ymax=actual, x=obs2), color='grey50', width=actWidth, size=1.5) +
+		geom_linerange(aes(ymin=lo95, ymax=hi95), size=.2, 
+			position=position_dodge(width=modSpace)) +
+		geom_linerange(aes(ymin=lo90, ymax=hi90), size=.8, 
+			position=position_dodge(width=modSpace)) +		
+		geom_errorbar(aes(ymin=actual, ymax=actual, x=obs2), 
+			color='grey50', width=actWidth, size=1.5) +
 		geom_point(aes(y=mu, shape=model), size=3, position=position_dodge(width=modSpace)) + 
 		xlab('') + ylab('Frequency') + ylim(0,NA) + 
 		facet_wrap(~var, scales='free', nrow=pRows, ncol=pCols) + 

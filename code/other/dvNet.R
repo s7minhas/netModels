@@ -1,56 +1,64 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
-loadPkg(c('igraph'))
+loadPkg(c('igraph','RColorBrewer'))
 
 # collaboration; directed network
 collab <- as.matrix(read.table(file = paste0(dataPath, "climate0205-collab.csv"), 
     header = TRUE, row.names = 1, sep = ";"))
 gCollab = graph_from_adjacency_matrix(collab, mode='directed', diag=FALSE)
+actorType = as.matrix(read.table(file = paste0(dataPath, "climate0205-type.csv"), 
+    header = TRUE, row.names = 1, sep = ";"))[,2]
+actorType2 = paste0(toupper(substr(actorType, 1, 1)), substr(actorType, 2, nchar(actorType)))
+actorType2[actorType2=='Ngo']='NGO' ; actorType2[actorType2=='Gov']='State'
+typeKey = data.frame(type=unique(actorType), stringsAsFactors=FALSE)
+typeKey$col = brewer.pal(nrow(typeKey), 'Accent')
 
 # add g attribs
-gCollab$vSize = degree(gCollab, mode='in')
-pal = colorRampPalette(c('#649173','#DBD5A4'))
-pal = colorRampPalette(c('#E6DADA','#274046'))
-pal = colorRampPalette(c('white','black'))
-gCollab$vColor = pal(7)[as.numeric(cut(degree(gCollab, mode='out'), breaks=7))]
+gCollab$vSizeOut = degree(gCollab, mode='out')
+gCollab$vSizeIn = degree(gCollab, mode='in')
+gCollab$type = actorType2
+gCollab$typeCol = typeKey$col[match(gCollab$type, typeKey$type)]
+
+# define layout
+set.seed(6886) ; nodeLayout = layout_with_fr(gCollab)
 
 # plot g
-set.seed(6886)
-fName = paste0(graphicsPath, 'dvNet.pdf')
-pdf(file=fName, width=7.5, height=6)
-plot(
-	gCollab,
-	layout=layout_components,
-	vertex.label=NA, 
-	vertex.color=gCollab$vColor,
-	vertex.size=gCollab$vSize,
-	edge.arrow.size=.3,
-	asp=FALSE		
-	)
-dev.off()
-system( paste0('pdfcrop ', fName, ' ', fName) )
+# pwidth=7.5, pheight=6
+dvPlot = function(vertSize, textLab, 
+	saveNet=TRUE, fName=NULL, inclLegend=TRUE,
+	pwidth=7.5, pheight=7.5){
+	if(saveNet){ pdf(file=fName, width=pwidth, height=pheight) }
+	plot( gCollab,
+		layout=nodeLayout,
+		vertex.label=NA, 
+		vertex.color=gCollab$typeCol,
+		vertex.size=vertSize,
+		edge.arrow.size=.4,
+		asp=FALSE )
+	text(x=.25, y=.8, textLab, cex=1.5)
+	if(inclLegend){ legend(x=-1.2, y=.1, typeKey$type, pch=21, col="black", pt.bg=typeKey$col, 
+		pt.cex=2, cex=1.25, bty="n", ncol=1) }
+	if(saveNet){ dev.off() ; system( paste0('pdfcrop ', fName, ' ', fName) ) }
+}
 
-# Load some covariate info
-load(paste0(dataPath, 'data.rda'))
-covars = cbind(ngo=Xs[,'ngo.ofactor'], gov=Xr[,'gov.ifactor'])
+dvPlot(vertSize=gCollab$vSizeOut, 
+	textLab='Node Size Function of Out-Degree',fName=paste0(graphicsPath,'dvNet_outDegree.pdf'))
+dvPlot(vertSize=gCollab$vSizeIn, inclLegend=FALSE,
+	textLab='Node Size Function of In-Degree',fName=paste0(graphicsPath,'dvNet_inDegree.pdf'))
 
-# Add g attribs to distinguish different types of nodes
-gCollab$shapeType = rep('circle', nrow(covars))
-gCollab$shapeType[which(covars[,'ngo']==1)] = 'square'
-gCollab$shapeType[which(covars[,'gov']==1)] = 'rectangle'
+#################
+# descriptives by actorType
+actorTypeOutDegree = lapply(unique(actorType), function(x){
+	matSub = collab[names(actorType[actorType==x]),]
+	return( rowSums(matSub) ) }) ; names(actorTypeOutDegree) = unique(actorType)
+sort(unlist(lapply(actorTypeOutDegree, mean)))
 
-set.seed(6886)
-plot(
-	gCollab,
-	layout=layout_components,
-	vertex.label=NA, 
-	vertex.color=gCollab$vColor,
-	vertex.size=gCollab$vSize,
-	vertex.shape=gCollab$shapeType,
-	edge.arrow.size=.3,
-	asp=FALSE		
-	)
+actorTypeInDegree = lapply(unique(actorType), function(x){
+	matSub = collab[,names(actorType[actorType==x])]
+	return( colSums(matSub) ) }) ; names(actorTypeInDegree) = unique(actorType)
+sort(unlist(lapply(actorTypeInDegree, mean)))
+#################
 
 #################
 # outdegree 
