@@ -148,8 +148,8 @@ if( !file.exists(paste0(dataPath, 'data.rda')) ){
 
 #### create data with missingness for cross val perf test
 if( !file.exists(paste0(dataPath, 'dvForCrossval.rda')) ){
-  k=4
-  set.seed(6886) ; rpos = sample(1:k, length(collab), replace=TRUE)
+  k=64
+  set.seed(seed) ; rpos = sample(1:k, length(collab), replace=TRUE)
   rposmat = matrix(rpos, nrow=nrow(Y), ncol=ncol(Y))
   diag(rposmat) = NA
 
@@ -164,5 +164,12 @@ if( !file.exists(paste0(dataPath, 'dvForCrossval.rda')) ){
   })
   yAct = lapply(1:k, function(x){ Y[which(rposmat==x)] })
 
-  save(yMiss, nw.collabMiss, yAct, file=paste0(dataPath, 'dvForCrossval.rda')) 
+  save(
+    yMiss, nw.collabMiss, yAct, rposmat, # dv info
+    collab.t, priv.ngo, forum, infrep, prefdist, allopp, # ergm covars
+    gov.ifactor, ngo.ofactor, # lsm covars
+    covariates, # qap covars
+    logit.data, # glm covars
+    seed, # other
+    file=paste0(dataPath, 'dvForCrossval.rda')) 
 }
