@@ -124,7 +124,7 @@ covariates <- list(priv.ngo, allopp, prefdist, forum, infrep,
     influence.icov, influence.absdiff, gov.ifactor, ngo.ofactor, 
     type.nodematch, collab.t)
 
-# Build data for amen/gbme
+# Build data for amen
 n = length(unique(logit.data$rows))
 Y = matrix(logit.data$collab, nrow=n)
 Xs = matrix(logit.data$ngo.ofactor, nrow=n, ncol=1, dimnames=list(NULL, 'ngo.ofactor'))
@@ -132,8 +132,8 @@ Xr = data.matrix( unique(logit.data[,c('gov.ifactor','influence.icov','cols')])[
 dvars=setdiff(names(logit.data), c('collab','ngo.ofactor','gov.ifactor','influence.icov','collab.t','rows','cols'))
 Xd = array(NA, dim=c(n, n, length(dvars)), dimnames=list(NULL,NULL,dvars))
 
-for(ii in 1:dim(Xd)[3]){
-  var = dimnames(Xd)[[3]][ii]
+for(p in 1:dim(Xd)[3]){
+  var = dimnames(Xd)[[3]][p]
   toadd = matrix(logit.data[,var], nrow=n)
   Xd[,,var] = toadd
 }
@@ -144,4 +144,25 @@ if( !file.exists(paste0(dataPath, 'data.rda')) ){
     logit.data, 
     nw.collab, covariates, 
     file=paste0(dataPath, 'data.rda'))  
+}
+
+#### create data with missingness for cross val perf test
+if( !file.exists(paste0(dataPath, 'dvForCrossval.rda')) ){
+  k=4
+  set.seed(6886) ; rpos = sample(1:k, length(collab), replace=TRUE)
+  rposmat = matrix(rpos, nrow=nrow(Y), ncol=ncol(Y))
+  diag(rposmat) = NA
+
+  yMiss = lapply(1:k, function(x){ tmp=Y ; tmp[which(rposmat==x)]=NA ; return(tmp) })
+  nw.collabMiss = lapply(1:k, function(x){
+    tmp=collab ; tmp[which(rposmat==x)]=NA
+    nwTmp = network(tmp)
+    set.vertex.attribute(nwTmp, "orgtype", types)  # store attributes in network
+    set.vertex.attribute(nwTmp, "betweenness", betweenness(nw.collab))
+    set.vertex.attribute(nwTmp, "influence", degree(infrep, cmode = "indegree"))   
+    return(nwTmp)
+  })
+  yAct = lapply(1:k, function(x){ Y[which(rposmat==x)] })
+
+  save(yMiss, nw.collabMiss, yAct, file=paste0(dataPath, 'dvForCrossval.rda')) 
 }
