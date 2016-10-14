@@ -1,6 +1,6 @@
 # Majority of code from cranmer et al. repl file
 ########## LOAD PACKAGES AND SET RANDOM SEED ##########
-rm(list=ls())
+if( !exists('fergmm')  ){ rm(list=ls()) } 
 
 seed <- 12345
 set.seed(seed)
@@ -124,21 +124,21 @@ covariates <- list(priv.ngo, allopp, prefdist, forum, infrep,
     influence.icov, influence.absdiff, gov.ifactor, ngo.ofactor, 
     type.nodematch, collab.t)
 
-# Build data for amen
-n = length(unique(logit.data$rows))
-Y = matrix(logit.data$collab, nrow=n)
-Xs = matrix(logit.data$ngo.ofactor, nrow=n, ncol=1, dimnames=list(NULL, 'ngo.ofactor'))
-Xr = data.matrix( unique(logit.data[,c('gov.ifactor','influence.icov','cols')])[,-3] ) ; rownames(Xr) = NULL
-dvars=setdiff(names(logit.data), c('collab','ngo.ofactor','gov.ifactor','influence.icov','collab.t','rows','cols'))
-Xd = array(NA, dim=c(n, n, length(dvars)), dimnames=list(NULL,NULL,dvars))
-
-for(p in 1:dim(Xd)[3]){
-  var = dimnames(Xd)[[3]][p]
-  toadd = matrix(logit.data[,var], nrow=n)
-  Xd[,,var] = toadd
-}
-
+#### create data for amen
 if( !file.exists(paste0(dataPath, 'data.rda')) ){
+  # Build data for amen
+  n = length(unique(logit.data$rows))
+  Y = matrix(logit.data$collab, nrow=n)
+  Xs = matrix(logit.data$ngo.ofactor, nrow=n, ncol=1, dimnames=list(NULL, 'ngo.ofactor'))
+  Xr = data.matrix( unique(logit.data[,c('gov.ifactor','influence.icov','cols')])[,-3] ) ; rownames(Xr) = NULL
+  dvars=setdiff(names(logit.data), c('collab','ngo.ofactor','gov.ifactor','influence.icov','collab.t','rows','cols'))
+  Xd = array(NA, dim=c(n, n, length(dvars)), dimnames=list(NULL,NULL,dvars))
+
+  for(p in 1:dim(Xd)[3]){
+    var = dimnames(Xd)[[3]][p]
+    toadd = matrix(logit.data[,var], nrow=n)
+    Xd[,,var] = toadd }
+
   save(
     Y, Xd, Xs, Xr, n, 
     logit.data, 
@@ -148,7 +148,7 @@ if( !file.exists(paste0(dataPath, 'data.rda')) ){
 
 #### create data with missingness for cross val perf test
 if( !file.exists(paste0(dataPath, 'dvForCrossval.rda')) ){
-  k=64
+  k=45 # k=64
   set.seed(seed) ; rpos = sample(1:k, length(collab), replace=TRUE)
   rposmat = matrix(rpos, nrow=nrow(Y), ncol=ncol(Y))
   diag(rposmat) = NA
