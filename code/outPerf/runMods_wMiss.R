@@ -153,96 +153,96 @@ yAct = yAct[1:subK]
 # rm(list='modsLogit')
 # ##########
 
-##########
-# amen
-loadPkg('devtools') ; devtools::install_github('s7minhas/amen') ; library(amen)
-load(paste0(dataPath, 'data.rda'))
-imps = 100000
-brn = 50000
-ods = 10
+# ##########
+# # amen
+# loadPkg('devtools') ; devtools::install_github('s7minhas/amen') ; library(amen)
+# load(paste0(dataPath, 'data.rda'))
+# imps = 100000
+# brn = 50000
+# ods = 10
 
-latDims = 2
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
-modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
+# latDims = 2
+# cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
+# modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
-    dv = yMiss[[ii]]
-    ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
-        model='bin', symmetric=FALSE, R=latDims, 
-        nscan=imps, seed=seed, burn=brn, odens=ods, 
-        rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
-        plot=FALSE, print=FALSE) 
-    preds = ameFit$'EZ'[which(rposmat==ii)]
-    prob = 1/(1+exp(-preds))
-    pred = data.frame(prob=prob, actual=yAct[[ii]])
-    summ = list(mod=ameFit, pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
-rm(list='modsAme')
+#     dv = yMiss[[ii]]
+#     ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
+#         model='bin', symmetric=FALSE, R=latDims, 
+#         nscan=imps, seed=seed, burn=brn, odens=ods, 
+#         rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
+#         plot=FALSE, print=FALSE) 
+#     preds = ameFit$'EZ'[which(rposmat==ii)]
+#     prob = 1/(1+exp(-preds))
+#     pred = data.frame(prob=prob, actual=yAct[[ii]])
+#     summ = list(mod=ameFit, pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
+# rm(list='modsAme')
 
-##########
-# other ame parameterizations
-latDims = 1
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
-modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
+# ##########
+# # other ame parameterizations
+# latDims = 1
+# cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
+# modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
-    dv = yMiss[[ii]]
-    ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
-        model='bin', symmetric=FALSE, R=latDims, 
-        nscan=imps, seed=seed, burn=brn, odens=ods, 
-        rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
-        plot=FALSE, print=FALSE) 
-    preds = ameFit$'EZ'[which(rposmat==ii)]
-    prob = 1/(1+exp(-preds))
-    pred = data.frame(prob=prob, actual=yAct[[ii]])
-    summ = list(mod=ameFit, pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
-rm(list='modsAme')
+#     dv = yMiss[[ii]]
+#     ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
+#         model='bin', symmetric=FALSE, R=latDims, 
+#         nscan=imps, seed=seed, burn=brn, odens=ods, 
+#         rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
+#         plot=FALSE, print=FALSE) 
+#     preds = ameFit$'EZ'[which(rposmat==ii)]
+#     prob = 1/(1+exp(-preds))
+#     pred = data.frame(prob=prob, actual=yAct[[ii]])
+#     summ = list(mod=ameFit, pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
+# rm(list='modsAme')
 
-latDims = 3
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
-modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
+# latDims = 3
+# cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
+# modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
-    dv = yMiss[[ii]]
-    ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
-        model='bin', symmetric=FALSE, R=latDims, 
-        nscan=imps, seed=seed, burn=brn, odens=ods, 
-        rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
-        plot=FALSE, print=FALSE) 
-    preds = ameFit$'EZ'[which(rposmat==ii)]
-    prob = 1/(1+exp(-preds))
-    pred = data.frame(prob=prob, actual=yAct[[ii]])
-    summ = list(mod=ameFit, pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
-rm(list='modsAme')
+#     dv = yMiss[[ii]]
+#     ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
+#         model='bin', symmetric=FALSE, R=latDims, 
+#         nscan=imps, seed=seed, burn=brn, odens=ods, 
+#         rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
+#         plot=FALSE, print=FALSE) 
+#     preds = ameFit$'EZ'[which(rposmat==ii)]
+#     prob = 1/(1+exp(-preds))
+#     pred = data.frame(prob=prob, actual=yAct[[ii]])
+#     summ = list(mod=ameFit, pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
+# rm(list='modsAme')
 
-latDims = 4
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
-modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
+# latDims = 4
+# cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
+# modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
-    dv = yMiss[[ii]]
-    ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
-        model='bin', symmetric=FALSE, R=latDims, 
-        nscan=imps, seed=seed, burn=brn, odens=ods, 
-        rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
-        plot=FALSE, print=FALSE) 
-    preds = ameFit$'EZ'[which(rposmat==ii)]
-    prob = 1/(1+exp(-preds))
-    pred = data.frame(prob=prob, actual=yAct[[ii]])
-    summ = list(mod=ameFit, pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
-rm(list='modsAme')
-##########
+#     dv = yMiss[[ii]]
+#     ameFit = ameTest(Y=dv, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
+#         model='bin', symmetric=FALSE, R=latDims, 
+#         nscan=imps, seed=seed, burn=brn, odens=ods, 
+#         rvar=TRUE, cvar=TRUE,  # row and column effects, standard in srm
+#         plot=FALSE, print=FALSE) 
+#     preds = ameFit$'EZ'[which(rposmat==ii)]
+#     prob = 1/(1+exp(-preds))
+#     pred = data.frame(prob=prob, actual=yAct[[ii]])
+#     summ = list(mod=ameFit, pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
+# rm(list='modsAme')
+# ##########
 
 ##########
 # other latentnet parameterizations
@@ -276,7 +276,7 @@ modsLsSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar
     return(summ)
 }
 stopCluster(cl)
-save(modsLs, file=paste0(resultsPath, 'euclSenRecLatSpaceOutPerfResults.rda'))
+save(modsLsSR, file=paste0(resultsPath, 'euclSenRecLatSpaceOutPerfResults.rda'))
 rm(list='modsLsSR')
 
 cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
@@ -307,6 +307,6 @@ modsLsBilSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna')
     return(summ)
 }
 stopCluster(cl)
-save(modsLsBil, file=paste0(resultsPath, 'bilSenRecLatSpaceOutPerfResults.rda'))
+save(modsLsBilSR, file=paste0(resultsPath, 'bilSenRecLatSpaceOutPerfResults.rda'))
 rm(list='modsLsBilSR')
 ##########
