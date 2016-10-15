@@ -39,7 +39,6 @@ aucSumm = do.call('rbind',
 		} ) ) ; rownames(aucSumm) = names(predDfs)
 aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
-print(aucSumm)
  
 # Write out tex
 print.xtable( xtable(aucSumm, align='lcc', 
@@ -85,7 +84,7 @@ rocPrData = do.call('rbind', rocPrData)
 
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
 	guides(linetype=FALSE, color=FALSE) + 
-	geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
+	# geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
 	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
 		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
 	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
@@ -95,6 +94,3 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 		family='Source Sans Pro Light')
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSample.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################
-
-system(paste0('open ', graphicsPath, 'roc_outSample.pdf'))
-system(paste0('open ', graphicsPath, 'rocPr_outSample.pdf'))

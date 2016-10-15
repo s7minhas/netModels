@@ -6,13 +6,6 @@ loadPkg(c('doParallel', 'foreach'))
 cores = min(8, length(nw.collabMiss))
 
 ##########
-# subK = 16
-# nw.collabMiss = nw.collabMiss[1:subK]
-# yMiss = yMiss[1:subK]
-# yAct = yAct[1:subK]
-##########
-
-##########
 # ergm model
 cl=makeCluster(cores) ; registerDoParallel(cl)
 modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
@@ -250,6 +243,7 @@ stopCluster(cl)
 save(modsLsSR, file=paste0(resultsPath, 'euclSenRecLatSpaceOutPerfResults.rda'))
 rm(list='modsLsSR')
 
+# latentnet bil mod
 cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsBil = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
     fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
@@ -279,6 +273,7 @@ stopCluster(cl)
 save(modsLsBil, file=paste0(resultsPath, 'bilLatSpaceOutPerfResults.rda'))
 rm(list='modsLsBil')
 
+# latentnet bil mod with s + r
 cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsBilSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
     fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
