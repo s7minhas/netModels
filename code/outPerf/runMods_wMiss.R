@@ -6,51 +6,51 @@ loadPkg(c('doParallel', 'foreach'))
 cores = min(8, length(nw.collabMiss))
 
 ##########
-subK = 16
-nw.collabMiss = nw.collabMiss[1:subK]
-yMiss = yMiss[1:subK]
-yAct = yAct[1:subK]
+# subK = 16
+# nw.collabMiss = nw.collabMiss[1:subK]
+# yMiss = yMiss[1:subK]
+# yAct = yAct[1:subK]
 ##########
 
-##########
-# ergm model
-cl=makeCluster(cores) ; registerDoParallel(cl)
-modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
+# ##########
+# # ergm model
+# cl=makeCluster(cores) ; registerDoParallel(cl)
+# modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
 
-    dv = nw.collabMiss[[ii]]
-    mod <- ergm(dv ~ 
-        edges + 
-        edgecov(collab.t) + 
-        nodeifactor("orgtype", base = -1) + 
-        nodeofactor("orgtype", base = -2) + 
-        nodematch("orgtype") + 
-        edgecov(priv.ngo) + 
-        edgecov(forum) + 
-        edgecov(infrep) + 
-        nodeicov("influence") + 
-        absdiff("influence") + 
-        edgecov(prefdist) + 
-        edgecov(allopp) + 
-        odegreepopularity + 
-        twopath + 
-        gwidegree(2, fixed = TRUE) + 
-        gwesp(1, fixed = TRUE) + 
-        gwodegree(0.5, fixed = TRUE),
-        eval.loglik = TRUE, check.degeneracy = TRUE, control = control.ergm(seed = seed) )
-    sim = simulate.ergm(mod,nsim=1000)
-    probs = Reduce('+', lapply(sim, as.sociomatrix) ) / length(sim)
-    oProbs = probs[which(rposmat==ii)]
-    pred = data.frame(prob=oProbs, actual=yAct[[ii]])
-    summ=list(mod=mod,sim=sim,pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsErgm, file=paste0(resultsPath, 'ergmOutPerfResults.rda'))
-rm(list='modsErgm')
-##########
+#     dv = nw.collabMiss[[ii]]
+#     mod <- ergm(dv ~ 
+#         edges + 
+#         edgecov(collab.t) + 
+#         nodeifactor("orgtype", base = -1) + 
+#         nodeofactor("orgtype", base = -2) + 
+#         nodematch("orgtype") + 
+#         edgecov(priv.ngo) + 
+#         edgecov(forum) + 
+#         edgecov(infrep) + 
+#         nodeicov("influence") + 
+#         absdiff("influence") + 
+#         edgecov(prefdist) + 
+#         edgecov(allopp) + 
+#         odegreepopularity + 
+#         twopath + 
+#         gwidegree(2, fixed = TRUE) + 
+#         gwesp(1, fixed = TRUE) + 
+#         gwodegree(0.5, fixed = TRUE),
+#         eval.loglik = TRUE, check.degeneracy = TRUE, control = control.ergm(seed = seed) )
+#     sim = simulate.ergm(mod,nsim=1000)
+#     probs = Reduce('+', lapply(sim, as.sociomatrix) ) / length(sim)
+#     oProbs = probs[which(rposmat==ii)]
+#     pred = data.frame(prob=oProbs, actual=yAct[[ii]])
+#     summ=list(mod=mod,sim=sim,pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsErgm, file=paste0(resultsPath, 'ergmOutPerfResults.rda'))
+# rm(list='modsErgm')
+# ##########
 
 #########
-latentnet mod
+# latentnet mod
 cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLs = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% {
     fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
@@ -79,35 +79,6 @@ modsLs = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% 
 stopCluster(cl)
 save(modsLs, file=paste0(resultsPath, 'euclLatSpaceOutPerfResults.rda'))
 rm(list='modsLs')
-
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
-modsLsBil = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
-    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
-    
-    dv = nw.collabMiss[[ii]]
-    mod <- ergmm(dv ~ 
-        bilinear(d = 2, G = 0) +  # 2 dimensions and 0 clusters
-        edgecov(gov.ifactor) + 
-        edgecov(ngo.ofactor) + 
-        nodematch("orgtype") + 
-        edgecov(priv.ngo) + 
-        edgecov(forum) + 
-        edgecov(infrep) + 
-        nodeicov("influence") + 
-        absdiff("influence") + 
-        edgecov(prefdist) + 
-        edgecov(allopp), 
-        seed = seed, 
-        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )
-    probs = predict(mod)
-    oProbs = probs[which(rposmat==ii)]
-    pred = data.frame(prob=oProbs, actual=yAct[[ii]])
-    summ=list(mod=mod,pred=pred)  
-    return(summ)
-}
-stopCluster(cl)
-save(modsLsBil, file=paste0(resultsPath, 'bilLatSpaceOutPerfResults.rda'))
-rm(list='modsLsBil')
 ##########
 
 ##########
@@ -278,6 +249,35 @@ modsLsSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar
 stopCluster(cl)
 save(modsLsSR, file=paste0(resultsPath, 'euclSenRecLatSpaceOutPerfResults.rda'))
 rm(list='modsLsSR')
+
+cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
+modsLsBil = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
+    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
+    
+    dv = nw.collabMiss[[ii]]
+    mod <- ergmm(dv ~ 
+        bilinear(d = 2, G = 0) +  # 2 dimensions and 0 clusters
+        edgecov(gov.ifactor) + 
+        edgecov(ngo.ofactor) + 
+        nodematch("orgtype") + 
+        edgecov(priv.ngo) + 
+        edgecov(forum) + 
+        edgecov(infrep) + 
+        nodeicov("influence") + 
+        absdiff("influence") + 
+        edgecov(prefdist) + 
+        edgecov(allopp), 
+        seed = seed, 
+        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )
+    probs = predict(mod)
+    oProbs = probs[which(rposmat==ii)]
+    pred = data.frame(prob=oProbs, actual=yAct[[ii]])
+    summ=list(mod=mod,pred=pred)  
+    return(summ)
+}
+stopCluster(cl)
+save(modsLsBil, file=paste0(resultsPath, 'bilLatSpaceOutPerfResults.rda'))
+rm(list='modsLsBil')
 
 cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsBilSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {

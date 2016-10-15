@@ -34,7 +34,7 @@ aucSumm = do.call('rbind',
 		} ) ) ; rownames(aucSumm) = names(predDfs)
 aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
-aucSumm
+print(aucSumm)
  
 # Write out tex
 print.xtable( xtable(aucSumm, align='lcc', 
@@ -90,3 +90,6 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 		family='Source Sans Pro Light')
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSample.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################
+
+system(paste0('open ', graphicsPath, 'roc_outSample.pdf'))
+system(paste0('open ', graphicsPath, 'rocPr_outSample.pdf'))
