@@ -148,8 +148,9 @@ if( !file.exists(paste0(dataPath, 'data.rda')) ){
 
 #### create data with missingness for cross val perf test
 if( !file.exists(paste0(dataPath, 'dvForCrossval.rda')) ){
-  k=45 # k=64
-  set.seed(seed) ; rpos = sample(1:k, length(collab), replace=TRUE)
+  load(paste0(dataPath, 'data.rda'))
+  k=45
+  set.seed(6886) ; rpos = sample(1:k, length(collab), replace=TRUE)
   rposmat = matrix(rpos, nrow=nrow(Y), ncol=ncol(Y))
   diag(rposmat) = NA
 

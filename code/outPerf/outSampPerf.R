@@ -6,27 +6,32 @@ loadPkg(c('png','grid'))
 
 ################################################
 # load mod results
-load(paste0(resultsPath, 'logitOutPerfResults.rda')) # logit
-logitPred = do.call('rbind', lapply(modsLogit, function(x){ x$pred })) ; rm(list='modsLogit')
+if( !file.exists( paste0(graphicsPath,'predData_outSample.rda') ) ){
+	load(paste0(resultsPath, 'logitOutPerfResults.rda')) # logit
+	logitPred = do.call('rbind', lapply(modsLogit, function(x){ x$pred })) ; rm(list='modsLogit')
 
-load(paste0(resultsPath, 'qapOutPerfResults.rda')) # qap
-qapPred = do.call('rbind', lapply(modsQap, function(x){ x$pred })) ; rm(list='modsQap')
+	load(paste0(resultsPath, 'qapOutPerfResults.rda')) # qap
+	qapPred = do.call('rbind', lapply(modsQap, function(x){ x$pred })) ; rm(list='modsQap')
 
-load(paste0(resultsPath, 'ergmOutPerfResults.rda')) # ergm
-ergmPred = do.call('rbind', lapply(modsErgm, function(x){ x$pred })) ; rm(list='modsErgm')
+	load(paste0(resultsPath, 'ergmOutPerfResults.rda')) # ergm
+	ergmPred = do.call('rbind', lapply(modsErgm, function(x){ x$pred })) ; rm(list='modsErgm')
 
-load(paste0(resultsPath, 'euclLatSpaceOutPerfResults.rda')) # ls eucl
-lsEuclPred = do.call('rbind', lapply(modsLs, function(x){ x$pred })) ; rm(list='modsLs')
+	load(paste0(resultsPath, 'euclLatSpaceOutPerfResults.rda')) # ls eucl
+	lsEuclPred = do.call('rbind', lapply(modsLs, function(x){ x$pred })) ; rm(list='modsLs')
 
-latDims=2; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
-amePred = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+	latDims=2; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
+	amePred = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+
+	# Organize pred DFs
+	predDfs = list( LSM=lsEuclPred, MRQAP=qapPred, Logit=logitPred, 
+		ERGM=ergmPred, AME=amePred )
+	save(predDfs, file=paste0(graphicsPath,'predData_outSample.rda'))	
+	} else {
+	load(paste0(graphicsPath,'predData_outSample.rda'))
+	}
 ################################################
 
 ################################################
-# Organize pred DFs
-predDfs = list( LSM=lsEuclPred, MRQAP=qapPred, Logit=logitPred, 
-	ERGM=ergmPred, AME=amePred )
-
 # get auc summary
 aucSumm = do.call('rbind', 
 	lapply(predDfs, function(x){ 

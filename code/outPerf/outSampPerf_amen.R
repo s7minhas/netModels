@@ -6,25 +6,29 @@ loadPkg(c('png','grid'))
 
 ################################################
 # load mod results
-latDims=1; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
-amePred1 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+if( !file.exists( paste0(graphicsPath,'predData_outSample_amen.rda') ) ){
+	latDims=1; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
+	amePred1 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
 
-latDims=2; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
-amePred2 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+	latDims=2; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
+	amePred2 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
 
-latDims=3; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
-amePred3 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+	latDims=3; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
+	amePred3 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
 
-latDims=4; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
-amePred4 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+	latDims=4; load(paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda')) # ame
+	amePred4 = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
+
+	# Organize pred DFs
+	predDfs = list( 'AME (k=2)'=amePred2, 'AME (k=1)'=amePred1, 
+		'AME (k=4)'=amePred4, 'AME (k=3)'=amePred3 )
+	save(predDfs, file=paste0(graphicsPath, 'predData_outSample_amen.rda'))
+	} else {
+	load( paste0(graphicsPath, 'predData_outSample_amen.rda') )		
+	}
 ################################################
 
 ################################################
-# Organize pred DFs
-predDfs = list(
-	'AME (k=2)'=amePred2, 'AME (k=1)'=amePred1,
-	'AME (k=4)'=amePred4, 'AME (k=3)'=amePred3 )
-
 # get auc summary
 aucSumm = do.call('rbind', 
 	lapply(predDfs, function(x){ 
