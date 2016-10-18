@@ -56,7 +56,9 @@ rocData = do.call('rbind', rocData)
 
 # model col/lty
 ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')
+ggCols = ggCols[ c(4,2,1,3,5) ]
 ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')
+ggLty = ggLty[ c(4,2,1,3,5) ]
 
 # Separation plots
 sepPngList = lapply(1:length(predDfs), function(ii){
@@ -68,7 +70,7 @@ sepPngList = lapply(1:length(predDfs), function(ii){
 	return(sepG)
 })
 
-tmp = rocPlot(rocData, linetypes=ggLty)+guides(linetype = FALSE, color = FALSE) ; yLo = -.04 ; yHi = .14
+tmp = rocPlot(rocData, linetypes=ggLty, colorManual=ggCols)+guides(linetype = FALSE, color = FALSE) ; yLo = -.04 ; yHi = .14
 for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
@@ -82,7 +84,7 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 	return(p) })
 rocPrData = do.call('rbind', rocPrData)
 
-tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty) +
+tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
 	guides(linetype=FALSE, color=FALSE) + 
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
 	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
