@@ -56,9 +56,7 @@ rocData = do.call('rbind', rocData)
 
 # model col/lty
 ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')
-ggCols = ggCols[ c(4,2,1,3,5) ]
 ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')
-ggLty = ggLty[ c(4,2,1,3,5) ]
 
 # Separation plots
 sepPngList = lapply(1:length(predDfs), function(ii){

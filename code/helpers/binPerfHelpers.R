@@ -28,7 +28,7 @@ rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', co
 
   if(type=='pr'){ 
     tmp=ggplot(rocData, aes(x=rec, y=prec, color=model, linetype=model)) + 
-      ylab('Recall') + xlab('Precision')
+      ylab('Precision') + xlab('Recall (True Positive Rate)')
   }
 
   if(is.null(colorManual)){
