@@ -8,6 +8,23 @@
 % -------------------- defaults -------------------- %
 % load lots o' packages
 
+% references
+\usepackage{natbib}
+
+% Fonts
+\usepackage[default,osfigures,scale=0.95]{opensans}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+
+% Generate some fake text
+\usepackage{blindtext}
+
+% % add watermark
+% \usepackage{draftwatermark}
+% \SetWatermarkText{Draft: Do Not Circulate}
+% \SetWatermarkScale{.5}
+% \SetWatermarkColor[gray]{0.9}
+
 % layout control
 \usepackage{geometry}
 \geometry{verbose,tmargin=1.25in,bmargin=1.25in,lmargin=1.1in,rmargin=1.1in}
@@ -23,6 +40,10 @@
 \usepackage{relsize}
 \usepackage{mathtools}
 \usepackage{bm}
+\usepackage[%
+decimalsymbol=.,
+digitsep=fullstop
+]{siunitx}
 
 % restricts float objects to be inserted before end of section
 % creates float barriers
@@ -35,16 +56,8 @@
 \usepackage{multirow}
 \usepackage{longtable}
 
-\usepackage[%
-decimalsymbol=.,
-digitsep=fullstop
-]{siunitx}
-
 % to adapt caption style
 \usepackage[font={small},labelfont=bf]{caption}
-
-% references
-\usepackage{natbib}
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
@@ -71,16 +84,14 @@ digitsep=fullstop
 \usepackage[space]{grffile} % allows us to specify directories that have spaces
 \usepackage{placeins} % prevents floats from moving past a \FloatBarrier
 \usepackage{tikz}
+\usepackage{rotating}
 
 % \usepackage[figuresright]{rotating}
 % \newenvironment{amssidewaysfigure}  {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
 %   {\end{minipage}\end{sidewaysfigure}}
 
-\usepackage{rotating}
-
 % Spacing
-% \usepackage[doublespacing]{setspace}
-\usepackage[singlespacing]{setspace}
+\usepackage[doublespacing]{setspace}
 
 % define clickable links and their colors
 \hypersetup{%
@@ -92,7 +103,7 @@ digitsep=fullstop
 	pdfnewwindow=true,%
 	pagebackref=false,%
 	pdfauthor={Shahryar Minhas},%
-	pdftitle={Let's say Amen for Latent Factor Models},%
+	pdftitle={AMEN for Latent Factor Models},%
 	colorlinks,%
 	citecolor=black,%
 	filecolor=black,%
@@ -100,32 +111,18 @@ digitsep=fullstop
 	urlcolor=RoyalBlue4
 }
 
-% Fonts
-\usepackage[default,osfigures,scale=0.95]{opensans}
-\usepackage[T1]{fontenc}
-\usepackage{ae}
-
-% Generate some fake text
-\usepackage{blindtext}
-
-% add watermark
-\usepackage{draftwatermark}
-\SetWatermarkText{Draft: Do Not Circulate}
-\SetWatermarkScale{.5}
-\SetWatermarkColor[gray]{0.9}
-
 % -------------------------------------------------- %
 
 
 % -------------------- title -------------------- %
 
-\title{Amen for Latent Factor Models}
+\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models}
 \vspace{\baselineskip}
 
 \author[Minhas]{Shahryar Minhas}
 \address{Shahryar Minhas: Department of Political Science}
-\curraddr{Michigan State University}
-\email{s7.minhas@gmail.com}
+\curraddr{Duke University}
+\email{shahryar.minhas@duke.edu}
 
 \author[Hoff]{Peter D. Hoff}
 \address{Peter D. Hoff: Department of Statistics}
@@ -138,6 +135,8 @@ digitsep=fullstop
 \email{michael.d.ward@duke.edu}
 
 \date{\today}
+
+\thanks{This research was partially supported by the National Science Foundation Award 1259266.}
 
 \setlength{\headheight}{15pt}
 \setlength{\headsep}{20pt}
@@ -200,7 +199,8 @@ digitsep=fullstop
 
 % Bib stuff
 \clearpage
-\bibliography{/Users/janus829/whistle/master, /Users/s7m/whistle/master, /Users/mdw/git/whistle/master}
+% \bibliography{{/Users/janus829/whistle/master}, {/Users/s7m/whistle/master}, {/Users/mdw/git/whistle/master}}
+\bibliography{/Users/s7m/whistle/master}
 \bibliographystyle{apsr}
 \newpage
 
