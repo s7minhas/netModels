@@ -70,13 +70,13 @@ digitsep=fullstop
 \usepackage{paralist}
 
 % to colorize links in document. See color specification below
-\usepackage[pdftex,hyperref,x11names]{xcolor}
+%\usepackage[pdftex,hyperref,x11names]{xcolor}
 
 % for multiple references and insertion of the word "figure" or "table"
 % \usepackage{cleveref}
 
 % load the hyper-references package and set document info
-\usepackage[pdftex]{hyperref}
+%\usepackage[pdftex]{hyperref}
 
 % graphics stuff
 \usepackage{subfig}
@@ -92,24 +92,6 @@ digitsep=fullstop
 
 % Spacing
 \usepackage[singlespacing]{setspace}
-
-% define clickable links and their colors
-\hypersetup{%
-	unicode=false,          % non-Latin characters in Acrobat's bookmarks
-	pdftoolbar=true,        % show Acrobat's toolbar?
-	pdfmenubar=true,        % show Acrobat's menu?
-	pdffitwindow=false,     % window fit to page when opened
-	pdfstartview={FitH},    % fits the width of the page to the window
-	pdfnewwindow=true,%
-	pagebackref=false,%
-	pdfauthor={Shahryar Minhas},%
-	pdftitle={AMEN for Latent Factor Models},%
-	colorlinks,%
-	citecolor=black,%
-	filecolor=black,%
-	linkcolor=black,%
-	urlcolor=RoyalBlue4
-}
 
 % -------------------------------------------------- %
 
@@ -155,7 +137,7 @@ digitsep=fullstop
 % -------------------- customizations -------------------- %
 
 % references to graphics
-\makeatletter
+%\makeatletter
 
 % easy commands for number propers
 \newcommand{\first}{$1^{\text{st}}$}
@@ -188,7 +170,7 @@ There is growing interest in the study of political networks. Network analysis a
 }}
 \end{quote}
 
-\newpage\setcounter{page}{1} 
+%\newpage\setcounter{page}{1} 
 
 Network analysis provides a way to represent and study ``relational data'', that is data with characteristics extending beyond those of the individual, or in the parlance of International Relations (IR), characteristics beyond the monadic level. Data structures that extend beyond the monadic level are quite simply the norm when it comes to the study of events such as trade, interstate conflict, or the formation of international agreements. The dominant paradigm in  international relations for dealing with such data structures, however, is not a network approach but rather a dyadic design, in which an interaction between a pair of countries is considered independent of interactions between any other pair in the system.\footnote{To highlight the ubiquity of this approach the following represent just a sampling of the articles published from the 1980s to the present in the American Journal of Political Science (AJPS) and American Political Science Review (APSR) that assume dyadic independence: \citet{dixon:1983,mansfield:etal:2000,lemke:reed:2001a,mitchell:2002,dafoe:2011a,fuhrmann:sechser:2014,carnegie:2014}.} 
 
