@@ -1,4 +1,4 @@
-\documentclass[12pt,onesided,pdflatex]{amsart} 
+\documentclass[12pt,pdflatex]{elsarticle} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
@@ -15,15 +15,13 @@
 \usepackage[default,osfigures,scale=0.95]{opensans}
 \usepackage[T1]{fontenc}
 \usepackage{ae}
+% to colorize links in document. See color specification below
+\usepackage[pdftex,hyperref,x11names]{xcolor}
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
 
 % Generate some fake text
 \usepackage{blindtext}
-
-% % add watermark
-% \usepackage{draftwatermark}
-% \SetWatermarkText{Draft: Do Not Circulate}
-% \SetWatermarkScale{.5}
-% \SetWatermarkColor[gray]{0.9}
 
 % layout control
 \usepackage{geometry}
@@ -69,15 +67,6 @@ digitsep=fullstop
 % lines. f.i. begin{inparaenum} for (a) is (b) and (c)
 \usepackage{paralist}
 
-% to colorize links in document. See color specification below
-%\usepackage[pdftex,hyperref,x11names]{xcolor}
-
-% for multiple references and insertion of the word "figure" or "table"
-% \usepackage{cleveref}
-
-% load the hyper-references package and set document info
-%\usepackage[pdftex]{hyperref}
-
 % graphics stuff
 \usepackage{subfig}
 \usepackage{graphicx}
@@ -86,39 +75,13 @@ digitsep=fullstop
 \usepackage{tikz}
 \usepackage{rotating}
 
-% \usepackage[figuresright]{rotating}
-% \newenvironment{amssidewaysfigure}  {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
-%   {\end{minipage}\end{sidewaysfigure}}
-
 % Spacing
 \usepackage[singlespacing]{setspace}
 
 % -------------------------------------------------- %
 
 
-% -------------------- title -------------------- %
-
-\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models}
-\vspace{\baselineskip}
-
-\author[Minhas]{Shahryar Minhas}
-\address{Shahryar Minhas: Department of Political Science}
-\curraddr{Duke University}
-\email[Corresponding author]{shahryar.minhas@duke.edu}
-
-\author[Hoff]{Peter D. Hoff}
-\address{Peter D. Hoff: Department of Statistics}
-\curraddr{Duke University}
-\email{peter.hoff@duke.edu}
-
-\author[Ward]{Michael D. Ward}
-\address{Michael D. Ward: Department of Political Science}
-\curraddr{Duke University}
-\email{michael.d.ward@duke.edu}
-
-\date{\today}
-
-\thanks{This research was partially supported by the National Science Foundation Award 1259266.}
+% -------------------- page template -------------------- %
 
 \setlength{\headheight}{15pt}
 \setlength{\headsep}{20pt}
@@ -135,9 +98,6 @@ digitsep=fullstop
 
 
 % -------------------- customizations -------------------- %
-
-% references to graphics
-%\makeatletter
 
 % easy commands for number propers
 \newcommand{\first}{$1^{\text{st}}$}
@@ -160,21 +120,48 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% remove silly elsevier preprint note
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{}%
+ \let\@evenfoot\@oddfoot}
+
+\def\input@path{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/}, {/Users/mdw/Dropbox/netModels/summResults/}}
+\graphicspath{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/},{/Users/mdw/Dropbox/netModels/summResults/}}
+\makeatother
+
 \begin{document}
-\maketitle\thispagestyle{empty}
 
-\begin{quote}
-\small{\singlespacing{
-There is growing interest in the study of political networks. Network analysis allows scholars to move away from focusing on individual observations to the interrelationships among observations. Many network approaches have been developed in descriptive fashion, but attention to inferential approaches to network analysis has been growing. We introduce a new approach that models interdependencies among observations using additive and multiplicative effects (AME). This approach can be applied to binary, ordinal, and continuous network data, and provides a set of tools for inference from longitudinal networks as well. We review this approach and compare it to those examined in the recent survey by Cranmer et al. (2016).  The AME approach is shown a) to be easy to implement; b) interpretable in a general linear model framework; c) computationally straightforward; d) not prone to degeneracy; e) captures 1st, 2nd, and 3rd order network dependencies; and f) notably outperforms multiple regression quadratic assignment procedures, exponential random graph models, and alternative latent space approaches on a variety of metrics and in an out-of-sample context. In summary, AME offers a straightforward way to undertake nuanced, principled inferential network analysis for a wide range of social science questions. 
+% saying hello ----------------------------------------------- %
+\thispagestyle{empty}
+\begin{frontmatter}
 
-}}
-\end{quote}
+\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
 
-%\newpage\setcounter{page}{1} 
+\tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
+
+\author[duke]{Shahryar Minhas\corref{cor1}}
+\ead{shahryar.minhas@duke.edu}
+\cortext[cor1]{Corresponding author}
+\author[duke2]{Peter D. Hoff}
+\author[duke]{Michael D. Ward}
+
+\address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
+\address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
+
+\begin{abstract}
+There is growing interest in the study of political networks. Network analysis allows scholars to move away from focusing on individual observations to the interrelationships among observations. Many network approaches have been developed in descriptive fashion, but attention to inferential approaches to network analysis has been growing. We introduce a new approach that models interdependencies among observations using additive and multiplicative effects (AME). This approach can be applied to binary, ordinal, and continuous network data, and provides a set of tools for inference from longitudinal networks as well. We review this approach and compare it to those examined in the recent survey by Cranmer et al. (2016).  The AME approach is shown a) to be easy to implement; b) interpretable in a general linear model framework; c) computationally straightforward; d) not prone to degeneracy; e) captures 1st, 2nd, and 3rd order network dependencies; and f) notably outperforms multiple regression quadratic assignment procedures, exponential random graph models, and alternative latent space approaches on a variety of metrics and in an out-of-sample context. In summary, AME offers a straightforward way to undertake nuanced, principled inferential network analysis for a wide range of social science questions.
+\end{abstract}
+
+\end{frontmatter}
+% ----------------------------------------------- %
+
+\newpage\setcounter{page}{1} 
 
 Network analysis provides a way to represent and study ``relational data'', that is data with characteristics extending beyond those of the individual, or in the parlance of International Relations (IR), characteristics beyond the monadic level. Data structures that extend beyond the monadic level are quite simply the norm when it comes to the study of events such as trade, interstate conflict, or the formation of international agreements. The dominant paradigm in  international relations for dealing with such data structures, however, is not a network approach but rather a dyadic design, in which an interaction between a pair of countries is considered independent of interactions between any other pair in the system.\footnote{To highlight the ubiquity of this approach the following represent just a sampling of the articles published from the 1980s to the present in the American Journal of Political Science (AJPS) and American Political Science Review (APSR) that assume dyadic independence: \citet{dixon:1983,mansfield:etal:2000,lemke:reed:2001a,mitchell:2002,dafoe:2011a,fuhrmann:sechser:2014,carnegie:2014}.} 
 
-% consider replacing "not multilateral" with "bilateral"
 The implication of this assumption is that when, for example, Vietnam and the United States decide to form a trade agreement, they make this decision independently of what they have done with other countries and what other countries in the international system have done among themselves.\footnote{There has been plenty of work done on treaty formation that would challenge this claim, e.g., see \citet{manger:etal:2012,kinne:2013}.} An even stronger assumption is that Japan declaring war against the United States is independent of the decision of the United States to go to war against Japan.\footnote{\citet{maoz:etal:2006,ward:etal:2007,minhas:etal:2016} would each note the importance of taking into account network dynamics in the study of interstate conflict.} A common refrain from those that favor the dyadic approach is that many events are only bilateral \citep{diehl:wright:2016}, thus alleviating the need for an approach that incorporates interdependencies between observations. This is clearly wrong. The network perspective asserts that even bilateral events and processes take place within a broader system. What takes place in one part of the system may be dependent upon events in another. At a minimum, we don't know whether independence of events and processes characterizes what we observe. We should at least examine this assertion.  
 
 The potential for interdependence among observations poses a challenge to theoretical as well as statistical modeling since the assumption made by standard approaches used across the social sciences is that observations are, at least, conditionally independent \citep{snijders:2011}. The consequence of ignoring this assumption have been frequently noted within the political science literature already.\footnote{For example, see \citet{beck:etal:1998,signorino:1999,hoff:ward:2004,franzese:hayes:2007,cranmer:desmarais:2011,erikson:pinto:2014}.}  Just as relevant is the fact that a wealth of research from other disciplines suggests that carrying the independence assumption into a study with relational data is misguided and most often leads to biased inferences.\footnote{From Computer Science see: \citet{bonabeau:2002,brandes:erlebach:2005}. From Economics see: \citet{goyal:2012,jackson:2014}. From Psychology see: \citet{pattison:wasserman:1999,kenny:etal:2006}. From Statistics and Sociology see: \citet{snijders:1996,hoff:etal:2002}.} 
@@ -186,8 +173,6 @@ Specifically, they focus on the exponential random graph model (ERGM), the multi
 In this article, we introduce the additive and multiplicative effects model (AME). To highlight the benefits of this approach, we estimate this model using data from  the application presented in \citet{cranmer:etal:2016} and compare it to the other models presented in that article. By doing so we are able to show that AME provides a far superior goodness of fit to the data than alternative approaches.\footnote{The AME approach has been developed into an $\sf{R}$ package named \pkg{amen} and is available on \href{https://cran.r-project.org/web/packages/amen/index.html}{CRAN} \citep{hoff:etal:2015}. \citet{hoff:2015:arxiv} provides a vignette for this package as well.} Further, through the AME approach we can estimate many different types of cross-sectional and longitudinal relational data (e.g., binomial, gaussian, and ordinal edges) in a straightforward way. The rest of this article proceeds as follows: We briefly motivate the need for network oriented approaches; introduce the AME modeling framework; compare it to previous implementations of latent variable approaches; and then end by showing how this approach fits the application presented in \citet{cranmer:etal:2016}. 
 
 We believe that this modeling framework can provide a flexible and easy to use scheme through which scholars can study relational data. It addresses the issue of interdependence while still allowing scholars to examine theories that may only be relevant in the monadic or dyadic level. Further, at the network level it accounts for nodal and dyadic dependence patterns, and provides a descriptive visualization of higher-order dependencies such as homophily and stochastic equivalence. 
-
-% One approach has been to incorporate endogenous network parameters into extant modeling approaches (e.g., \citealp{fowler:2006, maoz:2009a}). Alternatively, we can employ a network based approach that accounts for and provides a way to measure interdependence. Latent space approach, exponential random graph model. 
 
 \section{\textbf{Addressing Dependencies in Dyadic Data}}
 
@@ -285,15 +270,11 @@ The basic idea here is quite simple, $\mu$ provides a baseline measure of the de
 
 \citet{hoff:2005} shows that the SRM covariance structure described in Equation~\ref{eqn:srmCov} can be incorporated into the systematic component of a GLM framework to produce the social relations regression model (SRRM): $\bm\beta^{T} \mathbf{X}_{ij} + a_{i} + b_{j} + \epsilon_{ij}$, where $ \bm\beta^{T} \mathbf{X}_{ij}$ accommodates the inclusion of dyadic, sender, and receiver covariates. This approach  effectively incorporates row, column, and within-dyad dependence in way that is widely used and understood by applied researchers: a regression framework and additive random effects to accommodate variances and covariances often seen in relational data. Furthermore, this approach can be extended to handle a diversity of outcome distributions (e.g., binomial, ordinal, etc.). In the case of binary data this can be done by utilizing a latent variable representation of a probit regression model. Specifically, we model a latent variable, $\theta_{ij}$, with a linear predictor and we model the error using the SRM from Equation~\ref{eqn:srmCov}: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij} + e_{ij}$. Then we can simply utilize a threshold model linking $\theta_{ij}$ to our observed values of $y_{ij}$, in the case of a binomial outcome distribution the threshold model can be expressed as: $y_{ij} = I(\theta_{ij}>0)$.  This approach can also easily incorporate ordinal and rank-ordered data.
 
-% The result is actually a model that is very similar to the p1 and p2 ERGMs developed by \citet{holland:leinhardt1981} and \citet{duijn:etal:2004}, respectively. 
-
 \subsection{Latent Factor Model: Multiplicative Part of AME}
 
 Missing from the framework provided by the SRM is an accounting of third-order dependence patterns that can arise in relational data. The ubiquity of third-order effects in relational datasets arises from the presence of some set of shared attributes between nodes that affects their probability of interacting with one another.\footnote{Another reason why we may see the emergence of third-order effects is the ``sociology'' explanation: that individuals want to close triads because  this is putatively a more stable or preferable social situation \citep{wasserman:faust:1994}.} For example, one finding from the gravity model of trade is that neighboring countries are more likely to trade with one another; in this case, the shared attribute is simply geographic proximity. A finding common in the political economy literature is that democracies are more likely to form trade agreements with one another, and the shared attribute here is a country's political system. Both geographic proximity and a country's political system are examples of homophily, which captures the idea that the relationships between actors with similar characteristics in a network are likely to be stronger than nodes with different characteristics.\footnote{Homophily can be used to explain the emergence of patterns such as transitivity (``a friend of a friend is a friend'') and balance (``an enemy of a friend is an enemy''). See \citet{shalizi:thomas:2011} for a more detailed discussion on the concept of homophily.} 
 
 More generally, say that we have a binary network where actors tend to form ties to others based on some set of shared characteristics. This often leads to a network graph with a high number of ``transitive triads'', that is, triads in which we have sets of actors $\{i,j,k\}$ each being linked to one another. The left-most plot in Figure~\ref{fig:homphStochEquivNet} provides a representation of a network that exhibits this type of pattern. Structures such as this can develop when the interactions between actors result from some set of shared attributes those actors may possess. The relevant implication of this when it comes to conducting statistical inference is that--unless we are able to specify the list of exogenous variable that may explain this prevalence of triads--the probability of $j$ and $k$ forming a tie is not independent of the ties that already exist between those actors and $i$. 
-
-% the probability of $j$ and $k$ forming a tie is, one, not independent of the ties that already exist between those actors and $i$, and, second, higher than the probability that either of those actors might form a tie with another actor, $l$ with whom they have no shared attributes. 
 
 \begin{figure}[ht]
 	\centering
@@ -336,7 +317,6 @@ In the latent class model, also referred to as the stochastic block model, each 
 
 A latent variable approach that can characterize homophily is the latent distance model developed by \citet{hoff:etal:2002}. In this approach, each node $i$ has some unknown latent position in $K$ dimensional space, $\textbf{u}_{i} \in \mathbb{R}^{K}$, and the probability of a tie between a pair $ij$ is a function of the negative Euclidean distance between them: $-|\textbf{u}_{i} - \textbf{u}_{j}|$. \citet{hoff:etal:2002} show that because latent distances for a triple of actors obey the triangle inequality, this formulation models the tendencies toward homophily commonly found in social networks. This approach has been operationalized in the \pkg{latentnet} package developed by \citet{krivitsky:handcock:2015}. However, this approach also comes with an important shortcoming that leads it to confound stochastic equivalence and homophily. Consider two nodes $i$ and $j$ that are proximate to one another in $K$ dimensional Euclidean space, this suggests not only that $|\textbf{u}_{i} - \textbf{u}_{j}|$ is small but also that $|\textbf{u}_{i} - \textbf{u}_{l}| \approx |\textbf{u}_{j} - \textbf{u}_{l}|$, the result being that nodes $i$ and $j$ will by construction assumed to possess the same relational patterns with other actors such as $l$ (i.e., that they are stochastically equivalent).\footnote{\citet{hoff:2008} shows that the only way to account for a network that exhibits stochastic equivalence through a latent distance model is by setting the number of latent dimensions, $K$, to be on the-order of the class membership size.} Thus latent distance models confound strong ties with stochastic equivalence, meaning that this approach cannot well-represent data where there are many ties between nodes that have different network roles. 
 
-% , and $\textbf{u}_{i}^{T} \Lambda \textbf{u}_{j}$, is calculated by taking the eigendecomposition of an $n \times n$ rank-$R$ matrix
 The last approach that we introduce here is similar to the dominant method used in political science and that is the latent factor model. An early iteration of this approach was presented in \citet{hoff:2005} and introduced to political science by \citet{hoff:ward:2004}, but the revised approach is motivated by an eigenvalue decomposition of a network.\footnote{An important difference in the earlier approaches such as the GBME compared to the model that we present here is that $\Lambda$ was taken to be the identity matrix thus they could not capture stochastic equivalence. This approach should also not be confused with the projection model introduced in \citet{hoff:etal:2002}.} The motivation for this alternative framework stems from the fact that many real networks exhibit varying degrees of stochastic equivalence and homophily. In these situations, using either the latent distance or class model would end up representing only a part of the network structure. In the latent factor model, each actor has an unobserved vector of characteristics, $\textbf{u}_{i} = \{u_{i,1}, \ldots, u_{i,K} \}$, which describe their behavior as an actor in the network. The probability of a tie from $i$ to $j$ depends on the extent to which $\textbf{u}_{i}$ and $\textbf{u}_{j}$ are ``similar'' (i.e., point in the same direction) and on whether the entries of $\Lambda$ are greater than or less than zero. 
 
 More specifically, the similarity in the latent factors, $\textbf{u}_{i} \approx \textbf{u}_{j}$, corresponds to how stochastically equivalent a pair of actors are and the eigenvalue determines whether the network exhibits positive or negative homophily. For example, say that that we estimate a rank-one latent factor model (i.e., $K=1$), in this case $\textbf{u}_{i}$ is represented by a scalar $u_{i,1}$, similarly, $\textbf{u}_{j}=u_{j,1}$, and $\Lambda$ will have just one diagonal element $\lambda$. The average effect this will have on $y_{ij}$ is simply $\lambda \times u_{i} \times u_{j}$, where a positive value of $\lambda>0$ indicates homophily and $\lambda<0$ anti-homophily. \citet{hoff:2008} shows that such a model can represent both homophily and stochastic equivalence, and that the alternative latent variable approaches can be represented as a latent factor model but not vice versa. In the directed version of this approach, we use the singular value decomposition,\footnote{The singular value decomposition is a model based analogue to the eigenvalue decomposition for directed networks.} here actors in the network have a vector of latent characteristics to describe their behavior as a sender, denoted by $\textbf{u}$, and as a receiver, $\textbf{v}$: $\textbf{u}_{i}, \textbf{v}_{j} \in \mathbb{R}^{K}$ \citep{hoff:2009}. These again can alter the probability, or in the continuous case value, of an interaction between $ij$ additively: $\textbf{u}_{i}^{T} \textbf{D} \textbf{v}_{j}$, where $\textbf{D}$ is an $n \times n$ diagonal matrix. 
@@ -356,32 +336,6 @@ In the \pkg{latentnet} package this is done by directly incorporating $|\textbf{
 \end{align}
 
 Using this framework, we are able to model the dyadic observations as conditionally independent given $\bm\theta$, where $\bm\theta$ depends on the the unobserved random effects, $\mathbf{e}$. $\mathbf{e}$ is then modeled to account for the potential first, second, and third-order dependencies that we have discussed. As described in Equation~\ref{eqn:srmCov}, $a_{i} + b_{j}  + \epsilon_{ij}$, are the additive random effects in this framework and account for sender, receiver, and within-dyad dependence. The multiplicative effects, $\textbf{u}_{i}^{T} \textbf{D} \textbf{v}_{j}$, are used to capture higher-order dependence patterns that are left over in $\bm\theta$ after accounting for any known covariate information. Thus the third-order interdependencies captured in the latent factor space of AME are those that could not have been explained by the exogenous nodal and dyadic covariates that have already been included in the model, or the additive row and column random effects. A Bayesian procedure in which parameters are iteratively updated using a Gibbs sampler is available in the \pkg{amen} package to estimate this type of generalized linear mixed effects model from continuous, binary, ordinal, and other relational data types.\footnote{The set of parameters that are estimated in the model from the observed data, $\{\mathbf{Y}, \mathbf{X}\}$, are: latent Gaussian variables ($\bm\theta$); nodal and/or dyadic regression coefficients ($\bm\beta$); additive nodal random effects ($\{(a_{i},b_{i})\} \in \{i=1, \ldots, n \}$); network covariance ($\Sigma_{ab},\, \Sigma_{\epsilon}$); multiplicative effects ($\mathbf{U}$, $\mathbf{V}$, and $\mathbf{D}$). Further details on this process can be found in \citet{hoff:2005} and \citet{hoff:2009}.}
-
-% The quantities to be estimated in this model from the observed data, $\{\mathbf{Y}, \mathbf{X}\}$, are:
-
-% \begin{itemize}
-% 	\item $\bm\theta$: Latent Gaussian variables
-% 	\item $\bm\beta$: Nodal and/or dyadic regression coefficients
-% 	\item $\{(a_{i},b_{i})\} \in \{i=1, \ldots, n \}$: Additive nodal random effects
-% 	\item $\Sigma_{ab},\, \Sigma_{\epsilon}$: Network covariance
-% 
-% \end{itemize}
-
-% \begin{itemize}
-% 	\item $\bm\theta \sim p(\bm\theta | \mathbf{Y}, \mathbf{X}, \beta, \mathbf{a}, \mathbf{b}, \Sigma_{\epsilon}, \mathbf{U}, \mathbf{D}, \mathbf{V})$	
-% 	\item $\bm\beta \sim p(\bm\beta | \mathbf{X}, \bm\theta, \mathbf{a}, \mathbf{b}, \Sigma_{\epsilon}, \mathbf{U}, \mathbf{D}, \mathbf{V})$
-% 	\item $\mathbf{a}, \mathbf{b} \sim p(\mathbf{a}, \mathbf{b} | \mathbf{X}, \bm\theta, \beta, \Sigma_{ab}, \Sigma_{\epsilon}, \mathbf{U}, \mathbf{D}, \mathbf{V})$
-% 	\item $\Sigma_{\epsilon} \sim p(\Sigma_{\epsilon} | \mathbf{X}, \bm\theta, \mathbf{a}, \mathbf{b}, \mathbf{U}, \mathbf{D}, \mathbf{V})$
-% 	\item $\Sigma_{ab} \sim p(\Sigma_{ab} | \mathbf{a}, \mathbf{b}, \mathbf{U}, \mathbf{D}, \mathbf{V})$
-% \end{itemize}
-
-% In describing the estimation approach for the multiplicative effects that are used to capture higher-order dependence, it is useful to rewrite the directed version of the latent factor model as $\mathbf{M} = \mathbf{U}^{T} \mathbf{D} \mathbf{V}$.\footnote{Framing the problem of accounting for third-order interdependencies in this way actually provides a strong motivation for estimating relational data through the type of random effects approach that we are introducing here. See \citet{hoff:2009} for a longer discussion on this topic.} Here $\mathbf{M}$ represents systematic patterns left over in $\bm\theta$ after accounting for any known covariate information and these patterns are being approximated through a model based singular value decomposition \citep{hoff:2009}. Thus the third-order interdependencies captured in the latent factor space of AME are those that could not have been explained by the exogenous nodal and dyadic covariates that have already been included in the model, or the additive row and column random effects. $\mathbf{U}$ and $\mathbf{V}$ are $n \times K$ matrices and $\mathbf{D}=diag\{d_{1}, \ldots, d_{K}\}$. An MCMC scheme that can be used to construct an approximation of the posterior distribution of these parameters involves iterating through $k \in 1, \ldots, K$:
-
-% \begin{itemize}
-% 	\item $\mathbf{U}_{[,k]} \sim p( \mathbf{U}_{[k]} | \bm\theta , \mathbf{U}_{[,-k]}, \mathbf{D}, \mathbf{V} )$
-% 	\item $\mathbf{V}_{[,k]} \sim p( \mathbf{V}_{[k]} | \bm\theta , \mathbf{U}, \mathbf{D}, \mathbf{V}_{[,-k]} )$
-% 	\item $\mathbf{D}_{[k,k]} \sim p( \mathbf{D}_{[k,k]} | \bm\theta , \mathbf{U}, \mathbf{D}_{[-k,-k]}, \mathbf{V} )$
-% \end{itemize}
 
 Taken together, the additive effects portion of AME (described by the SRM) and the multiplicative effects (described by the latent factor model) provide a modeling framework similar to the GLMs that many scholars currently use, and has the benefit of being able to not only deal with interdependencies in relational data but also provide explicit estimates of these dependencies after having taken into account observable information. Specifically, we can obtain degree based effects for actors in the network, the level of reciprocity between actors, and also visualize the third-order interdependencies that remain in the data. This latter point is important to note as effectively using these visualizations may also help users of this approach to determine whether or not the inclusion of some other dyadic or nodal variable is necessary to accounting for patterns such as homophily or stochastic equivalence. 
 
@@ -403,7 +357,7 @@ The MCMC-MLE approach is certainly an advancement but notable problems remain. \
 In the following section we undertake a comparison of the latent distance model, ERGM, and the AME model using an application chosen by \citet{cranmer:etal:2016}.\footnote{We disregard the latent class model here as it is primarily used as a community detection tool.} In doing so, we are able to highlight the benefits that the AME model provides over alternatives such as ERGM and the latent distance model.
 
 
-\section{\textbf{Empirical Comparison}} % better title necessary
+\section{\textbf{Empirical Comparison}} 
 
 To assess how the AME approach compares with alternatives in the literature we utilize the same network dataset as \citet{cranmer:etal:2016}. The reason we use the same dataset is because of the model specification issue that arises when using ERGMs. As \citet[p. 8]{cranmer:etal:2016} note, when using ERGMs scholars must model third-order effects and ``must also specify them in a complete and correct manner'' or the model will be misspecified. Thus to avoid providing an incorrect specification when comparing ERGM with the AME we use the specification that they constructed. 
 
@@ -424,7 +378,6 @@ Figure~\ref{fig:dvNet} provides a pair of visualizations for this directed colla
 
 An important part of our discussion from the previous section revolved around the idea that within network structures we find variation in how active nodes are in engaging with others in the network. To illustrate nodal heterogeneity in the case of the Swiss climate change mitigation networks we weight the size of nodes, in the network on the left, by the number of their outgoing ties, and on the right by their incoming ties. From the network on the left, it is clear that some nodes are much more likely to indicate that they formed collaborations with others. For example, each of the scientific institutions and consultants shown in Figure~\ref{fig:dvNet} indicate that they collaborate with relatively few organizations, especially, in comparison with actors from industry and business. Additionally, there is even variation within actor types as evidenced by differences amongst NGO or political party actors. Similar findings of nodal heterogeneity emerge if we turn our attention to examining nodes by their incoming ties. 
 
-% The cursory discussion above regarding nodal heterogeneity should already point to the importance of taking into account lower-order interdependencies between observations, and given the higher-order structure  
 Obvious from an examination of Figure~\ref{fig:dvNet} is that collaboration among these 34 actors is not simply a function of actor type. To understand what factors may play a role in shaping collaboration in this relational data structure a modeling approach is necessary, and based on our discussion from the previous section we would argue that a network analytic procedure is required. \citet{cranmer:etal:2016} follow \citet{ingold:fischer:2014} in developing a model specification. We do not review the specification in detail here, instead we just provide a summary of the variables to be included and the theoretical expectations of their effects in Table~\ref{tab:theorySpec}. 
 
 \newcolumntype{L}{>{\arraybackslash}m{9cm}}
@@ -528,7 +481,6 @@ Intercept/Edges & -4.44$^{\ast}$ & -4.24$^{\ast}$ & 0.94$^{\ast}$ & -12.17$^{\as
 
 There are also notable differences between the parameter estimates that result from the MRQAP, ERGM, and the AME. Using the AME we find evidence that \texttt{Preference dissimilarity} is associated with a reduced probability of collaboration between a pair of actors, which is in line with the theoretical expectations stated earlier. Additionally, the AME and MRQAP results differ from ERGM for the nodal effects related to whether a receiver of a collaboration is a government actor, \texttt{Alter=Government actor}, and whether the sender is an environmental NGO, \texttt{Ego=Environmental NGO}.
 
-% the logistic model and MRQAP are not able to provide information beyond an estimate of the effect of reciprocity, labeled as Mutuality in Table~\ref{tab:regTable}. 
 When it comes to estimating higher-order effects, ERGM is able to provide explicit estimates of a variety of higher-order parameters, however, this comes with the caveat that these are the ``right'' set of endogenous dependencies. The AME approach, as shown in Equation~\ref{eqn:ame}, estimates network dependencies by examining patterns left over after taking into account the observed covariates. For the sake of space, we focus on examining the third-order dependencies left over after accounting for the observed covariates and network covariance structure modeled by the SRM. A visualization of remaining third-order dependencies is shown in Figure~\ref{fig:uv}. 
 
 \begin{figure}[ht]
@@ -798,9 +750,9 @@ Intercept/Edges & -3.08$^{\ast}$ & -3.39$^{\ast}$ & -3.72$^{\ast}$ & -3.93$^{\as
 
 % Bib stuff
 \clearpage
-\bibliography{/Users/mdw/git/whistle/master}
-% \bibliography{/Users/janus829/whistle/master}
-\bibliographystyle{authordate1}
+% \bibliography{/Users/mdw/git/whistle/master}
+\bibliography{/Users/janus829/whistle/master}
+\bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \newpage
 
 \end{document} 

@@ -1,4 +1,4 @@
-\documentclass[12pt,onesided]{amsart} 
+\documentclass[12pt,pdflatex]{elsarticle} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%% PREAMBLE %%%%%%%%%%%%%%%%%%%%
@@ -15,15 +15,13 @@
 \usepackage[default,osfigures,scale=0.95]{opensans}
 \usepackage[T1]{fontenc}
 \usepackage{ae}
+% to colorize links in document. See color specification below
+\usepackage[pdftex,hyperref,x11names]{xcolor}
+% load the hyper-references package and set document info
+\usepackage[pdftex]{hyperref}
 
 % Generate some fake text
 \usepackage{blindtext}
-
-% % add watermark
-% \usepackage{draftwatermark}
-% \SetWatermarkText{Draft: Do Not Circulate}
-% \SetWatermarkScale{.5}
-% \SetWatermarkColor[gray]{0.9}
 
 % layout control
 \usepackage{geometry}
@@ -69,15 +67,6 @@ digitsep=fullstop
 % lines. f.i. begin{inparaenum} for (a) is (b) and (c)
 \usepackage{paralist}
 
-% to colorize links in document. See color specification below
-\usepackage[pdftex,hyperref,x11names]{xcolor}
-
-% for multiple references and insertion of the word "figure" or "table"
-% \usepackage{cleveref}
-
-% load the hyper-references package and set document info
-\usepackage[pdftex]{hyperref}
-
 % graphics stuff
 \usepackage{subfig}
 \usepackage{graphicx}
@@ -86,57 +75,13 @@ digitsep=fullstop
 \usepackage{tikz}
 \usepackage{rotating}
 
-% \usepackage[figuresright]{rotating}
-% \newenvironment{amssidewaysfigure}  {\begin{sidewaysfigure}\vspace*{.8\textwidth}\begin{minipage}{\textheight}\centering}
-%   {\end{minipage}\end{sidewaysfigure}}
-
 % Spacing
 \usepackage[singlespacing]{setspace}
-
-% define clickable links and their colors
-\hypersetup{%
-	unicode=false,          % non-Latin characters in Acrobat's bookmarks
-	pdftoolbar=true,        % show Acrobat's toolbar?
-	pdfmenubar=true,        % show Acrobat's menu?
-	pdffitwindow=false,     % window fit to page when opened
-	pdfstartview={FitH},    % fits the width of the page to the window
-	pdfnewwindow=true,%
-	pagebackref=false,%
-	pdfauthor={Shahryar Minhas},%
-	pdftitle={AMEN for Latent Factor Models},%
-	colorlinks,%
-	citecolor=black,%
-	filecolor=black,%
-	linkcolor=black,%
-	urlcolor=RoyalBlue4
-}
 
 % -------------------------------------------------- %
 
 
-% -------------------- title -------------------- %
-
-\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models}
-\vspace{\baselineskip}
-
-\author[Minhas]{Shahryar Minhas}
-\address{Shahryar Minhas: Department of Political Science}
-\curraddr{Duke University}
-\email[Corresponding author]{shahryar.minhas@duke.edu}
-
-\author[Hoff]{Peter D. Hoff}
-\address{Peter D. Hoff: Department of Statistics}
-\curraddr{Duke University}
-\email{peter.hoff@duke.edu}
-
-\author[Ward]{Michael D. Ward}
-\address{Michael D. Ward: Department of Political Science}
-\curraddr{Duke University}
-\email{michael.d.ward@duke.edu}
-
-\date{\today}
-
-\thanks{This research was partially supported by the National Science Foundation Award 1259266.}
+% -------------------- page template -------------------- %
 
 \setlength{\headheight}{15pt}
 \setlength{\headsep}{20pt}
@@ -153,11 +98,6 @@ digitsep=fullstop
 
 
 % -------------------- customizations -------------------- %
-
-% references to graphics
-\makeatletter
-\def\input@path{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/}, {/Users/mdw/Dropbox/netModels/summResults/}}
-\graphicspath{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/},{/Users/mdw/Dropbox/netModels/summResults/}}
 
 % easy commands for number propers
 \newcommand{\first}{$1^{\text{st}}$}
@@ -180,12 +120,43 @@ digitsep=fullstop
 %%%%%%%%%%%%%%%%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{document}
-\maketitle\thispagestyle{empty}
+% remove silly elsevier preprint note
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{}%
+ \let\@evenfoot\@oddfoot}
 
-\begin{quote}
-\small{\singlespacing{\input{1_Abstract}}}
-\end{quote}
+\def\input@path{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/}, {/Users/mdw/Dropbox/netModels/summResults/}}
+\graphicspath{{/Users/janus829/Dropbox/Research/netModels/summResults/}, {/Users/s7m/Dropbox/Research/netModels/summResults/},{/Users/mdw/Dropbox/netModels/summResults/}}
+\makeatother
+
+\begin{document}
+
+% saying hello ----------------------------------------------- %
+\thispagestyle{empty}
+\begin{frontmatter}
+
+\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
+
+\tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
+
+\author[duke]{Shahryar Minhas\corref{cor1}}
+\ead{shahryar.minhas@duke.edu}
+\cortext[cor1]{Corresponding author}
+\author[duke2]{Peter D. Hoff}
+\author[duke]{Michael D. Ward}
+
+\address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
+\address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
+
+\begin{abstract}
+\input{1_Abstract}
+\end{abstract}
+
+\end{frontmatter}
+% ----------------------------------------------- %
 
 \newpage\setcounter{page}{1} 
 
@@ -199,9 +170,9 @@ digitsep=fullstop
 
 % Bib stuff
 \clearpage
-% \bibliography{{/Users/janus829/whistle/master}, {/Users/s7m/whistle/master}, {/Users/mdw/git/whistle/master}}
-\bibliography{/Users/mdw/git/whistle/master}
-\bibliographystyle{apsr}
+\bibliography{{/Users/janus829/whistle/master}, {/Users/s7m/whistle/master}, {/Users/mdw/git/whistle/master}}
+% \bibliography{/Users/mdw/git/whistle/master}
+\bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \newpage
 
 \end{document} 
