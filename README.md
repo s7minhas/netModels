@@ -2,7 +2,7 @@
 
 Authors
 ---
-[Shahryar Minhas](s7minhas.com), [Peter D. Hoff](https://pdhoff.github.io/), & [Michael D. Ward](http://mdwardlab.com/)
+[Shahryar Minhas](http://s7minhas.com/), [Peter D. Hoff](https://pdhoff.github.io/), & [Michael D. Ward](http://mdwardlab.com/)
 
 Abstract
 ---
