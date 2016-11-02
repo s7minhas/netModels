@@ -60,6 +60,11 @@ digitsep=fullstop
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
+   \renewcommand{\footnotelayout}{\doublespacing} % set spacing in footnotes
+   \newlength{\myfootnotesep}
+   \setlength{\myfootnotesep}{\baselineskip}
+   \addtolength{\myfootnotesep}{-\footnotesep}
+   \setlength{\footnotesep}{\myfootnotesep} % set spacing between footnotes
 
 % to change enumeration symbols begin{enumerate}[(a)]
 \usepackage{enumerate}
@@ -77,8 +82,7 @@ digitsep=fullstop
 \usepackage{rotating}
 
 % Spacing
-%\usepackage[doublespacing]{setspace}
-\linespread{2}
+\usepackage[doublespacing]{setspace}
 
 % -------------------------------------------------- %
 
@@ -153,8 +157,7 @@ digitsep=fullstop
 % \address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
 % \address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
 
-%\linespread{1.5}\singlespacing
-{\begin{abstract}
+\singlespacing{\begin{abstract}
  Many network approaches have been developed in descriptive fashion, but attention to inferential approaches to network analysis has been growing. We introduce a new approach that models interdependencies among observations using additive and multiplicative effects (AME). This approach can be applied to binary, ordinal, and continuous network data, and provides a set of tools for inference from longitudinal networks as well. We review this approach and compare it to those examined in the recent survey by Cranmer et al. (2016).  The AME approach is shown a) to be easy to implement; b) interpretable in a general linear model framework; c) computationally straightforward; d) not prone to degeneracy; e) captures 1st, 2nd, and 3rd order network dependencies; and f) notably outperforms multiple regression quadratic assignment procedures, exponential random graph models, and alternative latent space approaches on a variety of metrics both in- and out-of-sample.
 \\ Word Count: 9847
 \end{abstract}}
@@ -793,9 +796,9 @@ Intercept/Edges & -3.08$^{\ast}$ & -3.39$^{\ast}$ & -3.72$^{\ast}$ & -3.93$^{\as
 
 % Bib stuff
 \clearpage
-\bibliography{/Users/mdw/git/whistle/master}
+% \bibliography{/Users/mdw/git/whistle/master}
 % \bibliography{/Users/janus829/whistle/master}
-%\bibliography{/Users/s7m/whistle/master}
+\bibliography{/Users/s7m/whistle/master}
 \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \newpage
 
