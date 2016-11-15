@@ -10,4 +10,4 @@ There is growing interest in the study of political networks. Network analysis a
 
 Replication Instructions
 ---
-Will be made available after publication.
+Follow instructions in replArchive directory. Any questions should be addressed to [Shahryar Minhas](http://s7minhas.com/).
