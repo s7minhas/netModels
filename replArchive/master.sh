@@ -37,7 +37,7 @@ echo '\nGenerate Figure 4.\nOutput stored in data/summResults/:\n\troc_outSample
 
 Rscript outPerf/outSampPerf.R 2>&1 >/dev/null
 
-echo '\nGenerate Figure 4.\nOutput stored in data/summResults/netPerfCoef.pdf.'
+echo '\nGenerate Figure 5.\nOutput stored in data/summResults/netPerfCoef.pdf.'
 
 Rscript runResults/netPerfSecondary.R 2>&1 >/dev/null 
 
@@ -65,7 +65,7 @@ Rscript runResults/latSpaceModelCompare/netPerfSecondary_latSpace.R 2>&1 >/dev/n
 
 echo '\nGenerate Table A3.\nOutput stored in data/summResults/regTable_ameSR.tex.'
 
-Rscript runResults/amenModelCompare/coefCompare_amen.R
+Rscript runResults/amenModelCompare/coefCompare_amen.R 2>&1 >/dev/null 
 
 echo '\nGenerate Figure A5.\nOutput stored in data/summResults/:\n\troc_ameSR_outSample.pdf\n\trocPr_ameSR_outSample.pdf\n\tVarious separation plots corresponding to model type\n\taucTable_ameSR_outSample.tex.'
 
@@ -75,4 +75,4 @@ echo '\nGenerate Figure A6.\nOutput stored in data/summResults/netPerfCoef_ameSR
 
 Rscript runResults/amenModelCompare/netPerfSecondary_amen.R 2>&1 >/dev/null 
 
-echo 'Replication complete, check data/summResults directory for outputs.\n'
+echo 'Replication complete.\n\tCheck data/summResults directory for outputted table and figures.\n\tCheck data/rdaResults for model results.\n'
