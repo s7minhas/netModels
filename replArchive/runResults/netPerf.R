@@ -1,5 +1,5 @@
 rm(list=ls())
-source('../helpers/paths.R')
+source('helpers/paths.R')
 source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
 loadPkg( c( 'ergm', 'latentnet', 'btergm', 'lme4' ) )
 

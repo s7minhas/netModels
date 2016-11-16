@@ -1,7 +1,5 @@
-dPath = 'data/'
-dataPath = paste0(dPath, "data/")
-resultsPath = paste0(dPath, 'rdaResults/')
-graphicsPath = paste0(dPath, 'summResults/')
-
-gPath = NULL
-funcPath = paste0(gPath, 'helpers/')
+dPath = paste0(getwd(),'/')
+dataPath = paste0(dPath, "data/data/")
+resultsPath = paste0(dPath, 'data/rdaResults/')
+graphicsPath = paste0(dPath, 'data/summResults/')
+funcPath = paste0(dPath, 'helpers/')

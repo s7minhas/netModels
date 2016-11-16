@@ -1,7 +1,7 @@
 rm(list=ls())
-source('../../helpers/paths.R')
+source('helpers/paths.R')
 source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
-loadPkg( c( 'devtools' ) ) ; devtools::install_github('s7minhas/amen') ; library(amen)
+loadPkg(c('latentnet')) ; library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))
@@ -52,5 +52,4 @@ perfList = list(
 ################################################
 # Viz 
 getNetPerfCoef(perfList, perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_latSpace.pdf'))
-getNetPerfDist(perfList, perfNetKey, actVals, pRows=2, save=TRUE, fPath=paste0(graphicsPath, 'netPerfDist_latSpace.pdf'))
 ################################################

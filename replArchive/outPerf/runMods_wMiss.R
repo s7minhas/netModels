@@ -1,13 +1,13 @@
-source('../helpers/paths.R')
+source('helpers/paths.R')
 load(paste0(dataPath, 'dvForCrossval.rda'))
 source(paste0(funcPath, 'functions.R'))
 
 loadPkg(c('doParallel', 'foreach'))
 cores = min(8, length(nw.collabMiss))
+cl=makeCluster(cores) ; registerDoParallel(cl)
 
 ##########
 # ergm model
-cl=makeCluster(cores) ; registerDoParallel(cl)
 modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
 
     dv = nw.collabMiss[[ii]]
@@ -37,16 +37,14 @@ modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopa
     summ=list(mod=mod,sim=sim,pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsErgm, file=paste0(resultsPath, 'ergmOutPerfResults.rda'))
 rm(list='modsErgm')
 ##########
 
 #########
 # latentnet mod
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLs = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% {
-    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
+    source('replicationSetup.R')
 
     dv = nw.collabMiss[[ii]]
     mod <- ergmm(dv ~ 
@@ -69,14 +67,12 @@ modsLs = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% 
     summ=list(mod=mod,pred=pred)  
     return(summ)
 }
-stopCluster(cl)
 save(modsLs, file=paste0(resultsPath, 'euclLatSpaceOutPerfResults.rda'))
 rm(list='modsLs')
 ##########
 
 ##########
 # mrqap
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsQap = foreach(ii=1:length(nw.collabMiss), .packages=c('sna') ) %dopar% {
 
     dv = nw.collabMiss[[ii]]
@@ -89,14 +85,12 @@ modsQap = foreach(ii=1:length(nw.collabMiss), .packages=c('sna') ) %dopar% {
     summ=list(mod=mod, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsQap, file=paste0(resultsPath, 'qapOutPerfResults.rda'))
 rm(list='modsQap')
 ##########
 
 ##########
 # logit mod
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
 modsLogit = foreach(ii=1:length(yMiss) ) %dopar% {
 
     dv = yMiss[[ii]]
@@ -112,21 +106,19 @@ modsLogit = foreach(ii=1:length(yMiss) ) %dopar% {
     summ=list(mod=mod, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsLogit, file=paste0(resultsPath, 'logitOutPerfResults.rda'))
 rm(list='modsLogit')
 ##########
 
 ##########
 # amen
-loadPkg('devtools') ; devtools::install_github('s7minhas/amen') ; library(amen)
+library(amen)
 load(paste0(dataPath, 'data.rda'))
 imps = 100000
 brn = 50000
 ods = 10
 
 latDims = 2
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
 modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
     dv = yMiss[[ii]]
@@ -141,14 +133,13 @@ modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
     summ = list(mod=ameFit, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
 rm(list='modsAme')
+##########
 
 ##########
 # other ame parameterizations
 latDims = 1
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
 modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
     dv = yMiss[[ii]]
@@ -163,12 +154,10 @@ modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
     summ = list(mod=ameFit, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
 rm(list='modsAme')
 
 latDims = 3
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
 modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
     dv = yMiss[[ii]]
@@ -183,12 +172,10 @@ modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
     summ = list(mod=ameFit, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
 rm(list='modsAme')
 
 latDims = 4
-cl=makeCluster(length(yMiss)) ; registerDoParallel(cl)
 modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
 
     dv = yMiss[[ii]]
@@ -203,7 +190,6 @@ modsAme = foreach(ii=1:length(yMiss), .packages=c('amen') ) %dopar% {
     summ = list(mod=ameFit, pred=pred)
     return(summ)
 }
-stopCluster(cl)
 save(modsAme, file=paste0(resultsPath, 'ameFitSR_', latDims, '_outPerfResults.rda'))
 rm(list='modsAme')
 ##########
@@ -212,9 +198,8 @@ rm(list='modsAme')
 # other latentnet parameterizations
 
 # latentnet eucl mod with s + r
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% {
-    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
+    source('replicationSetup.R')
 
     dv = nw.collabMiss[[ii]]
     mod <- ergmm(dv ~ 
@@ -239,14 +224,12 @@ modsLsSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar
     summ=list(mod=mod,pred=pred)  
     return(summ)
 }
-stopCluster(cl)
 save(modsLsSR, file=paste0(resultsPath, 'euclSenRecLatSpaceOutPerfResults.rda'))
 rm(list='modsLsSR')
 
 # latentnet bil mod
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsBil = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
-    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
+    source('replicationSetup.R')
     
     dv = nw.collabMiss[[ii]]
     mod <- ergmm(dv ~ 
@@ -262,21 +245,19 @@ modsLsBil = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') )
         edgecov(prefdist) + 
         edgecov(allopp), 
         seed = seed, 
-        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )
+        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )    
     probs = predict(mod)
     oProbs = probs[which(rposmat==ii)]
     pred = data.frame(prob=oProbs, actual=yAct[[ii]])
     summ=list(mod=mod,pred=pred)  
     return(summ)
 }
-stopCluster(cl)
 save(modsLsBil, file=paste0(resultsPath, 'bilLatSpaceOutPerfResults.rda'))
 rm(list='modsLsBil')
 
 # latentnet bil mod with s + r
-cl=makeCluster(length(nw.collabMiss)) ; registerDoParallel(cl)
 modsLsBilSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna') ) %dopar% {
-    fergmm = TRUE ; source(paste0(gPath, 'code/replicationSetup.R'))
+    source('replicationSetup.R')
     
     dv = nw.collabMiss[[ii]]
     mod <- ergmm(dv ~ 
@@ -294,7 +275,7 @@ modsLsBilSR = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet','sna')
         edgecov(prefdist) + 
         edgecov(allopp), 
         seed = seed, 
-        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )
+        control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100) )        
     probs = predict(mod)
     oProbs = probs[which(rposmat==ii)]
     pred = data.frame(prob=oProbs, actual=yAct[[ii]])

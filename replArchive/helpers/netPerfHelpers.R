@@ -88,16 +88,7 @@ ggGof = function(
 			legend.background=element_blank(), legend.key = element_rect(colour = NA)
 			)
 	if(!save){ return( tmp ) }
-	if(save){
-		tmp=tmp + theme(
-			legend.text=element_text(family="Source Sans Pro Light", size=18),
-			axis.text.x=element_text(family="Source Sans Pro Light", size=12),
-			axis.text.y=element_text(family="Source Sans Pro Light",size=12),
-			# axis.title.y=element_text(family='Source Sans Pro Semibold', size=16),
-			strip.text.x = element_text(family="Source Sans Pro Semibold", size=18)
-			)
-		ggsave(tmp, file=fPath, width=fWidth, height=fHeight, device=cairo_pdf)
-	}
+	if(save){ ggsave(tmp, file=fPath, width=fWidth, height=fHeight, device=cairo_pdf) }
 }	
 
 # AME net perf
@@ -154,14 +145,7 @@ getNetPerfCoef = function(
 			axis.text.x=element_blank()		
 			)
 	if(!save){ return(tmp) }
-	if(save){
-		tmp = tmp + theme(
-			legend.text=element_text(family="Source Sans Pro Light"),
-			axis.title.y=element_text(family='Source Sans Pro Semibold'),
-			strip.text.x = element_text(family="Source Sans Pro Semibold")
-			)
-		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
-	}
+	if(save){ ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf) }
 }
 
 # net perf ame dist, requires plyr
@@ -211,14 +195,6 @@ getNetPerfDist = function(
 			axis.text.y=element_blank()
 			)
 	if(!save){ return(tmp) }
-	if(save){
-		tmp = tmp + theme(
-				legend.text=element_text(family="Source Sans Pro Light"),
-				axis.text.x=element_text(family="Source Sans Pro Light"),
-				axis.title.y=element_text(family='Source Sans Pro Semibold'),
-				strip.text.x = element_text(family="Source Sans Pro Semibold")
-		  		)
-		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
-	}
+	if(save){ ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf) }
 }
 ########################################################################

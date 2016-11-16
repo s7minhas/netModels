@@ -1,4 +1,4 @@
-source('../replicationSetup.R')
+source('replicationSetup.R')
 
 ########## LATENT SPACE MODEL ##########
 
@@ -25,13 +25,6 @@ gof.ls <- gof.ergmm(model.ls,
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
 
-pdf(paste0(graphicsPath, "gof-ls.pdf"), width = 9, height = 6)
-par(mfrow = c(2, 3))
-    plot(gof.ls, main = "Latent space model: goodness of fit")
-    set.seed(seed)
-    plot(model.ls, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions")
-dev.off()
-
 # sender/receiver random effects
 model.lsSR <- ergmm(nw.collab ~ 
     euclidean(d = 2, G = 0) +  # 2 dimensions and 0 clusters
@@ -55,13 +48,6 @@ model.lsSR <- ergmm(nw.collab ~
 gof.lsSR <- gof.ergmm(model.lsSR, 
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
-
-pdf(paste0(graphicsPath, "gof-lsSR.pdf"), width = 9, height = 6)
-par(mfrow = c(2, 3))
-    plot(gof.lsSR, main = "Latent space model (sr): goodness of fit")
-    set.seed(seed)
-    plot(model.lsSR, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (sr)")
-dev.off()
 
 save(
     model.ls, gof.ls, 

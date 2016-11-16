@@ -1,7 +1,7 @@
 rm(list=ls())
-source('../../helpers/paths.R')
+source('helpers/paths.R')
 source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
-loadPkg( c( 'devtools' ) ) ; devtools::install_github('s7minhas/amen') ; library(amen)
+library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))
@@ -23,5 +23,4 @@ names(perfListSR) = c( 'AME (k=1)','AME (k=2)','AME (k=3)','AME (k=4)')
 ################################################
 # Viz 
 getNetPerfCoef(perfListSR, perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_ameSR.pdf'))
-getNetPerfDist(perfListSR, perfNetKey, actVals, pRows=2, save=TRUE, fPath=paste0(graphicsPath, 'netPerfDist_ameSR.pdf'))
 ################################################

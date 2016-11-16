@@ -1,5 +1,5 @@
 rm(list=ls())
-source('../helpers/paths.R')
+source('helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
 loadPkg(c('amen', 'RColorBrewer'))
 
@@ -36,4 +36,3 @@ legend(x=.45, y=1.2, typeKey$type, pch=21, col="black", pt.bg=typeKey$ucol,
 legend(x=-1.2, y=-.6, typeKey$type, pch=21, col="black", pt.bg=typeKey$vcol, 
 		pt.cex=2, cex=1.25, bty="n", ncol=1)
 dev.off()
-system( paste0('pdfcrop ', fName, ' ', fName) )

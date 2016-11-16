@@ -1,7 +1,7 @@
 rm(list=ls())
 seed <- 12345
 set.seed(seed)
-source('../helpers/paths.R')
+source('helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
 
 # install amen from s7minhas/github
@@ -14,7 +14,7 @@ load(paste0(dataPath, 'data.rda'))
 imps = 100000
 brn = 50000
 ods = 10
-latDims = 0:4
+latDims = 1:4
 
 # Run amen in parallel
 loadPkg(c('doParallel', 'foreach'))

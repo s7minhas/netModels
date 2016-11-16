@@ -10,7 +10,7 @@ loadPkg=function(toLoad){
 # some necessary libs
 loadPkg(c(
 	'reshape2',
-	'ggplot2', 'latex2exp', 'Cairo',	# plotting
+	'ggplot2', 'latex2exp', 'Cairo', # plotting
 	'xtable' # tables
 	))
 

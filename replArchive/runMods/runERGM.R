@@ -1,4 +1,4 @@
-source('../replicationSetup.R')
+source('replicationSetup.R')
 
 ########## ERGM ##########
 
@@ -32,17 +32,8 @@ ergmSims = simulate.ergm(model.ergm,nsim=1000)
 # coef results
 ergmCoef = summary(model.ergm)$'coefs'
 
-# MCMC diagnostics plot (not included in the paper)
-pdf(paste0(graphicsPath, "ergm-mcmc-diagnostics.pdf"))
-mcmc.diagnostics(model.ergm)
-dev.off()
-
 # ERGM goodness of fit
 gof.ergm <- gof(model.ergm, MCMC.burnin = 30000, MCMC.interval = 10000, 
     statistics = c(dsp, esp, geodesic, ideg, odeg, istar))
-
-pdf(paste0(graphicsPath, "gof-ergm.pdf"), width = 9, height = 6)
-plot(gof.ergm)
-dev.off()
 
 save(model.ergm, ergmSims, ergmCoef, gof.ergm, file=paste0(resultsPath, 'ergmResults.rda'))

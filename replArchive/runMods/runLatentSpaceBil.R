@@ -1,4 +1,4 @@
-source('../replicationSetup.R')
+source('replicationSetup.R')
 
 ########## LATENT SPACE MODEL ##########
 
@@ -25,13 +25,6 @@ gof.lsBil <- gof.ergmm(model.lsBil,
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
 
-pdf(paste0(graphicsPath, "gof-lsBil.pdf"), width = 9, height = 6)
-par(mfrow = c(2, 3))
-    plot(gof.lsBil, main = "Latent space model (bilinear): goodness of fit")
-    set.seed(seed)
-    plot(model.lsBil, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (bilinear)")
-dev.off()
-
 # sender/receiver random effects
 set.seed(seed)
 model.lsBilSR <- ergmm(nw.collab ~ 
@@ -56,13 +49,6 @@ model.lsBilSR <- ergmm(nw.collab ~
 gof.lsBilSR <- gof.ergmm(model.lsBilSR, 
     GOF = ~ dspartners + espartners + distance + idegree + odegree, 
     control = control.gof.ergmm(seed = seed))
-
-pdf(paste0(graphicsPath, "gof-lsBilSR.pdf"), width = 9, height = 6)
-par(mfrow = c(2, 3))
-    plot(gof.lsBilSR, main = "Latent space model (bilinear): goodness of fit")
-    set.seed(seed)
-    plot(model.lsBilSR, labels = TRUE, print.formula = FALSE, main = "MKL Latent positions (bilinear)")
-dev.off()
 
 save(
     model.lsBil, gof.lsBil, 
