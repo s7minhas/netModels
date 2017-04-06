@@ -286,31 +286,32 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 \begin{table}[ht]
 \centering
 \begingroup\scriptsize
-\begin{tabular}{lc}
-\footnotesize{\textbf{Variable}} &  \footnotesize{\textbf{Expected Effect}} \\ \hline\hline
+\tiny{
+\begin{tabular}{lcccccc}
+\footnotesize{\textbf{Variable}} &  \footnotesize{\textbf{Expected}} & \footnotesize{\textbf{Logit}} & \footnotesize{\textbf{MRQAP}} & \footnotesize{\textbf{LSM}} & \footnotesize{\textbf{ERGM}} & \footnotesize{\textbf{AME}} \\ \hline\hline
   \multicolumn{2}{l}{\textbf{Conflicting policy preferences}} \\ 
-  \quad Business v. NGO & $-$ \\
-  \quad Opposition/alliance  & $+$ \\
-  \quad Preference dissimilarity  & $-$ \\ 
+  \quad Business v. NGO & $-$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Opposition/alliance  & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Preference dissimilarity  & $-$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
   \multicolumn{2}{l}{\textbf{Transaction costs}} \\ 
-  \quad Joint forum participation  & $+$ \\ 
+  \quad Joint forum participation  & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
   \multicolumn{2}{l}{\textbf{Influence}} \\ 
-  \quad Influence attribution & $+$ \\
-  \quad Alter's influence in-degree  & $+$ \\
-  \quad Influence absolute diff.  & $-$ \\
-  \quad Alter = Government Actor & $+$ \\ 
+  \quad Influence attribution & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Alter's influence in-degree  & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Influence absolute diff.  & $-$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Alter = Government Actor & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
   \multicolumn{2}{l}{\textbf{Functional requirements}} \\ 
-  \quad Ego = Environment NGO & $+$ \\
-  \quad Same actor type & $+$ \\ 
+  \quad Ego = Environment NGO & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Same actor type & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
   \multicolumn{2}{l}{\textbf{Endogenous dependencies: ERGM Specific Parameters}} \\ 
-  \quad Mutuality & $+$\\
-  \quad Outdegree popularity & $+$ \\
-  \quad Twopaths & $-$ \\
-  \quad GWIdegree (2.0) & $+$ \\
-  \quad GWESP (1.0) & $+$ \\
-  \quad GWOdegree (0.5) & $+$ \\
+  \quad Outdegree popularity & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad Twopaths & $-$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad GWIdegree (2.0) & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad GWESP (1.0) & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
+  \quad GWOdegree (0.5) & $+$ & $-$ & $-$ & $+$ & $-$ & $-$ \\
 \hline\hline
 \end{tabular}
+}
 \endgroup
 % \caption{Summary of variables to be included in model specification. With the exception of mutuality, each of the parameters falling in the Endogenous dependencies grouping are only explicitly testable through ERGM. }
 % \label{tab:theorySpec}
