@@ -52,4 +52,7 @@ modsToKeep = unique(ggData$model) ; ggData = ggData[which(ggData$model %in% mods
 # plot
 ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
 	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll.pdf'), fWidth=12, fHeight=16)
+
+ggGof( ggData, pRows=length(unique(ggData$var)), pCols=2, modSpace=.6, 
+	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll_preeze.pdf'), fWidth=16, fHeight=12)
 ################################################
