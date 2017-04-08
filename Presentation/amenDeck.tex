@@ -87,80 +87,22 @@
 \frame{\titlepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frame
-{
+\frame{
   \frametitle{Motivation}
-  
-  Relational data are composed of interactions between actors that are interdependent 
 
-\small{
-\begin{table}[ht]
-  \captionsetup{justification=raggedright }
+  \vspace{-10mm}
+  Relational data consists of 
+  \begin{itemize}
+    \item - a set of units or nodes
+    \item - a set of measurements, $y_{ij}$, specific to pairs of nodes $(i,j)$ 
+  \end{itemize}
+
   \centering
-  \begin{minipage}{.45\textwidth}
-    \centering
-    \begingroup
-    \setlength{\tabcolsep}{10pt}
-    \begin{tabular}{ccc}
-      Sender & Receiver & Event \\
-      \hline\hline
-      $i$ & $j$ & $y_{ij}$ \\
-      \multirow{2}{*}{\vdots} & $k$ & $y_{ik}$ \\
-      ~ & $l$ & $y_{il}$ \\
-      $j$ & $i$ & $y_{ji}$ \\
-      \multirow{2}{*}{\vdots} & $k$ & $y_{jk}$ \\
-      ~ & $l$ & $y_{jl}$ \\
-      $k$ & $i$ & $y_{ki}$ \\
-      \multirow{2}{*}{\vdots} & $j$ & $y_{kj}$ \\
-      ~ & $l$ & $y_{kl}$ \\
-      $l$ & $i$ & $y_{li}$ \\
-      \multirow{2}{*}{\vdots} & $j$ & $y_{lj}$ \\
-      ~ & $k$ & $y_{lk}$ \\
-      \hline\hline
-    \end{tabular}
-    \endgroup
-    % \caption{Structure of datasets used in canonical design.} 
-    % \label{tab:canDesign}
-  \end{minipage}
-  $\mathbf{\longrightarrow}$
-  \begin{minipage}{.45\textwidth}
-    \centering
-    \begingroup
-    \setlength{\tabcolsep}{10pt}
-    \renewcommand{\arraystretch}{1.5}
-    \begin{tabular}{c||cccc}
-    ~ & $i$ & $j$ & $k$ & $l$ \\ \hline\hline
-    $i$ & \footnotesize{NA} & $y_{ij}$ & $y_{ik}$ & $y_{il}$ \\
-    $j$ & $y_{ji}$ & \footnotesize{NA}  & $y_{jk}$ & $y_{jl}$ \\
-    $k$ & $y_{ki}$ & $y_{kj}$ & \footnotesize{NA}  & $y_{kl}$ \\
-    $l$ & $y_{li}$ & $y_{lj}$ & $y_{lk}$ & \footnotesize{NA}  \\
-    \end{tabular}
-    \endgroup
-    % \caption{Adjacency matrix representation of data in Table~\ref{tab:canDesign}. Senders are represented by the rows and receivers by the columns. }
-    % \label{tab:netDesign}
-  \end{minipage}
-\end{table}
+  \includegraphics[width=1.05\textwidth]{df_adj_net3}
 }
-
-} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \frame{
-%   \frametitle{Are observations iid?}
-
-% \begin{align*}
-% \begin{aligned}
-%   P(y_{ij}, y_{ik}, \ldots, y_{lk} | \theta_{ij}, \theta_{ik}, \ldots, \theta_{lk}) &= P(y_{ij} | \theta_{ij}) \times P(y_{ik} | \theta_{ik}) \times \ldots \times P(y_{lk} | \theta_{lk}) \\
-%   P(\mathbf{Y} \; | \; \bm{\theta}) &= \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})  \\
-% \end{aligned}
-% \end{align*}
-
-% \noindent We next convert the joint probability into a likelihood: $\displaystyle \mathcal{L} (\bm{\theta} | \mathbf{Y}) = \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})$.
-
-% }
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
   \frametitle{Relational data assumptions}
 
@@ -170,14 +112,16 @@ Networks typically show evidence against independence of {$e_{ij} : i \neq j$}
 
 Not accounting for dependence can lead to:
 
-- biased effects estimation
-- uncalibrated confidence intervals
-- poor predictive performance
-- inaccurate description of network phenomena
+\begin{itemize}
+\item - biased effects estimation
+\item - uncalibrated confidence intervals
+\item - poor predictive performance
+\item - inaccurate description of network phenomena
+\end{itemize}
 
 We've been hearing this concern for decades now:
 
-\begin{tabular}{ccc}
+\begin{tabular}{lll}
 Thompson \& Walker (1982) & Beck et al. (1998) & Snijders (2011) \\
 Frank \& Strauss (1986) & Signorino (1999) & Erikson et al. (2014) \\
 Kenny (1996) & Li \& Loken (2002) & Aronow et al. (2015) \\
@@ -185,22 +129,158 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 \end{tabular}
 
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{Social Relations Model}
+  \frametitle{Outline}
 
-\begin{align}
+\begin{itemize}
+  \item - Nodal and dyadic dependencies in networks
+  \item \qquad -  Can model using the ``A'' in AME 
+  \item - Third order dependencies
+  \item \qquad - Can model using the ``M'' in AME
+  \item - Application
+\end{itemize}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{What network phenomena? Sender heterogeneity}
+
+  Values across a row, say $\{y_{ij},y_{ik},y_{il}\}$, may be more similar to each other than other values in the adjacency matrix because each of these values has a common sender $i$
+
+  \centering
+  \includegraphics[width=.7\textwidth]{adjRowDep}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{What network phenomena? Receiver heterogeneity}
+
+  Values across a column, say $\{y_{ji},y_{ki},y_{li}\}$, may be more similar to each other than other values in the adjacency matrix because each of these values has a common receiver $i$
+
+  \centering
+  \includegraphics[width=.7\textwidth]{adjColDep}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{What network phenomena? Sender-Receiver Covariance}
+
+  Actors who are more likely to send ties in a network may also be more likely to receive them
+
+  \centering
+  \includegraphics[width=.7\textwidth]{adjRowColCovar}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{What network phenomena? Reciprocity}
+
+  Values of $y_{ij}$ and $y_{ji}$ may be statistically dependent
+
+  \centering
+  \includegraphics[width=.7\textwidth]{adjRecip}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{Social Relations Model (The ``A'' in AME)}
+
+We use this model to form the additive effects portion of AME
+
+\begin{align*}
 \begin{aligned}
-  y_{ij} &= \mu + e_{ij} \\
-  e_{ij} &= a_{i} + b_{j} + \epsilon_{ij} \\
-  \{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{ab}) \\ 
-  \{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\} &\simiid N(0,\Sigma_{\epsilon}), \text{ where } \\
-  \Sigma_{ab} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
-\label{eqn:srmCov}
+      y_{ij} &= \color{red}{\mu} + \color{red}{e_{ij}} \\
+      e_{ij} &= a_{i} + b_{j} + \epsilon_{ij} \\
+      \{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\sim N(0,\Sigma_{ab}) \\ 
+      \{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\} &\sim N(0,\Sigma_{\epsilon}), \text{ where } \\
+      \Sigma_{ab} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
 \end{aligned}
-\end{align}
+\end{align*}
 
+\begin{itemize}
+\item - $\mu$ baseline measure of network activity
+\item - $e_{ij}$ residual variation that we will use the SRM to decompose
+\end{itemize}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{Social Relations Model (The ``A'' in AME)}
+
+\begin{align*}
+\begin{aligned}
+      y_{ij} &= \mu + e_{ij} \\
+      e_{ij} &= \color{red}{a_{i} + b_{j}} + \epsilon_{ij} \\
+      \color{red}{\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \}} &\sim N(0,\Sigma_{ab}) \\ 
+      \{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\} &\sim N(0,\Sigma_{\epsilon}), \text{ where } \\
+      \Sigma_{ab} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
+\end{aligned}
+\end{align*}
+
+\begin{itemize}
+\item - row/sender effect ($a_{i}$) \& column/receiver effect ($b_{j}$)
+\item - Modeled jointly to account for correlation in how active an actor is in sending and receiving ties
+\end{itemize}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{Social Relations Model (The ``A'' in AME)}
+
+\begin{align*}
+\begin{aligned}
+      y_{ij} &= \mu + e_{ij} \\
+      e_{ij} &= a_{i} + b_{j} + \epsilon_{ij} \\
+      \{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\sim N(0,\color{red}{\Sigma_{ab}}) \\ 
+      \{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\} &\sim N(0,\Sigma_{\epsilon}), \text{ where } \\
+      \color{red}{\Sigma_{ab}} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
+\end{aligned}
+\end{align*}
+
+\begin{itemize}
+\item - $\sigma_{a}^{2}$ and $\sigma_{b}^{2}$ capture heterogeneity in the row and column means
+\item - $\sigma_{ab}$ describes the linear relationship between these two effects (i.e., whether actors who send [receive] a lot of ties also receive [send] a lot of ties)
+\end{itemize}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{Social Relations Model (The ``A'' in AME)}
+
+\begin{align*}
+\begin{aligned}
+      y_{ij} &= \mu + e_{ij} \\
+      e_{ij} &= a_{i} + b_{j} + \color{red}{\epsilon_{ij}} \\
+      \{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\sim N(0,\Sigma_{ab}) \\ 
+      \color{red}{\{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\}} &\sim N(0,\color{red}{\Sigma_{\epsilon}}), \text{ where } \\
+      \Sigma_{ab} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; & \color{red}{\Sigma_{\epsilon}} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix}
+\end{aligned}
+\end{align*}
+
+\begin{itemize}
+\item - $\epsilon_{ij}$ captures the within dyad effect
+\item - Second-order dependencies are described by $\sigma_{\epsilon}^{2}$
+\item - Reciprocity, aka within dyad correlation, represented by $\rho$
+\end{itemize}
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -208,55 +288,51 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 \frame{
   \frametitle{Third Order Dependencies}
 
-  Homophily: ``birds of a feather flock together'' \\
-  Stochastic equivalence: nothing as pithy to say here, but this model focuses on community detection
+  \vspace{-10mm}
 
-  \qquad \scshape{Homophily} \qquad\qquad\qquad\qquad\qquad \scshape{Stochastic Equivalence}
+  \begin{table}[ht]
   \begin{tabular}{lcr}
+  \scshape{Homophily} & & \scshape{Stochastic Equivalence} \\
   \includegraphics[width=.33\textwidth]{homophNet} & \hspace{2cm} &
   \includegraphics[width=.33\textwidth]{stochEquivNet}  
   \end{tabular}
+  \end{table}
+
+  To account for these patterns we can build on what we have so far and find an expression for $\gamma$:
+  
+  \vspace{-5mm}
+  \begin{align*}
+  \centering
+  y_{ij} &\approx \beta^{T} X_{ij} + a_{i} + b_{j} + \gamma(u_{i},v_{j})
+  \end{align*}
 
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{Latent Variable Models}
+  \frametitle{Latent Factor Model: The ``M'' in AME}
 
-  \begin{align}
-  \begin{aligned}
-  \text{Latent class model} \\
-    &\alpha(u_{i}, u_{j}) = m_{u_{i}, u_{j}} \\
-    &u_{i} \in \{1, \ldots, K \}, \; i \in \{1,\ldots, n\} \\
-    &M \text{ a } K \times K \text{ symmetric matrix} \\
-  \text{Latent distance model} \\
-    &\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = -|\textbf{u}_{i} - \textbf{u}_{j}| \\
-    &\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
-  \text{Latent factor model} \\
-    &\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = \textbf{u}_{i}^{T} \Lambda \textbf{u}_{j} \\
-    &\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
-    &\Lambda \text{ a } K \times K \text{ diagonal matrix}
-  % \label{eqn:latAlpha}
-  \end{aligned}
-  \end{align}
+Each node $i$ has an unknown latent factor
 
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-5mm}
+\begin{align*}
+{\textbf{u}_{i},\textbf{v}_{j}} \in \mathbb{R}^{k} \;\; i,j \in \{1, \ldots, n \} \\
+\end{align*}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frame{
-  \frametitle{Putting it together: AME}
+\vspace{-5mm}
+The probability of a tie from $i$ to $j$ depends on their latent factors
 
-\begin{align}
+\vspace{-5mm}
+\begin{align*}
 \begin{aligned}
-  y_{ij} &= g(\theta_{ij}) \\ 
-  &\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij} + e_{ij} \\
-  &e_{ij} = a_{i} + b_{j}  + \epsilon_{ij} + \alpha(\textbf{u}_{i}, \textbf{v}_{j}) \text{  , where } \\
-  &\qquad \alpha(\textbf{u}_{i}, \textbf{v}_{j}) = \textbf{u}_{i}^{T} \textbf{D} \textbf{v}_{j} = \sum_{k \in K} d_{k} u_{ik} v_{jk} \\ 
-% \label{eqn:ame}
+  \gamma(\textbf{u}_{i}, \textbf{v}_{j}) &= \textbf{u}_{i}^{T} D \textbf{v}_{j} \\
+  &= \sum_{k \in K} d_{k} u_{ik} v_{jk} \\
+  &D \text{ is a  } K \times K \text{ diagonal matrix}
 \end{aligned}
-\end{align}
+\end{align*}
+
+Can account for both stochastic equivalence and homophily
 
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,14 +341,14 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 \frame{
   \frametitle{Swiss Climate Change Application}
 
+Cross-sectional network measuring whether an actor indicated that they collaborated with another during the policy design of the Swiss CO$_{2}$ act (Ingold 2008)
+
 \begin{figure}[ht]
   \centering
   \begin{tabular}{cc}
   \includegraphics[width=.47\textwidth]{dvNet_outDegree} & 
   \includegraphics[width=.44\textwidth]{dvNet_inDegree}
   \end{tabular}
-  % \caption{Network visualizations of the Swiss climate change mitigation network. Nodes are colored by type of actor, and directed edges indicate relationships between actors. The network on the left weights node size by the number of out-going ties, and on the right the number of incoming-ties.}
-  % \label{fig:dvNet}
 \end{figure}
 
 }
@@ -282,33 +358,33 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 \frame{
   \frametitle{Parameter Estimates}
 
-\newcolumntype{L}{>{\arraybackslash}m{9cm}}
+% latex table generated in R 3.3.1 by xtable 1.8-2 package
+% Sun Aug 21 03:32:43 2016
+\vspace{-15mm}
 \begin{table}[ht]
 \centering
 \begingroup\scriptsize
-\tiny{
 \begin{tabular}{lcccccc}
-\footnotesize{\textbf{Variable}} &  \footnotesize{\textbf{Expected}} & \footnotesize{\textbf{Logit}} & \footnotesize{\textbf{MRQAP}} & \footnotesize{\textbf{LSM}} & \footnotesize{\textbf{ERGM}} & \footnotesize{\textbf{AME}} \\ \hline\hline
-  \multicolumn{2}{l}{\textbf{Conflicting policy preferences}} \\ 
-  \quad Business v. NGO & $-$ & ~ & $-$ & $+$ & $-$ & $-$ \\
-  \quad Opposition/alliance  & $+$ & $+$ & $+$ & ~ & $+$ & $+$ \\
-  \quad Preference dissimilarity  & $-$ & ~ & ~ & $-$ & ~ & $-$ \\
-  \multicolumn{2}{l}{\textbf{Transaction costs}} \\ 
-  \quad Joint forum participation  & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ \\
-  \multicolumn{2}{l}{\textbf{Influence}} \\ 
-  \quad Influence attribution & $+$ & $+$ & $+$ & ~ & $+$ & $+$ \\
-  \quad Alter's influence in-degree & $+$ & $+$ & $+$ & ~ & $+$ & $+$ \\
-  \quad Influence absolute diff.  & $-$ & $-$ & $-$ & ~ & $-$ & $-$ \\
-  \quad Alter = Government Actor & $+$ & ~ & ~ & ~ & $+$ & ~ \\
-  \multicolumn{2}{l}{\textbf{Functional requirements}} \\ 
-  \quad Ego = Environment NGO & $+$ & ~ & ~ & ~ & $+$ & ~ \\
-  \quad Same actor type & $+$ & $+$ & $+$ & $+$ & $+$ & $+$ \\
-\hline\hline
+   & Expected & \multirow{2}{*}{Logit} & \multirow{2}{*}{MRQAP} & \multirow{2}{*}{LSM} & \multirow{2}{*}{ERGM} & \multirow{2}{*}{AME} \\ 
+   & Effect & & & & & \\
+  \hline
+  \textbf{Conflicting policy preferences} &  &  &  &  &  &  \\ 
+  $\;\;\;\;$ Business vs. NGO & \color{red}{$-$} & -0.86 & \color{red}{-0.87$^{\ast}$} & \color{red}{-1.37$^{\ast}$} & \color{red}{-1.11$^{\ast}$} & \color{red}{-1.37$^{\ast}$} \\ 
+  $\;\;\;\;$ Opposition/alliance & \color{blue}{$+$} &  \color{blue}{1.21$^{\ast}$} & \color{blue}{1.14$^{\ast}$} & 0.00 & \color{blue}{1.22$^{\ast}$} & \color{blue}{1.08$^{\ast}$} \\ 
+  $\;\;\;\;$ Preference dissimilarity & \color{red}{$-$} & -0.07 & -0.60 & \color{red}{-1.76$^{\ast}$} & -0.44 & \color{red}{-0.79$^{\ast}$} \\ 
+  \textbf{Transaction costs} &  &  &  &  &  &  \\ 
+  $\;\;\;\;$ Joint forum participation & \color{blue}{$+$} & \color{blue}{0.88$^{\ast}$} & \color{blue}{0.75$^{\ast}$} & \color{blue}{1.51$^{\ast}$} & \color{blue}{0.90$^{\ast}$} & \color{blue}{0.92$^{\ast}$} \\ 
+  \textbf{Influence} & &  &  &  &  &  \\ 
+  $\;\;\;\;$ Influence attribution & \color{blue}{$+$} & \color{blue}{1.20$^{\ast}$} & \color{blue}{1.29$^{\ast}$} & 0.08 & \color{blue}{1.00$^{\ast}$} & \color{blue}{1.09$^{\ast}$} \\ 
+  $\;\;\;\;$ Alter's influence indegree & \color{blue}{$+$} & \color{blue}{0.10$^{\ast}$} & \color{blue}{0.11$^{\ast}$} & 0.01 & \color{blue}{0.21$^{\ast}$} & \color{blue}{0.11$^{\ast}$} \\ 
+  $\;\;\;\;$ Influence absolute diff. & \color{red}{$-$} & \color{red}{-0.03$^{\ast}$} & \color{red}{-0.06$^{\ast}$} & 0.04 & \color{red}{-0.05$^{\ast}$} & \color{red}{-0.07$^{\ast}$} \\ 
+  $\;\;\;\;$ Alter = Government actor & \color{blue}{$+$} & \color{blue}{0.63$^{\ast}$} & 0.68 & -0.46 & \color{blue}{1.04$^{\ast}$} & 0.55 \\ 
+  \textbf{Functional requirements} &  &  &  &  &  & \\ 
+  $\;\;\;\;$ Ego = Environmental NGO & \color{blue}{$+$} & \color{blue}{0.88$^{\ast}$} & 0.99 & -0.60 & \color{blue}{0.79$^{\ast}$} & 0.67 \\ 
+  $\;\;\;\;$ Same actor type & \color{blue}{$+$} & \color{blue}{0.74$^{\ast}$} & \color{blue}{1.12$^{\ast}$} & \color{blue}{1.17$^{\ast}$} & \color{blue}{0.99$^{\ast}$} & \color{blue}{1.04$^{\ast}$} \\ 
+   \hline
 \end{tabular}
-}
 \endgroup
-% \caption{Summary of variables to be included in model specification. With the exception of mutuality, each of the parameters falling in the Endogenous dependencies grouping are only explicitly testable through ERGM. }
-% \label{tab:theorySpec}
 \end{table}
 
 }
@@ -319,7 +395,8 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
   \frametitle{Latent Factor Visualization}
 
   \centering
-  \includegraphics[width=.5\textwidth]{ameFitSR_2_UV}
+  \vspace{-10mm}
+  \includegraphics[width=.7\textwidth]{ameFitSR_2_UV}
 
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -329,13 +406,15 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
   \frametitle{Out of Sample Performance Assessment}
 
 \begin{itemize}
-  \item Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
-  \item For each $s \in \{1, \ldots, S\}$:
+  \item - Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
+  \item - For each $s \in \{1, \ldots, S\}$:
   \begin{itemize}
-    \item Obtain estimates of the model parameters conditional on $\{y_{ij} : s_{ij} \neq s\}$, the data on pairs not in set $s$.
-    \item For pairs $\{kl\}$ in set $s$, let $\hat y_{kl} = E[y_{kl} | \{y_{ij} : s_{ij} \neq s\}]$, the predicted value of $y_{kl}$ obtained using data not in set $s$.
+    \item - Obtain estimates of the model parameters conditional on $\{y_{ij} : s_{ij} \neq s\}$, the data on pairs not in set $s$.
+    \item - For pairs $\{kl\}$ in set $s$, let $\hat y_{kl} = E[y_{kl} | \{y_{ij} : s_{ij} \neq s\}]$, the predicted value of $y_{kl}$ obtained using data not in set $s$.
   \end{itemize}
 \end{itemize}
+
+This procedure generates a sociomatrix of out-of-sample predictions of the observed data
 
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -352,13 +431,28 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
   \frametitle{Network Dependencies}
+
 
   \centering
   \includegraphics[width=1\textwidth]{netPerfCoef}
 
 }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{
+  \frametitle{What's Next?}
+
+  \begin{itemize}
+    \item - Extending AMEN to handle changing actor compositions
+    \item - Generalize multiplicative effects estimation over tensors
+  \end{itemize}
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \plain{Thanks.}
@@ -395,7 +489,7 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{AMEN V LSM Net Dependence}
+  \frametitle{AMEN versus LSM Net Dependence}
 
   \includegraphics[width=1\textwidth]{netPerfCoef_latSpace}
 }
@@ -403,7 +497,7 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{AMEN v LSM Performance}
+  \frametitle{AMEN varying $K$ Performance}
 
   \begin{tabular}{cc}
   \includegraphics[width=.5\textwidth]{roc_ameSR_outSample} & 
@@ -415,7 +509,7 @@ Krackhardt (1998) & Hoﬀ \& Ward (2004) & Athey et al. (2016) \\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{AMEN V LSM Net Dependence}
+  \frametitle{AMEN varying $K$ Net Dependence}
 
   \includegraphics[width=1\textwidth]{netPerfCoef_ameSR}
 }
