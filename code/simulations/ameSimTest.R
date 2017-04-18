@@ -15,12 +15,12 @@ graphicsPath = paste0(dPath, 'summResults/')
 ######
 # net params
 n<-100
-rho<-.5 # was this going to regulate corr?  
+rho<-.5
 mu<- -2
 
 # sim params
-cores=6
-sims=1000
+cores=8
+sims=100
 
 # output objects
 BFIT0<-NFIT0<-BFIT1<-NFIT1<-NFITO<-BFITO<-matrix(NA, nrow=sims, ncol=3, dimnames=list(NULL,c('lo','med','hi')))
@@ -29,12 +29,12 @@ xCor = vector(mode='numeric', length=sims)
 
 ######
 for(sim in 1:sims) { 
-  
   #
   set.seed(sim) 
   
   # design array
   X<-matrix(rnorm(n*2),n,2)  # multiply X here by some matrix to make X[,1] and X[,2]  correlated
+  # r = .8 ; X = MASS::mvrnorm(n=n, mu=c(0, 0), Sigma=matrix(c(1, r, r, 1), nrow=2), empirical=TRUE)  
   X1<-tcrossprod(X[,1]) 
   X2<-tcrossprod(X[,2])
   X12<-array(dim=c(n,n,2)) ; X12[,,1]<-X1 ; X12[,,2]<-X2
@@ -60,7 +60,8 @@ for(sim in 1:sims) {
     fit = ame(
       p$y, p$x, R=p$R, model=p$model, # params
       rvar=FALSE,cvar=FALSE,dcor=FALSE, # no SRM stuff
-      print=FALSE,plot=FALSE,gof=FALSE # no unnecessary calcs
+      print=FALSE,plot=FALSE,gof=FALSE, # no unnecessary calcs
+      nscan=10000, burn=5000, odens=25
       )
     beta = mean(fit$BETA[,2])+sd(fit$BETA[,2])*qnorm(c(.025,.5,.975)) # beta hpd
     names(beta) = c('lo','med','hi')
@@ -88,6 +89,6 @@ save(
   NFIT1, NFIT0, NFITO,
   BFIT1, BFIT0, BFITO,
   xCor, 
-  file=paste0(resultsPath, 'ameSimTest.rda')
+  file=paste0(resultsPath, 'ameSimTest_100.rda')
   )
 ######

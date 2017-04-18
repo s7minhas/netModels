@@ -6,7 +6,7 @@ library(doParallel)
 
 
 n<-100
-rho<-.5 # was this going to regulate corr?  
+rho<-.5
 mu<- -2
 
 BFIT0<-NFIT0<-BFIT1<-NFIT1<-NFITO<-BFITO<-NULL
@@ -60,11 +60,4 @@ for(sim in 1:10)
 ### Another thing to check is the calibration of the standard errors. 
 ### Do the posterior intervals contain the true parameter 
 ### 1-\alpha percent of the time? To evaluate this accurately, 
-### would need to do a lot of simulations. 
-
-
-
-
-
-
-
+### would need to do a lot of simulations.
