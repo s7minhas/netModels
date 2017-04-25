@@ -23,13 +23,16 @@ cores=8
 sims=100
 
 # output objects
-BFIT0<-NFIT0<-BFIT1<-NFIT1<-NFITO<-BFITO<-matrix(NA, nrow=sims, ncol=3, dimnames=list(NULL,c('lo','med','hi')))
+BFIT0<-NFIT0<-BFIT1<-NFIT1<-NFITO<-BFITO<-matrix(NA, 
+  nrow=sims, ncol=3,
+  dimnames=list(NULL,c('lo','med','hi')))
 xCor = vector(mode='numeric', length=sims)
 ######
 
 ######
-for(sim in 1:sims) { 
+# for(sim in 1:sims) { 
   #
+  sim=1
   set.seed(sim) 
   
   # design array
