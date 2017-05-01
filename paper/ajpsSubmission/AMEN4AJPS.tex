@@ -267,6 +267,7 @@ The presence of these types of interdependencies in relational data complicates 
 
 The dependencies that tend to develop in relational data can be more easily understood when we move away from stacking dyads on top of one another and turn instead to adjacency matrices as shown in Table~\ref{tab:netDesign}. Operationally, this type of data structure is represented as a $n \times n$ matrix, $\mathbf{Y}$, where the diagonals in the matrix are typically undefined.
 %\footnote{Most of the relational variables studied in political science do not involve events that countries can send to themselves.} 
+
 The $ij^{th}$ entry defines the relationship between $i$ and $j$ and can be continuous or discrete. For example, in undirected data an event cannot be attributed to a specific sender or receiver rather it is just an indication of something that happened between a pair of countries or a relationship they share (e.g., two countries might have mutually agreed to form an alliance). If the relationship is undirected, the $ji^{th}$ entry will equal the $ij^{th}$ entry. Sociomatrices of directed relations are not symmetric, there is a specific sender and receiver, as in the case of bilateral or multilateral aid.
 
 A common type of structural interdependency that arises in relational data is ``preferential attachment'' \citep{barabasi:reka:1999}. This is typically categorized as a first-order, or nodal, dependency and represents the fact that we typically find significant heterogeneity in activity levels across nodes. The implication of this across-node heterogeneity is within-node heterogeneity of ties, meaning that values across a row, say $\{y_{ij},y_{ik},y_{il}\}$, will be more similar to each other than other values in the adjacency matrix because each of these values has a common sender $i$. This type of dependency manifests in cases where sender $i$ tends to be more active or less active in the network than other senders. The emergence of this type of structure often occurs in relational datasets such as trade and conflict. In both of these cases, there are a set of countries that tend to be more active than others. Similarly, while some actors may be more active in sending ties to others in the network, we might also observe that others are more popular targets, this would manifest in observations down a column, $\{y_{ji},y_{ki},y_{li}\}$, being more similar. Last, we might also find that actors who are more likely to send ties in a network are also more likely to receive them, meaning that the row and column means of an adjacency matrix may be correlated. First-order dependencies are equally important to take into account in undirected relational structures, the only difference being that nodal heterogeneity will be equivalent across rows and columns. The presence of this type of heterogeneity in directed and undirected relational data leads to a violation of the conditional independence assumption underlying the models in our standard tool-kit, but can be easily accommodated in the GLM framework with the inclusion of additive sender and receiver random effects.
@@ -277,7 +278,7 @@ Another ubiquitous type of structural interdependency is reciprocity. This is a 
 This concept   has deep roots in political science \citep{richardson:1960}.  The clearest example of the relevance of this dependency comes from the conflict literature, as we would expect that if, for instance, Iran behaved aggressively towards Saudi Arabia that this would induce Saudi Arabia to behave aggressively in return. The prevalence of these types of potential interactions within directed dyadic data also complicates the basic assumption of observational independence.
 
 The relevance of modeling first- and second-order dependencies has long been recognized within some social sciences particularly in psychology. \citet{warner:etal:1979} developed the social relational model (SRM), a type of ANOVA decomposition technique, that facilitates this undertaking.
-%\footnote{\citet{dorff:ward:2013} provide an introduction to this model and \citet{dorff:minhas:2016} apply this approach to studying reciprocal behavior in economic sanctions.} 
+
 The SRM is of particular note as it provides the error structure for the additive effects component of the AME framework that we introduce here. The goal of the SRM is to decompose the variance of observations in an adjacency matrix in terms of heterogeneity across row means (out-degree), heterogeneity along column means (in-degree), correlation between row and column means, and correlations within dyads. \citet{wong:1982} and \citet{li:loken:2002} provide a random effects representation of the SRM:
 
 \begin{align}
@@ -294,7 +295,9 @@ The SRM is of particular note as it provides the error structure for the additiv
 The basic idea here is   simple, $\mu$ provides a baseline measure of the density or sparsity of a network, and $e_{ij}$ represents residual variation. The residual variation decomposes into parts: a row/sender effect ($a_{i}$), a column/receiver effect ($b_{j}$), and a within-dyad effect ($\epsilon_{ij}$). The row and column effects are modeled jointly to account for correlation in how active an actor is in sending and receiving ties. Heterogeneity in the row and column means is captured by $\sigma_{a}^{2}$ and $\sigma_{b}^{2}$, respectively, and $\sigma_{ab}$ describes the linear relationship between these two effects (i.e., whether actors who send [receive] a lot of ties also receive [send] a lot of ties). Beyond these first-order dependencies, second-order dependencies are described by $\sigma_{\epsilon}^{2}$ and a within dyad correlation, or reciprocity, parameter $\rho$. 
 
 The SRM covariance structure described in Equation~\ref{eqn:srmCov} can be incorporated into the systematic component of a GLM framework to produce the social relations regression model (SRRM): $\bm\beta^{T} \mathbf{X}_{ij} + a_{i} + b_{j} + \epsilon_{ij}$, where $ \bm\beta^{T} \mathbf{X}_{ij}$ accommodates the inclusion of dyadic, sender, and receiver covariates. This approach  \citep{hoff:2005}  incorporates row, column, and within-dyad dependence in way that is widely used and understood by applied researchers: a regression framework and additive random effects to accommodate variances and covariances often seen in relational data. Furthermore, this  handles a diversity of outcome distributions. In the case of binary data this can be done by utilizing a latent variable representation of a probit regression model. 
+
 %Specifically, we model a latent variable, $\theta_{ij}$, with a linear predictor and we model the error using the SRM from Equation~\ref{eqn:srmCov}: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij} + e_{ij}$. Then we can simply utilize a threshold model linking $\theta_{ij}$ to our observed values of $y_{ij}$, in the case of a binomial outcome distribution the threshold model can be expressed as: $y_{ij} = I(\theta_{ij}>0)$. 
+
 This approach can also easily incorporate ordinal and rank-ordered data.
 
 \subsection{Latent Factor Model: Multiplicative Part of AME}
@@ -372,6 +375,53 @@ Merging either of these approaches into the additive effects probit framework is
 Using this framework, we are able to model the dyadic observations as conditionally independent given $\bm\theta$, where $\bm\theta$ depends on the the unobserved random effects, $\mathbf{e}$. $\mathbf{e}$ is then modeled to account for the potential first, second, and third-order dependencies that we have discussed. As described in Equation~\ref{eqn:srmCov}, $a_{i} + b_{j}  + \epsilon_{ij}$, are the additive random effects in this framework and account for sender, receiver, and within-dyad dependence. The multiplicative effects, $\textbf{u}_{i}^{T} \textbf{D} \textbf{v}_{j}$, are used to capture higher-order dependence patterns that are left over in $\bm\theta$ after accounting for any known covariate information. Thus the third-order interdependencies captured in the latent factor space of AME are those that could not have been explained by the exogenous nodal and dyadic covariates that have already been included in the model, or the additive row and column random effects. A Bayesian procedure in which parameters are iteratively updated using a Gibbs sampler is available in the \pkg{amen} package to estimate this type of generalized linear mixed effects model from continuous, binary, ordinal, and other relational data types.\footnote{The set of parameters that are estimated in the model from the observed data, $\{\mathbf{Y}, \mathbf{X}\}$, are: latent Gaussian variables ($\bm\theta$); nodal and/or dyadic regression coefficients ($\bm\beta$); additive nodal random effects ($\{(a_{i},b_{i})\} \in \{i=1, \ldots, n \}$); network covariance ($\Sigma_{ab},\, \Sigma_{\epsilon}$); multiplicative effects ($\mathbf{U}$, $\mathbf{V}$, and $\mathbf{D}$). Further details on this process can be found in \citet{hoff:2005} and \citet{hoff:2009}.}
 
 Taken together, the additive effects portion of AME (described by the SRM) and the multiplicative effects (described by the latent factor model) provide a modeling framework similar to the GLMs that many scholars currently use, and has the benefit of being able to not only deal with interdependencies in relational data but also provide explicit estimates of these dependencies after having taken into account observable information. Specifically, we can obtain degree based effects for actors in the network, the level of reciprocity between actors, and also visualize the third-order interdependencies that remain in the data. This latter point is important to note as effectively using these visualizations may also help users of this approach to determine whether or not the inclusion of some other dyadic or nodal variable is necessary to accounting for patterns such as homophily or stochastic equivalence. 
+
+\subsubsection{\textbf{LDM v LFM}}
+
+In this document we describe difficulties with parameter interpretation for the latent distance model as opposed to the latent factor model. In their simplest forms, both of these models are ``conditional independence models'' in that they assume that ties are conditionally independent given all of the observed predictors and unknown node-specific parameters: $p( Y | X , U ) = \prod_{i<j} p( y_{i,j}  | x_{i,j} , u_i , u_j)$.
+
+Typical parametric models of this form relate $y_{i,j}$ to $(x_{i,j},u_i,u_j)$ via some sort of link function:
+
+\begin{align*}
+	p(y_{i,j} | x_{i,j}, u_i , u_j ) & = f( y_{i,j} : \eta_{i,j} ) \\
+	\eta_{i,j} &= \beta^\top x_{i,j} + g( u_i ,u_j). 
+\end{align*}
+
+For example, when modeling binary data $\eta_{i,j}$ may be the log-odds of a tie between two nodes. A Poisson regression model is obtained by assuming $y_{i,j} \sim \text{Pois}(\exp\{\eta_{i,j}\})$, so that $\eta_{i,j}$ is the log expected value of $y_{i,j}$. 
+
+Choices of $g$ include 
+
+\begin{itemize}
+	\item $g(u_i,u_j) = |u_i - u_j|$ (LDM) 
+	\item $g(u_i,u_j) = u_i^\top \Lambda u_j$ (LFM) 
+\end{itemize}
+
+The structure of these two functions can result in very different interpretations for any estimates of the regression coefficients $\beta$. For example, suppose the latent effects $\{ u_1,\ldots, u_n\}$ are near zero on average (if not, their mean can be absorbed into an intercept parameter and row and column additive effects). Under the LFM, the average value of $g(u_i,u_j)= u_i^\top \Lambda u_j$ will be near zero and so we have 
+
+\begin{align*}
+	\eta_{i,j} & =  \beta^\top x_{i,j} + u_i^\top \Lambda u_j \\
+	\bar \eta & \approx  \beta^\top \bar x , 
+\end{align*}
+
+and so the values of $\beta$ can be interpreted as yielding the ``average'' value of $\eta_{i,j}$. On the other hand,  under the distance model 
+
+\begin{align*}
+	\eta_{i,j} & =  \beta^\top x_{i,j} - | u_i -  u_j|  \\
+	\bar \eta & \approx  \beta^\top \bar x - \overline{ | u_i -  u_j| } 
+	      <  \beta^\top \bar x . 
+\end{align*}
+
+In this case, $\beta^\top \bar x$ does not represent an ``average'' value of the predictor $\eta_{i,j}$, it represents some sort of maximal value if everyone were zero distance from each other in the latent social space. 
+
+For example, consider the simplest case of a normally distributed network  outcome with an identity link. In this case, 
+
+\begin{align*}
+y_{i,j} & = \beta^\top x_{i,j} + g(u_i,u_j) + \epsilon_{i,j} \\
+\bar y & \approx \beta^\top \bar x + \overline{ g(u_i,u_j) }   \\
+   & = \approx \beta^\top \bar x. 
+\end{align*}
+
+Under the LDM, $\bar y  \approx \beta^\top \bar x + \overline{ |u_i- u_j|  } < \beta^\top \bar x$, and so we no longer can interpret $\beta$ as representing the linear relationship between $y$ and $x$. Instead, it may be thought of as describing some sort of average hypothetical "maximal" relationship between $y_{i,j}$ and $x_{i,j}$.
 
 \subsubsection{\textbf{ERGMs}}
 
