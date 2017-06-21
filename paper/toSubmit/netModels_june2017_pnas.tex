@@ -30,9 +30,9 @@ digitsep=fullstop
 % to change enumeration symbols begin{enumerate}[(a)]
 \usepackage{enumerate}
 
-% to make enumerations and itemizations within paragraphs or
-% lines. f.i. begin{inparaenum} for (a) is (b) and (c)
-\usepackage{paralist}
+% % to make enumerations and itemizations within paragraphs or
+% % lines. f.i. begin{inparaenum} for (a) is (b) and (c)
+% \usepackage{paralist}
 
 % graphics stuff
 \usepackage{subfig}
@@ -77,9 +77,9 @@ digitsep=fullstop
 \significancestatement{Authors must submit a 120-word maximum statement about the significance of their research paper written at a level understandable to an undergraduate educated scientist outside their field of speciality. The primary goal of the Significance Statement is to explain the relevance of the work in broad context to a broad readership. The Significance Statement appears in the paper itself and is required for all research papers.}
 
 % Please include corresponding author, author contribution and author declaration information
-% \authorcontributions{Please provide details of author contributions here.}
-% \authordeclaration{Please declare any conflict of interest here.}
-\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: shahryar.minhas@duke.edu}
+\authorcontributions{S.M. designed research and analyzed data; P.H. developed methodological approach; S.M., M.W., and P.H. wrote the paper.}
+\authordeclaration{The authors declare no conflict of interests.}
+\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: shahryar.minhas\@duke.edu}
 
 % Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
 \keywords{ networks $|$ latent variable models } 
@@ -120,7 +120,6 @@ Relational, or dyadic, data provide measurements of how pairs of actors relate t
 \begin{table}[ht]
 	\centering
 		\centering
-		\begingroup
 		\setlength{\tabcolsep}{10pt}
 		\caption{Structure of datasets used in canonical design.} 		
 		\begin{tabular}{ccc}
@@ -140,13 +139,11 @@ Relational, or dyadic, data provide measurements of how pairs of actors relate t
 			~ & $k$ & $y_{lk}$ \\
 			\hline\hline
 		\end{tabular}
-		\endgroup
 		\label{tab:canDesign}
 \end{table}        
 
 \begin{table}[ht]
 		\centering
-		\begingroup
 		\setlength{\tabcolsep}{10pt}
 		\renewcommand{\arraystretch}{1.5}
 		\caption{Adjacency matrix representation of data in Table~\ref{tab:canDesign}. Senders are represented by the rows and receivers by the columns.}		
@@ -157,7 +154,6 @@ Relational, or dyadic, data provide measurements of how pairs of actors relate t
 		$k$ & $y_{ki}$ & $y_{kj}$ & \footnotesize{NA}  & $y_{kl}$ \\
 		$l$ & $y_{li}$ & $y_{lj}$ & $y_{lk}$ & \footnotesize{NA}  \\
 		\end{tabular}
-		\endgroup
 		\label{tab:netDesign}
 \end{table}
 
@@ -277,57 +273,19 @@ Using this framework, we are able to model the dyadic observations as conditiona
 \section*{\textbf{Empirical Comparison}}
 
 % \footnote{For further details on the methodology utilized in choosing the set of actors see \citet{ingold:2008,ingold:fischer:2014}.}
-To contrast AME with alternative approaches, we utilize a cross-sectional network measuring whether an actor indicated that they collaborated with each other during the policy design of the Swiss CO$_{2}$ act \citep{ingold:2008}.\footnote{This is a directed relational matrix as an actor $i$ can indicate that they collaborated with $j$ but $j$ may not have stated that they collaborated with $i$.} The Swiss government proposed this act in 1995 with the goal of undertaking a 10\% reduction in CO$_{2}$ emissions by 2012. The act was accepted in the Swiss Parliament in 2000 and implemented in 2008. Ingold \cite{ingold:2008}, and subsequent work by Ingold \& Fischer \cite{ingold:fischer:2014}, sought to determine what drives collaboration among actors trying to affect climate change policy. The set of actors included in this network are those that were identified by experts as holding an important position in Swiss climate policy. In total, Ingold identifies 34 relevant actors: five state actors, eleven industry and business representatives, seven environmental NGOs and civil society organizations, five political parties, and six scientific institutions and consultants.
-
-We follow Ingold \& Fischer in developing a model specification. We do not review the specification in detail here, instead we just provide a summary of the variables to be included and the theoretical expectations of their effects in Table~\ref{tab:theorySpec}.
-
-\newcolumntype{L}{>{\arraybackslash}m{9cm}}
-\begin{table*}[ht]
-\centering
-\begingroup\scriptsize
-\caption{Summary of variables to be included in model specification.}
-\begin{tabular}{lLc}
-\footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} & \footnotesize{\textbf{Expected Effect}} \\ \hline\hline
-	\multicolumn{3}{l}{\textbf{Conflicting policy preferences}} \\
-	\quad Business v. NGO & Binary, dyadic covariate that equals one when one actor is from the business sector and the other an NGO. & $-$ \\
-	\quad Opposition/alliance & Binary, dyadic covariate that equals one when $i$, sender, perceives $j$, receiver, as having similar policy objectives regarding climate change.  & $+$ \\
-	\quad Preference dissimilarity & Transformation of four core beliefs into a Manhattan distance matrix, smaller the distance the closer the beliefs of $i$ and $j$. & $-$ \\
-	\multicolumn{3}{l}{\textbf{Transaction costs}} \\
-	\quad Joint forum participation & Binary, dyadic covariate that equals one when $i$ and $j$ belong to the same policy forum. & $+$ \\
-	\multicolumn{3}{l}{\textbf{Influence}} \\
-	\quad Influence attribution & Binary, dyadic covariate that equals one when $i$ considers $j$ to be influential. & $+$ \\
-	\quad Alter's influence in-degree & Number of actors that mention $i$ as being influential, this is a measure of reputational power. & $+$ \\
-	\quad Influence absolute diff. & Absolute difference in reputational power between $i$ and $j$. & $-$ \\
-	\quad Alter = Government Actor & Binary, nodal covariate that equals one when $j$ is a state actor. & $+$ \\
-	\multicolumn{3}{l}{\textbf{Functional requirements}} \\
-	\quad Ego = Environment NGO & Binary, nodal covariate that equals one when $i$ is an NGO. & $+$ \\
-	\quad Same actor type & Binary, dyadic covariate that equals when $i$ and $j$ are the same actor type. & $+$ \\
-	\multicolumn{3}{l}{\textbf{Endogenous dependencies: ERGM Specific Parameters}} \\
-	\quad Mutuality & Captures concept of reciprocity, if $i$ indicates they collaborated with $j$ then $j$ likely collaborates with $i$. & $+$\\
-	\quad Outdegree popularity & Captures idea that actors sending more ties will be more popular targets themselves for collaboration.  & $+$ \\
-	\quad Twopaths & Counts the number of two-paths in the network, two-path is an instance where $i$ is connected to $j$, $j$ to $k$, but $i$ is not connected to $k$. & $-$ \\
-	\quad GWIdegree (2.0) & Takes into account how many ties a node sends in the network, used to capture network structures that result from some highly active nodes.  & $+$ \\
-	\quad GWESP (1.0) & Counts the number of shared partners for each pair and sums across.  & $+$ \\
-	\quad GWOdegree (0.5) & Takes into account how many ties a node receives in the network, used to capture networks structures that result from some highly popular nodes.  & $+$ \\
-\hline\hline
-\end{tabular}
-\endgroup
-\label{tab:theorySpec}
-\end{table*}
-% \FloatBarrier
+To contrast AME with alternative approaches, we utilize a cross-sectional network measuring whether an actor indicated that they collaborated with each other during the policy design of the Swiss CO$_{2}$ act \citep{ingold:2008}.\footnote{This is a directed relational matrix as an actor $i$ can indicate that they collaborated with $j$ but $j$ may not have stated that they collaborated with $i$.} The Swiss government proposed this act in 1995 with the goal of undertaking a 10\% reduction in CO$_{2}$ emissions by 2012. The act was accepted in the Swiss Parliament in 2000 and implemented in 2008. Ingold \cite{ingold:2008}, and subsequent work by Ingold \& Fischer \cite{ingold:fischer:2014}, sought to determine what drives collaboration among actors trying to affect climate change policy. The set of actors included in this network are those that were identified by experts as holding an important position in Swiss climate policy. In total, Ingold identifies 34 relevant actors: five state actors, eleven industry and business representatives, seven environmental NGOs and civil society organizations, five political parties, and six scientific institutions and consultants. We follow Ingold \& Fischer in developing a model specification. We do not review the specification in detail here, instead we just provide a summary of the variables to be included and the theoretical expectations of their effects in the SI appendix.
 
 \subsection*{Parameter Estimates}
 
-Using the specification described in Table~\ref{tab:theorySpec} we compare five different modeling approaches. First, as a baseline we use a logistic regression model. We also use two popular network based approaches: the multiple regression quadratic assignment procedure (MRQAP) and the exponential random graph model (ERGM). Next, we use a latent space model (LSM) with a two-dimensional Euclidean distance metric. Last, we use the AME, in which we account for nodal and dyadic heterogeneity using the SRM and third-order effects represented by a latent factor approach with $K=2$. SI Appendix, Table X shows that the parameter estimates presented here for the AME model remain very similar no matter the $K$ chosen.
+Using the specification described in Table~\ref{tab:theorySpec} we compare five different modeling approaches. First, as a baseline we use a logistic regression model. We also use two popular network based approaches: the multiple regression quadratic assignment procedure (MRQAP) and the exponential random graph model (ERGM). Next, we use a latent space model (LSM) with a two-dimensional Euclidean distance metric. Last, we use the AME, in which we account for nodal and dyadic heterogeneity using the SRM and third-order effects represented by a latent factor approach with $K=2$. In the SI Appendix, we show that the parameter estimates presented here for the AME model remain very similar no matter the $K$ chosen.
 
-Most relevant for us are how parameter estimates from AME relate to other approaches. The first point to note is that, in general, the parameter estimates returned by the AME are similar to those of MRQAP and ERGM but quite different from the LSM. For example, while the LSM returns a result for the \texttt{Opposition/alliance} variable that diverges from MRQAP and ERGM, the AME returns a result that is not only similar to those approaches but in line with the theoretical expectations of \citet{ingold:fischer:2014}. Similar discrepancies between LSM and other approaches appear for parameters such as \texttt{Influence attribution} and \texttt{Alter's influence degree}. Each of these discrepancies are resolved when using AME. In part, this is a result of how the LSM approach complicates the interpretation of the effect of exogenous variables. SI Appendix, Table X shows that these differences persist even when incorporating sender and receiver random effects or when switching to a bilinear approach to handle third-order dependencies.
+Most relevant for us are how parameter estimates from AME relate to other approaches. The first point to note is that, in general, the parameter estimates returned by the AME are similar to those of MRQAP and ERGM but quite different from the LSM. For example, while the LSM returns a result for the \texttt{Opposition/alliance} variable that diverges from MRQAP and ERGM, the AME returns a result that is not only similar to those approaches but in line with the theoretical expectations of \citet{ingold:fischer:2014}. Similar discrepancies between LSM and other approaches appear for parameters such as \texttt{Influence attribution} and \texttt{Alter's influence degree}. Each of these discrepancies are resolved when using AME. In part, this is a result of how the LSM approach complicates the interpretation of the effect of exogenous variables. In the SI Appendix, we show that these differences persist even when incorporating sender and receiver random effects or when switching to a bilinear approach to handle third-order dependencies.
 
 
 % latex table generated in R 3.3.1 by xtable 1.8-2 package
 % Sun Aug 21 03:32:43 2016
 \begin{table*}[ht]
 \centering
-\begingroup\normalsize
 \caption{* p $<$ 0.05. Logistic regression and ERGM results are shown with standard errors in parentheses. MRQAP provides no standard errors. LSM and AME are shown with 95\% posterior credible intervals provided in brackets.}
 \begin{tabular}{lccccc}
    & Logit & MRQAP & LSM & ERGM & AME \\
@@ -375,11 +333,9 @@ Intercept/Edges & -4.44$^{\ast}$ & -4.24$^{\ast}$ & 0.94$^{\ast}$ & -12.17$^{\as
    \hline
 \hline
 \end{tabular}
-\endgroup
 \label{tab:regTable}
 \end{table*}
-
-% \FloatBarrier
+\FloatBarrier
 
 There are also notable differences between the parameter estimates that result from the MRQAP, ERGM, and the AME. Using the AME we find evidence that \texttt{Preference dissimilarity} is associated with a reduced probability of collaboration between a pair of actors, which is in line with the theoretical expectations stated earlier. Additionally, the AME and MRQAP results differ from ERGM for the nodal effects related to whether a receiver of a collaboration is a government actor, \texttt{Alter=Government actor}, and whether the sender is an environmental NGO, \texttt{Ego=Environmental NGO}.
 
@@ -387,60 +343,57 @@ There are also notable differences between the parameter estimates that result f
 
 How do these approaches fit the data out-of-sample? We utilize a cross-validation procedure to assess the out-of-sample performance for each of the models presented in Table~\ref{tab:regTable} as follows:
 
+\begin{itemize}
+	\item Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
+	\item For each $s \in \{1, \ldots, S\}$:
+	\begin{itemize}
+		\item Obtain estimates of the model parameters conditional on $\{y_{ij} : s_{ij} \neq s\}$, the data on pairs not in set $s$.
+		\item For pairs $\{kl\}$ in set $s$, let $\hat y_{kl} = E[y_{kl} | \{y_{ij} : s_{ij} \neq s\}]$, the predicted value of $y_{kl}$ obtained using data not in set $s$.
+	\end{itemize}
+\end{itemize}
 
-	
+The procedure summarized in the steps above generates a sociomatrix of out-of-sample predictions of the observed data. Each entry $\hat y_{ij}$ is a predicted value obtained from using a subset of the data that does not include $y_{ij}$. In this application we set $S$ to 45 which corresponds to randomly excluding approximately 2\% of the data from the estimation. Such a low number of observations were excluded in every fold because excluding any more observations would cause the ERGM specification to result in a degenerate model that empirically can not be fit. This highlights the computational difficulties associated with ERGMs in the presence of even small levels of missingness.
 
-% \begin{itemize}
-	% \item Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
-% 	\item For each $s \in \{1, \ldots, S\}$:
-% 	\begin{itemize}
-% 		\item Obtain estimates of the model parameters conditional on $\{y_{ij} : s_{ij} \neq s\}$, the data on pairs not in set $s$.
-% 		\item For pairs $\{kl\}$ in set $s$, let $\hat y_{kl} = E[y_{kl} | \{y_{ij} : s_{ij} \neq s\}]$, the predicted value of $y_{kl}$ obtained using data not in set $s$.
-% 	\end{itemize}
-% \end{itemize}
+\begin{figure*}[ht]
+	\centering
+	\begin{tabular}{cc}
+	\includegraphics[width=.4\textwidth]{roc_outSample} &
+	\includegraphics[width=.4\textwidth]{rocPr_outSample}
+	\end{tabular}
+	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are provided as well for both curves.}
+	\label{fig:roc}
+\end{figure*}
+\FloatBarrier
 
-% The procedure summarized in the steps above generates a sociomatrix of out-of-sample predictions of the observed data. Each entry $\hat y_{ij}$ is a predicted value obtained from using a subset of the data that does not include $y_{ij}$. In this application we set $S$ to 45 which corresponds to randomly excluding approximately 2\% of the data from the estimation. Such a low number of observations were excluded in every fold because excluding any more observations would cause the ERGM specification to result in a degenerate model that empirically can not be fit. This highlights the computational difficulties associated with ERGMs in the presence of even small levels of missingness.
-%
-% \begin{figure}[ht]
-% 	\centering
-% 	\begin{tabular}{cc}
-% 	\includegraphics[width=.5\textwidth]{roc_outSample} &
-% 	\includegraphics[width=.5\textwidth]{rocPr_outSample}
-% 	\end{tabular}
-% 	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are provided as well for both curves.}
-% 	\label{fig:roc}
-% \end{figure}
-% \FloatBarrier
-%
-% Using the set of out-of-sample predictions we generate from the cross-validation procedure, we provide a series of tests to assess model fit. First, is a diagnostic that is common in the political science literature. The left-most plot in Figure~\ref{fig:roc} compares the five approaches in terms of their ability to predict the out-of-sample occurrence of collaboration based on Receiver Operating Characteristic (ROC) curves. ROC curves provide a comparison of the trade-off between the True Positive Rate (TPR), sensitivity, False Positive Rate (FPR), 1-specificity, for each model. Models that have a better fit according to this test should have curves that follow the left-hand border and then the top border of the ROC space. On this diagnostic, the AME model performs best closely followed by ERGM. The MRQAP and Logit approaches perform similarly, and the LSM approach lags notably behind the other specifications.\footnote{In the online appendix, we provide additional comparisons between our AME approach and various parameterizations of the LSM, in each case we find that the AME approach provides far superior results in terms of out-of-sample predictive performance. However, the LSM approach does begin to perform notably better when incorporating sender and receiver random effects. We also compare performance when using varying values of K for the AME model, we find that increasing $K$ to 3 or 4 does not improve out-of-sample model fit. Typically setting $K=2$ works well for most applied cases.}
-%
-% A more intuitive visualization of the differences between these modeling approaches can be gleaned through examining the separation plots included on the right-bottom edge of the ROC plot. This visualization tool plots each of the observations, in this case actor pairs, in the dataset according to their predicted value from left (low values) to right (high values). Models with a good fit should have all network links, here these are colored by the modeling approach, towards the right of the plot. Using this type of visualization we can again see that the AME and ERGM models performs better than the alternatives.
-%
-% The last diagnostic we highlight to assess predictive performance are precision-recall (PR) curves. In both ROC and PR space we utilize the TPR, also referred to as recall--though in the former it is plotted on the y-axis and the latter the x-axis. The difference, however, is that in ROC space we utilize the FPR, while in PR space we use precision. FPR measures the fraction of negative examples that are misclassified as positive, while precision measures the fraction of examples classified as positive that are truly positive. PR curves are useful in situations where correctly predicting events is more interesting than simply predicting non-events \citep{davis:goadrich:2006}. This is especially relevant in the context of studying many relational datasets in political science such as conflict, because events in such data are extremely sparse and it is relatively easy to correctly predict non-events. In the case of our application dataset, the vast majority of dyads, 80\%, do not have a network linkage, which points to the relevance of assessing performance using the PR curves as we do in the right-most plot of Figure~\ref{fig:roc}. We can see that the relative-ordering of the models remains similar but the differences in how well they perform become much more stark. Here we find that the AME approach performs notably better in actually predicting network linkages than each of the alternatives. Area under the curve (AUC) statistics are provided in Figure~\ref{fig:roc} and these also highlight AME's superior out-of-sample performance.
-%
-% \subsection*{Capturing Network Attributes}
-%
-% For network data it is also important to assess whether a model adequately captures the network parameters of the dependent variable \citep{hunter:etal:2008}. To do this one can compare the observed network with a set of networks simulated from the estimated models. We restrict our focus to the three approaches--LSM, ERGM, and AME--that explicitly seek to model network interdependencies. We simulate 1,000 networks from the three models and compare how well they align with the observed network in terms of four network statistics: (1) the empirical standard deviation of the row means (i.e., heterogeneity of nodes in terms of the ties they send); (2) the empirical standard deviation of the column means (i.e., heterogeneity of nodes in terms of the ties they receive); (3) the empirical within-dyad correlation (i.e., measure of reciprocity in the network); and (4) a normalized measure of triadic dependence. A comparison of the LSM, ERGM, and AME models among these four statistics is shown in Figure~\ref{fig:ergmAmePerf}.\footnote{Scholars in the networks field usually test for more specific dependencies in order to ascertain whether a particular endogenous covariate needs to be added or modified. We perform this same performance exericise on a more specific set of statistics and include the results in the online appendix. There we also find that the AME does as well as ERGM, and that the LSM model lags behind.}
-%
-% \begin{figure}[ht]
-% 	\centering
-% 	\includegraphics[width=1\textwidth]{netPerfCoef}
-% 	\caption{Network goodness of fit summary using \pkg{amen}.}
-% 	\label{fig:ergmAmePerf}
-% \end{figure}
-% \FloatBarrier
-%
-% Here it becomes quickly apparent that the LSM model fails to capture how active and popular actors are in the Swiss climate change mitigation network.\footnote{Interestingly, even after incorporating random sender and receiver effects into the LSM framework this problem is not completely resolved, see the online appendix for details.} The AME and ERGM specifications again both tend to do equally well.\footnote{Not surprisingly, if we increase $K$ in the AME approach we are able to better account for triadic dependencies, see the online appendix for details.} If when running this diagnostic, we found that the AME model did not adequately represent the observed network this would indicate that we might want to increase $K$ to better account for network interdependencies. No changes to the model specification as described by the exogenous covariates a researcher has chosen would be necessary. If the ERGM results did not align with the diagnostic presented in Figure~\ref{fig:ergmAmePerf}, then this would indicate that an incorrect set of endogenous dependencies have been specified. Failing to identify (or find) the right specification will leave the researcher with the problems we introduced earlier.
-%
-% \section*{\textbf{Conclusion}}
-%
-% The AME approach to estimation and inference in network data provides a number of benefits over alternative approaches. Specifically, it provides a modeling framework for dyadic data that is based on familiar statistical tools such as linear regression, GLM, random effects, and factor models. We have an understanding of how each of these tools work, they are numerically more stable than ERGM approaches, and more general than alternative latent variable models. Further the estimation procedure utilized in AME avoids complicating interpretation of parameter estimates for exogenous variables. For researchers in the social sciences this is of primary interest, as many studies that employ relational data still have conceptualizations that are monadic or dyadic in nature. Additionally, through the application dataset utilized herein we show that the AME approach outperforms both ERGM and latent space models in out-of-sample prediction, and also is better able to capture network dependencies than the latent space model.
-%
-% More broadly, relational data structures are composed of actors that are part of a system. It is unlikely that this system can be viewed simply as a collection of isolated actors or pairs of actors. The assumption  that dependencies between observations occur can at the very least be examined. Failure to take into account interdependencies leads to biased parameter estimates and poor fitting models. By using standard diagnostics such as shown in Figure~\ref{fig:ergmAmePerf}, one can easily assess whether an assumption of independence is reasonable. We stress this point because a common misunderstanding that seems to have emerged within the social science literature relying on dyadic data is that a network based approach is only necessary if one has theoretical explanations that extend beyond the dyadic. This is not at all the case and findings that continue to employ a dyadic design may misrepresent the effects of the very variables that they are interested in. The AME approach that we have detailed here provides a statistically familiar way for scholars to account for unobserved network structures in relational data. Additionally, through this approach we can visualize these dependencies in order to better learn about the network patterns that remain in the event of interest after having accounted for observed covariates.
-%
-% When compared to other network based approaches, AME is easier to specify and utilize. It is also more straightforward to interpret since it does not require interpretation of unusual features such as \textit{three-stars} which fall outside of the normal language for discussing social science. Further, the \pkg{amen} package facilitates the modeling of longitudinal network data. In sum, excuses for continuing to treat relational data as conditionally independent are no longer valid.
+Using the set of out-of-sample predictions we generate from the cross-validation procedure, we provide a series of tests to assess model fit. First, is a diagnostic that is common in the political science literature. The left-most plot in Figure~\ref{fig:roc} compares the five approaches in terms of their ability to predict the out-of-sample occurrence of collaboration based on Receiver Operating Characteristic (ROC) curves. ROC curves provide a comparison of the trade-off between the True Positive Rate (TPR), sensitivity, False Positive Rate (FPR), 1-specificity, for each model. Models that have a better fit according to this test should have curves that follow the left-hand border and then the top border of the ROC space. On this diagnostic, the AME model performs best closely followed by ERGM. The MRQAP and Logit approaches perform similarly, and the LSM approach lags notably behind the other specifications. In the SI appendix, we provide additional comparisons between our AME approach and various parameterizations of the LSM, in each case we find that the AME approach provides far superior results in terms of out-of-sample predictive performance.
 
-\acknow{Please include your acknowledgments here, set in a single paragraph. Please do not include any acknowledgments in the Supporting Information, or anywhere else in the manuscript.}
+A more intuitive visualization of the differences between these modeling approaches can be gleaned through examining the separation plots included on the right-bottom edge of the ROC plot. This visualization tool plots each of the observations, in this case actor pairs, in the dataset according to their predicted value from left (low values) to right (high values). Models with a good fit should have all network links, here these are colored by the modeling approach, towards the right of the plot. Using this type of visualization we can again see that the AME and ERGM models performs better than the alternatives.
+
+The last diagnostic we highlight to assess predictive performance are precision-recall (PR) curves. In both ROC and PR space we utilize the TPR, also referred to as recall--though in the former it is plotted on the y-axis and the latter the x-axis. The difference, however, is that in ROC space we utilize the FPR, while in PR space we use precision. FPR measures the fraction of negative examples that are misclassified as positive, while precision measures the fraction of examples classified as positive that are truly positive. PR curves are useful in situations where correctly predicting events is more interesting than simply predicting non-events \citep{davis:goadrich:2006}. This is especially relevant in the context of studying many relational datasets in political science such as conflict, because events in such data are extremely sparse and it is relatively easy to correctly predict non-events. In the case of our application dataset, the vast majority of dyads, 80\%, do not have a network linkage, which points to the relevance of assessing performance using the PR curves as we do in the right-most plot of Figure~\ref{fig:roc}. We can see that the relative-ordering of the models remains similar but the differences in how well they perform become much more stark. Here we find that the AME approach performs notably better in actually predicting network linkages than each of the alternatives. Area under the curve (AUC) statistics are provided in Figure~\ref{fig:roc} and these also highlight AME's superior out-of-sample performance.
+
+\subsection*{Capturing Network Attributes}
+
+We also assess which of these models best captures the network features of the dependent variable. To do this one can compare the observed network with a set of networks simulated from the estimated models. We restrict our focus to the three approaches--LSM, ERGM, and AME--that explicitly seek to model network interdependencies. We simulate 1,000 networks from the three models and compare how well they align with the observed network in terms of four network statistics: (1) the empirical standard deviation of the row means (i.e., heterogeneity of nodes in terms of the ties they send); (2) the empirical standard deviation of the column means (i.e., heterogeneity of nodes in terms of the ties they receive); (3) the empirical within-dyad correlation (i.e., measure of reciprocity in the network); and (4) a normalized measure of triadic dependence. A comparison of the LSM, ERGM, and AME models among these four statistics is shown in Figure~\ref{fig:ergmAmePerf}.\footnote{Scholars in the networks field usually test for more specific dependencies in order to ascertain whether a particular endogenous covariate needs to be added or modified. We perform this same performance exericise on a more specific set of statistics and include the results in the online appendix. There we also find that the AME does as well as ERGM, and that the LSM model lags behind.}
+
+\begin{figure*}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{netPerfCoef}
+	\caption{Network goodness of fit summary using \pkg{amen}.}
+	\label{fig:ergmAmePerf}
+\end{figure*}
+\FloatBarrier
+
+Here it becomes quickly apparent that the LSM model fails to capture how active and popular actors are in the Swiss climate change mitigation network.\footnote{Interestingly, even after incorporating random sender and receiver effects into the LSM framework this problem is not completely resolved, see the online appendix for details.} The AME and ERGM specifications again both tend to do equally well. If when running this diagnostic, we found that the AME model did not adequately represent the observed network this would indicate that we might want to increase $K$ to better account for network interdependencies. No changes to the model specification as described by the exogenous covariates a researcher has chosen would be necessary. %If the ERGM results did not align with the diagnostic presented in Figure~\ref{fig:ergmAmePerf}, then this would indicate that an incorrect set of endogenous dependencies have been specified. Failing to identify (or find) the right specification will leave the researcher with the problems we introduced earlier.
+
+\section*{\textbf{Conclusion}}
+
+The AME approach to estimation and inference in network data provides a number of benefits over alternative approaches. Specifically, it provides a modeling framework for dyadic data that is based on familiar statistical tools such as linear regression, GLM, random effects, and factor models. We have an understanding of how each of these tools work, they are numerically more stable than ERGM approaches, and more general than alternative latent variable models. Further the estimation procedure utilized in AME avoids complicating interpretation of parameter estimates for exogenous variables. For researchers in the social sciences this is of primary interest, as many studies that employ relational data still have conceptualizations that are monadic or dyadic in nature. Additionally, through the application dataset utilized herein we show that the AME approach outperforms both ERGM and latent space models in out-of-sample prediction, and also is better able to capture network dependencies than the latent space model.
+
+More broadly, relational data structures are composed of actors that are part of a system. It is unlikely that this system can be viewed simply as a collection of isolated actors or pairs of actors. The assumption  that dependencies between observations occur can at the very least be examined. Failure to take into account interdependencies leads to biased parameter estimates and poor fitting models. By using standard diagnostics such as shown in Figure~\ref{fig:ergmAmePerf}, one can easily assess whether an assumption of independence is reasonable. We stress this point because a common misunderstanding that seems to have emerged within the social science literature relying on dyadic data is that a network based approach is only necessary if one has theoretical explanations that extend beyond the dyadic. This is not at all the case and findings that continue to employ a dyadic design may misrepresent the effects of the very variables that they are interested in. The AME approach that we have detailed here provides a statistically familiar way for scholars to account for unobserved network structures in relational data. Additionally, through this approach we can visualize these dependencies in order to better learn about the network patterns that remain in the event of interest after having accounted for observed covariates.
+
+When compared to other network based approaches, AME is easier to specify and utilize. It is also more straightforward to interpret since it does not require interpretation of unusual features such as \textit{three-stars} which fall outside of the normal language for discussing social science. Further, the \pkg{amen} package facilitates the modeling of longitudinal network data. In sum, excuses for continuing to treat relational data as conditionally independent are no longer valid.
+
+% \acknow{Please include your acknowledgments here, set in a single paragraph. Please do not include any acknowledgments in the Supporting Information, or anywhere else in the manuscript.}
 
 \showacknow % Display the acknowledgments section
 

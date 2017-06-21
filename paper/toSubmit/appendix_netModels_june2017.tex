@@ -190,6 +190,43 @@ The importance of this assumption becomes clearer in the process of estimating a
 
 The parameters are estimated by maximizing the likelihood. The likelihood as defined above is only valid if  $y_{ij}$ is independent of $y_{ji}$ and $y_{ik}$ given the set of covariates we specified, or the values of $\theta_{ij}$. 
 
+\subsection{Ingold \& Fischer Model Specification and Expected Effects}
+
+\newcolumntype{L}{>{\arraybackslash}m{9cm}}
+\begin{table}[ht]
+\centering
+\begingroup\scriptsize
+\begin{tabular}{lLc}
+\footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} & \footnotesize{\textbf{Expected Effect}} \\ \hline\hline
+	\multicolumn{3}{l}{\textbf{Conflicting policy preferences}} \\
+	\quad Business v. NGO & Binary, dyadic covariate that equals one when one actor is from the business sector and the other an NGO. & $-$ \\
+	\quad Opposition/alliance & Binary, dyadic covariate that equals one when $i$, sender, perceives $j$, receiver, as having similar policy objectives regarding climate change.  & $+$ \\
+	\quad Preference dissimilarity & Transformation of four core beliefs into a Manhattan distance matrix, smaller the distance the closer the beliefs of $i$ and $j$. & $-$ \\
+	\multicolumn{3}{l}{\textbf{Transaction costs}} \\
+	\quad Joint forum participation & Binary, dyadic covariate that equals one when $i$ and $j$ belong to the same policy forum. & $+$ \\
+	\multicolumn{3}{l}{\textbf{Influence}} \\
+	\quad Influence attribution & Binary, dyadic covariate that equals one when $i$ considers $j$ to be influential. & $+$ \\
+	\quad Alter's influence in-degree & Number of actors that mention $i$ as being influential, this is a measure of reputational power. & $+$ \\
+	\quad Influence absolute diff. & Absolute difference in reputational power between $i$ and $j$. & $-$ \\
+	\quad Alter = Government Actor & Binary, nodal covariate that equals one when $j$ is a state actor. & $+$ \\
+	\multicolumn{3}{l}{\textbf{Functional requirements}} \\
+	\quad Ego = Environment NGO & Binary, nodal covariate that equals one when $i$ is an NGO. & $+$ \\
+	\quad Same actor type & Binary, dyadic covariate that equals when $i$ and $j$ are the same actor type. & $+$ \\
+	\multicolumn{3}{l}{\textbf{Endogenous dependencies: ERGM Specific Parameters}} \\
+	\quad Mutuality & Captures concept of reciprocity, if $i$ indicates they collaborated with $j$ then $j$ likely collaborates with $i$. & $+$\\
+	\quad Outdegree popularity & Captures idea that actors sending more ties will be more popular targets themselves for collaboration.  & $+$ \\
+	\quad Twopaths & Counts the number of two-paths in the network, two-path is an instance where $i$ is connected to $j$, $j$ to $k$, but $i$ is not connected to $k$. & $-$ \\
+	\quad GWIdegree (2.0) & Takes into account how many ties a node sends in the network, used to capture network structures that result from some highly active nodes.  & $+$ \\
+	\quad GWESP (1.0) & Counts the number of shared partners for each pair and sums across.  & $+$ \\
+	\quad GWOdegree (0.5) & Takes into account how many ties a node receives in the network, used to capture networks structures that result from some highly popular nodes.  & $+$ \\
+\hline\hline
+\end{tabular}
+\endgroup
+\caption{Summary of variables to be included in model specification.}
+\label{tab:theorySpec}
+\end{table}
+\FloatBarrier
+
 \subsection{AME Model Convergence}
 \label{sec:ameConvAppendix}
 
