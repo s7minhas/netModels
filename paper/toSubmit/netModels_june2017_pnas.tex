@@ -6,13 +6,9 @@
 % layout control
 \usepackage{parallel}
 \usepackage{parcolumns}
-\usepackage{fancyhdr}
 
 % math typesetting
 \usepackage{array}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
 \usepackage{relsize}
 \usepackage{mathtools}
 \usepackage{bm}
@@ -27,7 +23,6 @@ digitsep=fullstop
 
 % tables
 \usepackage{tabularx}
-\usepackage{booktabs}
 \usepackage{multicol}
 \usepackage{multirow}
 \usepackage{longtable}
@@ -41,8 +36,6 @@ digitsep=fullstop
 
 % graphics stuff
 \usepackage{subfig}
-\usepackage{graphicx}
-\usepackage[space]{grffile} % allows us to specify directories that have spaces
 
 % -------------------- customizations -------------------- %
 
@@ -86,7 +79,7 @@ digitsep=fullstop
 % Please include corresponding author, author contribution and author declaration information
 % \authorcontributions{Please provide details of author contributions here.}
 % \authordeclaration{Please declare any conflict of interest here.}
-\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: s7.minhas@gmail.com}
+\correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: shahryar.minhas@duke.edu}
 
 % Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
 \keywords{ networks $|$ latent variable models } 
@@ -116,7 +109,7 @@ The potential for interdependence among observations poses a challenge to theore
 
 % A widely used approach is the exponential random graph model (ERGM), which allows researchers to estimate the role that particular dependencies play in giving rise to an observed network \citep{frank:strauss:1986,wasserman:pattison:1996}.
 
-% A variety of empirical frameworks have been developed to deal with the interdependencies inherent in relational data. A prominent class of approaches involves the use of latent variable models. The most cited latent variable model is the framework presented by \citet{hoff:etal:2002}, here each actor is assigned a position in a lower-dimensional social space and the Euclidean distance between actors corresponds to their probability of a tie. This approach has received much attention but has two important problems. First, this approach is only able to capture a particular set of dependence patterns that arise in relational data, which substantially limits the class of networks that it can be used to study. Second, due to the construction of the random variables used to characterize the latent space, using this approach as a regression tool complicates parameter interpretation.
+A variety of empirical frameworks have been developed to deal with the interdependencies inherent in relational data. A prominent class of approaches involves the use of latent variable models. The most cited latent variable model is the framework presented by Hoff et al. \cite{hoff:etal:2002}, here each actor is assigned a position in a lower-dimensional social space and the Euclidean distance between actors corresponds to their probability of a tie. This approach has received much attention but has two important problems. First, this approach is only able to capture a particular set of dependence patterns that arise in relational data, which substantially limits the class of networks that it can be used to study. Second, due to the construction of the random variables used to characterize the latent space, using this approach as a regression tool complicates parameter interpretation.
 
 A variety of empirical frameworks have been developed to deal with the interdependencies inherent in relational data. In this article, we introduce the additive and multiplicative effects model (AME). To illustrate the contrasts between AME, earlier latent variable models, and other approaches such as ERGM we apply each to studying a cross-sectional network measuring collaborations during the policy design of the Swiss CO$_{2}$ act. By doing so we are able to show that AME provides a superior goodness of fit to the data than alternative approaches, both in terms of ability to predict linkages and capture network dependencies. 
 
@@ -125,7 +118,6 @@ A variety of empirical frameworks have been developed to deal with the interdepe
 Relational, or dyadic, data provide measurements of how pairs of actors relate to one another. The easiest way to organize such data is the directed dyadic design in which the unit of analysis is some set of $n$ actors that have been paired together to form a dataset of $z$ directed dyads. A tabular design such as this for a set of $n$ actors, $\{i, j, k, l \}$ results in $n \times (n-1)$ observations, as shown in Table~\ref{tab:canDesign}. 
 
 \begin{table}[ht]
-	\captionsetup{justification=raggedright }
 	\centering
 		\centering
 		\begingroup
@@ -290,10 +282,10 @@ To contrast AME with alternative approaches, we utilize a cross-sectional networ
 We follow Ingold \& Fischer in developing a model specification. We do not review the specification in detail here, instead we just provide a summary of the variables to be included and the theoretical expectations of their effects in Table~\ref{tab:theorySpec}.
 
 \newcolumntype{L}{>{\arraybackslash}m{9cm}}
-% \begin{table}[ht]
-\begin{widetext}
+\begin{table*}[ht]
 \centering
 \begingroup\scriptsize
+\caption{Summary of variables to be included in model specification.}
 \begin{tabular}{lLc}
 \footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} & \footnotesize{\textbf{Expected Effect}} \\ \hline\hline
 	\multicolumn{3}{l}{\textbf{Conflicting policy preferences}} \\
@@ -320,11 +312,9 @@ We follow Ingold \& Fischer in developing a model specification. We do not revie
 \hline\hline
 \end{tabular}
 \endgroup
-% \caption{Summary of variables to be included in model specification.}
 \label{tab:theorySpec}
-\end{widetext}
-% \end{table}
-\FloatBarrier
+\end{table*}
+% \FloatBarrier
 
 \subsection*{Parameter Estimates}
 
@@ -335,9 +325,10 @@ Most relevant for us are how parameter estimates from AME relate to other approa
 
 % latex table generated in R 3.3.1 by xtable 1.8-2 package
 % Sun Aug 21 03:32:43 2016
-\begin{table}[ht]
+\begin{table*}[ht]
 \centering
 \begingroup\normalsize
+\caption{* p $<$ 0.05. Logistic regression and ERGM results are shown with standard errors in parentheses. MRQAP provides no standard errors. LSM and AME are shown with 95\% posterior credible intervals provided in brackets.}
 \begin{tabular}{lccccc}
    & Logit & MRQAP & LSM & ERGM & AME \\
   \hline
@@ -385,17 +376,19 @@ Intercept/Edges & -4.44$^{\ast}$ & -4.24$^{\ast}$ & 0.94$^{\ast}$ & -12.17$^{\as
 \hline
 \end{tabular}
 \endgroup
-\caption{* p $<$ 0.05. Logistic regression and ERGM results are shown with standard errors in parentheses. MRQAP provides no standard errors. LSM and AME are shown with 95\% posterior credible intervals provided in brackets.}
 \label{tab:regTable}
-\end{table}
+\end{table*}
 
-\FloatBarrier
+% \FloatBarrier
 
 There are also notable differences between the parameter estimates that result from the MRQAP, ERGM, and the AME. Using the AME we find evidence that \texttt{Preference dissimilarity} is associated with a reduced probability of collaboration between a pair of actors, which is in line with the theoretical expectations stated earlier. Additionally, the AME and MRQAP results differ from ERGM for the nodal effects related to whether a receiver of a collaboration is a government actor, \texttt{Alter=Government actor}, and whether the sender is an environmental NGO, \texttt{Ego=Environmental NGO}.
 
 \subsection*{Tie Formation Prediction}
 
 How do these approaches fit the data out-of-sample? We utilize a cross-validation procedure to assess the out-of-sample performance for each of the models presented in Table~\ref{tab:regTable} as follows:
+
+
+	
 
 % \begin{itemize}
 	% \item Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
