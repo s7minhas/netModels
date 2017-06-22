@@ -172,23 +172,23 @@ Many network approaches have been developed in descriptive fashion, but attentio
 
 \section{\textbf{Appendix}}
 
-\subsection{Limitations of Standard Framework}
-
-Generalized linear models are typically expressed via a stochastic and systematic component. The stochastic component reflects assumptions about the probability distribution from which the data are generated: $y_{ij} \sim P(Y | \theta_{ij})$, with a probability density or mass function such as the normal, binomial, or Poisson. Each dyad in the sample is independently drawn from a particular distribution, given $\theta_{ij}$. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. A fundamental assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of the distribution, each of the dyadic observations is conditionally independent.
-
-The importance of this assumption becomes clearer in the process of estimating a GLM via maximum likelihood. After having chosen a set of covariates and specifying a distribution, the joint density function over all dyads using the observations from Table 1 is given:
-
-\vspace{-8mm}
-\begin{align}
-\begin{aligned}
-	P(y_{ij}, y_{ik}, \ldots, y_{lk} | \theta_{ij}, \theta_{ik}, \ldots, \theta_{lk}) &= P(y_{ij} | \theta_{ij}) \times P(y_{ik} | \theta_{ik}) \times \ldots \times P(y_{lk} | \theta_{lk}) \\
-	P(\mathbf{Y} \; | \; \bm{\theta}) &= \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})  \\
-\end{aligned}
-\end{align}
-
-\noindent The joint probability is converted into a likelihood: $\displaystyle \mathcal{L} (\bm{\theta} | \mathbf{Y}) = \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})$.
-
-The parameters are estimated by maximizing the likelihood. The likelihood as defined above is only valid if  $y_{ij}$ is independent of $y_{ji}$ and $y_{ik}$ given the set of covariates we specified, or the values of $\theta_{ij}$. 
+% \subsection{Limitations of Standard Framework}
+%
+% Generalized linear models are typically expressed via a stochastic and systematic component. The stochastic component reflects assumptions about the probability distribution from which the data are generated: $y_{ij} \sim P(Y | \theta_{ij})$, with a probability density or mass function such as the normal, binomial, or Poisson. Each dyad in the sample is independently drawn from a particular distribution, given $\theta_{ij}$. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. A fundamental assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of the distribution, each of the dyadic observations is conditionally independent.
+%
+% The importance of this assumption becomes clearer in the process of estimating a GLM via maximum likelihood. After having chosen a set of covariates and specifying a distribution, the joint density function over all dyads using the observations from Table 1 is given:
+%
+% \vspace{-8mm}
+% \begin{align}
+% \begin{aligned}
+% 	P(y_{ij}, y_{ik}, \ldots, y_{lk} | \theta_{ij}, \theta_{ik}, \ldots, \theta_{lk}) &= P(y_{ij} | \theta_{ij}) \times P(y_{ik} | \theta_{ik}) \times \ldots \times P(y_{lk} | \theta_{lk}) \\
+% 	P(\mathbf{Y} \; | \; \bm{\theta}) &= \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})  \\
+% \end{aligned}
+% \end{align}
+%
+% \noindent The joint probability is converted into a likelihood: $\displaystyle \mathcal{L} (\bm{\theta} | \mathbf{Y}) = \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})$.
+%
+% The parameters are estimated by maximizing the likelihood. The likelihood as defined above is only valid if  $y_{ij}$ is independent of $y_{ji}$ and $y_{ik}$ given the set of covariates we specified, or the values of $\theta_{ij}$.
 
 \subsection{Ingold \& Fischer Model Specification and Expected Effects}
 
@@ -258,41 +258,41 @@ When it comes to estimating higher-order effects, ERGM is able to provide explic
 
 In Figure~\ref{fig:uv}, the directions of $\hat{u}_{i}$'s and $\hat{v}_{i}$'s are noted in lighter and darker shades, respectively, of an actor's type.\footnote{For example, actors from industry and business are assigned a color of blue and the direction of $\hat{u}_{i}$ for these actors is shown in light blue and $\hat{v}_{i}$ in dark blue} The size of actors is a function of the magnitude of the vectors, and dashed lines between actors indicate greater than expected levels of collaboration based on the regression term and additive effects. In the case of the application dataset that we are using here organization names have been anonymized and no additional covariate information is available. However, if we were to observe nodes sharing certain attributes clustering together in this circle plot that would mean such an attribute could be an important factor in helping us to understand collaborations among actors in this network. Given how actors of different types are distributed in almost a random fashion in this plot, we can at least be sure that it is unlikely other third-order patterns can be picked up by that factor.
 
-\clearpage
-\subsection{Other Network Goodness of Fit Tests}
-\label{sec:otherNetGof}
-
-Below we show a standard set of statistics upon which comparisons are usually conducted:\footnote{See \citet{morris:etal:2008} for details on each of these parameters. If one was to examine goodness of fit in the \pkg{ergm} package these parameters would be calculated by default.}
-
-\newcolumntype{L}{>{\arraybackslash}m{9cm}}
-\begin{table}[ht]
-\centering
-\begingroup\scriptsize
-\begin{tabular}{lL}
-\footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} \\ \hline\hline
-	Dyad-wise shared partners & Number of dyads in the network with exactly $i$ shared partners. \\
-	Edge-wise shared partners & Similar to above except this counts the number of dyads with the same number of edges. \\
-	Geodesic distances & The proportion of pairs of nodes whose shortest connecting path is of length $k$, for $k=1,2,\ldots$. Also, pairs of nodes that are not connected are classified as $k=\infty$. \\
-	Incoming k-star & Propensities for individuals to have connections with multiple network partners. \\
-	Indegree & Proportion of nodes with the same value of the attribute as the receiving node. \\
-	Outdegree & Proportion of nodes with the same value of the attribute as the sending node. \\
-\hline\hline
-\end{tabular}
-\endgroup
-\caption{Description of a set of standard statistics used to assess whether a model captures network dependencies. }
-\label{tab:netStat}
-\end{table}
-\FloatBarrier
-
-We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LSM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LSM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=1\textwidth]{ggGofAll}
-	\caption{Goodness of fit statistics to assess how well the LSM, ERGM, and AME approaches account for network dependencies.}
-	\label{fig:gofAll}
-\end{figure}
-\FloatBarrier
+% \clearpage
+% \subsection{Other Network Goodness of Fit Tests}
+% \label{sec:otherNetGof}
+%
+% Below we show a standard set of statistics upon which comparisons are usually conducted:\footnote{See \citet{morris:etal:2008} for details on each of these parameters. If one was to examine goodness of fit in the \pkg{ergm} package these parameters would be calculated by default.}
+%
+% \newcolumntype{L}{>{\arraybackslash}m{9cm}}
+% \begin{table}[ht]
+% \centering
+% \begingroup\scriptsize
+% \begin{tabular}{lL}
+% \footnotesize{\textbf{Variable}} & \footnotesize{\textbf{Description}} \\ \hline\hline
+% 	Dyad-wise shared partners & Number of dyads in the network with exactly $i$ shared partners. \\
+% 	Edge-wise shared partners & Similar to above except this counts the number of dyads with the same number of edges. \\
+% 	Geodesic distances & The proportion of pairs of nodes whose shortest connecting path is of length $k$, for $k=1,2,\ldots$. Also, pairs of nodes that are not connected are classified as $k=\infty$. \\
+% 	Incoming k-star & Propensities for individuals to have connections with multiple network partners. \\
+% 	Indegree & Proportion of nodes with the same value of the attribute as the receiving node. \\
+% 	Outdegree & Proportion of nodes with the same value of the attribute as the sending node. \\
+% \hline\hline
+% \end{tabular}
+% \endgroup
+% \caption{Description of a set of standard statistics used to assess whether a model captures network dependencies. }
+% \label{tab:netStat}
+% \end{table}
+% \FloatBarrier
+%
+% We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LSM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LSM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
+%
+% \begin{figure}[ht]
+% 	\centering
+% 	\includegraphics[width=1\textwidth]{ggGofAll}
+% 	\caption{Goodness of fit statistics to assess how well the LSM, ERGM, and AME approaches account for network dependencies.}
+% 	\label{fig:gofAll}
+% \end{figure}
+% \FloatBarrier
 
 \clearpage
 \subsection{Comparison of \pkg{amen} \& \pkg{latentnet} $\sf{R}$ Packages}

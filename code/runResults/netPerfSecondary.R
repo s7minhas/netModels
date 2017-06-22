@@ -1,7 +1,7 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
-loadPkg( c( 'devtools', 'latentnet' ) ) ; devtools::install_github('s7minhas/amen') ; library(amen)
+loadPkg( c( 'devtools', 'latentnet' ) ) ; devtools::install_github('s7minhas/amen',ref='dev') ; library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))
@@ -35,6 +35,10 @@ perfList = list(AME=amePerf, ERGM=ergmPerf, LSM=lsEuclPerf)
 
 ################################################
 # Viz 
+# graphicsPath='~/Research/netModels/paper/toSubmit/'
+getNetPerfCoef(perfList, perfNetKey, actVals, 
+	pRows=2, save=TRUE, fWidth=5, fHeight=5,
+	fPath=paste0(graphicsPath, 'netPerfCoef_vert.pdf'))
 getNetPerfCoef(perfList, perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef.pdf'))
 getNetPerfDist(perfList, perfNetKey, actVals, save=TRUE, fPath=paste0(graphicsPath, 'netPerfDist.pdf'))
 ################################################

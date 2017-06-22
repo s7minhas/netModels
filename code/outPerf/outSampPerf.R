@@ -31,6 +31,9 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample.rda') ) ){
 	}
 ################################################
 
+graphicsPath='~/Research/netModels/paper/toSubmit/'
+predDfs = predDfs[c('LSM','ERGM','AME')]
+
 ################################################
 # get auc summary
 aucSumm = do.call('rbind', 
@@ -40,12 +43,12 @@ aucSumm = do.call('rbind',
 aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
  
-# Write out tex
-print.xtable( xtable(aucSumm, align='lcc', 
-		caption='Area under the curve (AUC) comparison.', label='tab:aucTable'), 
-	include.rownames=TRUE, sanitize.text.function=identity,
-	hline.after=c(0, 0, nrow(frame), nrow(frame)),
-	size='normalsize', file=paste0(graphicsPath, 'aucTable_outSample.tex') )
+# # Write out tex
+# print.xtable( xtable(aucSumm, align='lcc', 
+# 		caption='Area under the curve (AUC) comparison.', label='tab:aucTable'), 
+# 	include.rownames=TRUE, sanitize.text.function=identity,
+# 	hline.after=c(0, 0, nrow(frame), nrow(frame)),
+# 	size='normalsize', file=paste0(graphicsPath, 'aucTable_outSample.tex') )
 
 # Roc Plot
 rocData = lapply(1:length(predDfs), function(ii){
@@ -55,12 +58,12 @@ rocData = lapply(1:length(predDfs), function(ii){
 rocData = do.call('rbind', rocData)
 
 # model col/lty
-ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')
-ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')
+ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')[c(3,2,1)]
+ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')[c(2,4,5)]
 
 # Separation plots
 sepPngList = lapply(1:length(predDfs), function(ii){
-	fSepPath = paste0(graphicsPath,'sep_',names(predDfs)[ii],'_outSample.png')
+	fSepPath = paste0(graphicsPath,'sep_',names(predDfs)[ii],'_outSampleSmall.png')
 	# save as pngs for potential use outside of roc
 	ggSep(actual=predDfs[[ii]]$'actual', proba=predDfs[[ii]]$'prob', 
 		color=ggCols[ii], lty=ggLty[ii], fPath=fSepPath, save=TRUE )
@@ -72,8 +75,9 @@ tmp = rocPlot(rocData, linetypes=ggLty, colorManual=ggCols)+guides(linetype = FA
 for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-ggsave(tmp, file=paste0(graphicsPath, 'roc_outSample.pdf'), width=5, height=5, device=cairo_pdf)
+# tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs), family="Source Sans Pro Light")
+ggsave(tmp, file=paste0(graphicsPath, 'roc_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
 
 # area under precision-recall curves (Beger 2016 [arxiv])
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -85,12 +89,15 @@ rocPrData = do.call('rbind', rocPrData)
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
 	guides(linetype=FALSE, color=FALSE) + 
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
-	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
+	# annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
+	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.35, 		
 		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
-	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
+	# annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
+	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:3], 		
 		label=rev(rownames(aucSumm)), family='Source Sans Pro Light') + 
-	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
+	# annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
+	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:3], 		
 		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')})),
 		family='Source Sans Pro Light')
-ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSample.pdf'), width=5, height=5, device=cairo_pdf)
+ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
 ################################################
