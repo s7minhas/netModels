@@ -30,6 +30,9 @@ coefDfs = list(LSM=lsEuclTab, 'LSM (Bilinear)'=lsBilTab,
 	'LSM (SR)'=lsEuclTabSR, 'LSM (Bilinear + SR)'=lsBilTabSR, 
 	AME=ameTab)
 
+graphicsPath='~/Research/netModels/paper/toSubmit/'
+coefDfs = coefDfs[c(1,3,5)]
+
 # table
 frameRows = rep(varKey[,2], each=2)
 frameRows = append(frameRows, '\\textbf{Conflicting policy preferences}', which(frameRows=='Intercept/Edges')[2])
@@ -47,9 +50,9 @@ varLab = frameRows; varLab[errorRows] = ''; frame[,1] = varLab; rownames(frame)[
 
 # Add logit results
 frame = insertCoefInfo(frame, model='LSM', error='int')
-frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
+# frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
 frame = insertCoefInfo(frame, model='LSM (SR)', error='int')
-frame = insertCoefInfo(frame, model='LSM (Bilinear + SR)', error='int')
+# frame = insertCoefInfo(frame, model='LSM (Bilinear + SR)', error='int')
 frame = insertCoefInfo(frame, model='AME', error='int')
 
 # cleanup
@@ -59,12 +62,12 @@ frame = frame[-(grep('Endogenous dependencies', frame[,1]):nrow(frame)),]
 
 # print
 print.xtable(
-	xtable(frame, align='llccccc',
+	xtable(frame, align='llccc',
 		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',
 		label='tab:regTable_latSpace'), 
 	include.rownames=FALSE,
 	sanitize.text.function=identity,
 	hline.after=c(0,0,nrow(frame),nrow(frame)),
-	size='tiny', file=paste0(graphicsPath, 'regTable_latSpace.tex')
+	size='tiny', file=paste0(graphicsPath, 'regTable_latSpaceSmall.tex')
 )
 ################################################
