@@ -31,11 +31,12 @@ lsEuclPerf = do.call('rbind', lapply(lsEuclSim$'networks', function(x){
 
 # org
 perfList = list(AME=amePerf, ERGM=ergmPerf, LSM=lsEuclPerf)
+names(perfList)[3] = 'LDM'
 ################################################
 
 ################################################
 # Viz 
-# graphicsPath='~/Research/netModels/paper/toSubmit/'
+graphicsPath='~/Research/netModels/paper/toSubmit/'
 getNetPerfCoef(perfList, perfNetKey, actVals, 
 	pRows=2, save=TRUE, fWidth=5, fHeight=5,
 	fPath=paste0(graphicsPath, 'netPerfCoef_vert.pdf'))

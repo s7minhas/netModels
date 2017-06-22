@@ -41,7 +41,7 @@ ameDist = getAmeGOF('ameFitSR_2.rda')
 # org
 gofDist = list(Logit=logitDist, ERGM=ergmDist, MRQAP=qapDist, LSM=lsEuclDist, AME=ameDist)
 ################################################
-
+names(gofDist)[4] = 'LDM'
 ################################################
 # create gof df
 ggData = getGofData(gofDist, actData)
@@ -50,6 +50,7 @@ ggData = getGofData(gofDist, actData)
 modsToKeep = unique(ggData$model) ; ggData = ggData[which(ggData$model %in% modsToKeep[c(2,4,5)]),]
 
 # plot
+graphicsPath='~/Research/netModels/paper/toSubmit/'
 ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
 	save=TRUE, fPath=paste0(graphicsPath, 'ggGofAll.pdf'), fWidth=12, fHeight=16)
 

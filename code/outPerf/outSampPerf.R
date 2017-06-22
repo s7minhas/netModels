@@ -33,6 +33,7 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample.rda') ) ){
 
 graphicsPath='~/Research/netModels/paper/toSubmit/'
 predDfs = predDfs[c('LSM','ERGM','AME')]
+names(predDfs)[1] = 'LDM'
 
 ################################################
 # get auc summary

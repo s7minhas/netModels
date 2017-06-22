@@ -146,7 +146,7 @@ digitsep=fullstop
 
 \title{Supporting Information for ``Inferential Approaches for Network Analysis: AMEN for Latent Factor Models''} % \tnoteref{t1}
 
-\tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
+\tnotetext[t1]{S.M. and M.W. acknowledge support from National Science Foundation (NSF) Award 1259266 and P.H. acknowledges support from NSF Award 1505136.}
 
 \author[msu]{Shahryar Minhas\corref{cor1}}
 \ead{s7.minhas@gmail.com}
@@ -281,12 +281,12 @@ Below we show a standard set of statistics upon which comparisons are usually co
 \end{table}
 \FloatBarrier
 
-We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LSM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LSM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
+We simulate 1,000 networks from the LDM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LDM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LDM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{ggGofAll}
-	\caption{Goodness of fit statistics to assess how well the LSM, ERGM, and AME approaches account for network dependencies.}
+	\caption{Goodness of fit statistics to assess how well the LDM, ERGM, and AME approaches account for network dependencies.}
 	\label{fig:gofAll}
 \end{figure}
 \FloatBarrier
@@ -295,7 +295,7 @@ We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how wel
 \section*{Comparison of \pkg{amen} \& \pkg{latentnet} $\sf{R}$ Packages}
 \label{sec:ameVsLatentnetAppendix}
 
-Here we provide a comparison of the AME model we present in the paper with a variety of parameterizations from the \pkg{latentnet} package. The number of dimensions in the latent space in each of these cases is set to 2. LSM (SR) represents a model in which random sender and receiver effects are included. 
+Here we provide a comparison of the AME model we present in the paper with a variety of parameterizations from the \pkg{latentnet} package. The number of dimensions in the latent space in each of these cases is set to 2. LDM (SR) represents a model in which random sender and receiver effects are included. 
 
 % latex table generated in R 3.4.0 by xtable 1.8-2 package
 % Thu Jun 22 00:28:27 2017
@@ -303,7 +303,7 @@ Here we provide a comparison of the AME model we present in the paper with a var
 \centering
 \begingroup\footnotesize
 \begin{tabular}{lccc}
-   & LSM & LSM (SR) & AME \\ 
+   & LDM & LDM (SR) & AME \\ 
   \hline
 \hline
 Intercept/Edges & 0.94$^{\ast}$ & 0.60 & -3.39$^{\ast}$ \\ 

@@ -1,7 +1,7 @@
 rm(list=ls())
 source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R')) ; source(paste0(funcPath, 'netPerfHelpers.R'))
-loadPkg( c( 'devtools' ) ) ; devtools::install_github('s7minhas/amen') ; library(amen)
+loadPkg( c( 'devtools', 'latentnet' ) ) ; devtools::install_github('s7minhas/amen',ref='dev') ; library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))
@@ -44,15 +44,17 @@ amePerf = ameFit$'GOF'[-1,]
 
 # org
 perfList = list(
-	LSM=lsEuclPerf, 'LSM (Bilinear)'=lsBilPerf, 'LSM (SR)'=lsEuclSRPerf, 
-	'LSM (Bilinear + SR)'=lsBilSRPerf, AME=amePerf
+	'LSM'=lsEuclPerf, 'LSM (Bilinear)'=lsBilPerf, 'LSM (SR)'=lsEuclSRPerf, 
+	'LSM (Bilinear + SR)'=lsBilSRPerf, 'AME'=amePerf
 	)
 ################################################
+
+names(perfList)[c(1,3)] = c('LDM','LDM (SR)')
 
 ################################################
 # Viz 
 graphicsPath='~/Research/netModels/paper/toSubmit/'
-getNetPerfCoef(perfList[c('LSM','LSM (SR)','AME')],
+getNetPerfCoef(perfList[c('LDM','LDM (SR)','AME')],
 	perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_latSpaceSmall.pdf'))
 getNetPerfCoef(perfList, perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_latSpace.pdf'))
 getNetPerfDist(perfList, perfNetKey, actVals, pRows=2, save=TRUE, fPath=paste0(graphicsPath, 'netPerfDist_latSpace.pdf'))

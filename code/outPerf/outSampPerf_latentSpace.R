@@ -23,10 +23,12 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample_latentSpace.rda') ) ){
 	amePred = do.call('rbind', lapply(modsAme, function(x){ x$pred })) ; rm(list='modsAme')
 
 	# Organize pred DFs
-	predDfs = list( LSM=lsEuclPred,	'LSM (Bilinear)'=lsBilPred, 
+	predDfs = list(
+		'LSM'=lsEuclPred, 'LSM (Bilinear)'=lsBilPred, 
 		'LSM (SR)'=lsEuclPredSR, 'LSM (Bilinear + SR)'=lsBilPredSR,
-		'AME'=amePred )
-	save(predDfs, file=paste0(graphicsPath,'predData_outSample_latentSpace.rda'))	
+		'AME'=amePred
+		)
+	save(predDfs, file=paste0(graphicsPath,'predData_outSample_latentSpace.rda'))
 	} else {
 	load(paste0(graphicsPath,'predData_outSample_latentSpace.rda'))
 	}
@@ -34,6 +36,7 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample_latentSpace.rda') ) ){
 
 graphicsPath='~/Research/netModels/paper/toSubmit/'
 predDfs = predDfs[c('LSM','LSM (SR)','AME')]
+names(predDfs)[1:2] = c('LDM','LDM (SR)')
 
 ################################################
 # get auc summary
@@ -57,7 +60,7 @@ rocData = lapply(1:length(predDfs), function(ii){
 	p = cbind(r, model=names(predDfs)[ii])
 	return(p) })
 rocData = do.call('rbind', rocData)
-levels(rocData$model) = rev(c('LSM','LSM (SR)','AME'))
+levels(rocData$model) = rev(c('LDM','LDM (SR)','AME'))
 
 # model col/lty
 ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')[c(1,2,3)]
@@ -87,9 +90,10 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 	p = cbind(r, model=names(predDfs)[ii])
 	return(p) })
 rocPrData = do.call('rbind', rocPrData)
-levels(rocPrData$model) = rev(c('LSM','LSM (SR)','AME'))
+levels(rocPrData$model) = rev(c('LDM','LDM (SR)','AME'))
 
-aucLabs = gsub('\\(', '\n  \\(', rownames(aucSumm))
+# aucLabs = gsub('\\(', '\n  \\(', rownames(aucSumm))
+aucLabs = rownames(aucSumm)
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
 	guides(linetype=FALSE, color=FALSE) + 
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.57, ymax=.55, color='white', fill='white', size=.5) + 
