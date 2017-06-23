@@ -62,8 +62,8 @@ digitsep=fullstop
 \title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models}
 
 % Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
-\author[a,c,1]{Shahryar Minhas}
-\author[b,1,2]{Peter D. Hoff} 
+\author[a,c,2]{Shahryar Minhas}
+\author[b]{Peter D. Hoff} 
 \author[a]{Michael D. Ward}
 
 \affil[a]{Department of Political Science, Michigan State University, East Lansing, MI 48824, USA}
@@ -83,7 +83,7 @@ digitsep=fullstop
 \correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: s7.minhas@gmail.com}
 
 % Keywords are not mandatory, but authors are strongly encouraged to provide them. If provided, please include two to five keywords, separated by the pipe symbol, e.g:
-\keywords{ Social network analysis $|$ bayesian estimation $|$ latent variable models $|$ inference } 
+\keywords{ Social network analysis $|$ Bayesian estimation $|$ latent variable models $|$ inference } 
 
 \begin{abstract}
 There is growing interest in the study of social networks. Network analysis allows scholars to move away from focusing on individual observations to the interrelation- ships among observations. Many network approaches have been developed in descriptive fashion, but attention to inferential approaches to network analysis has been growing. We introduce a new approach that models interdependencies among observations using additive and multiplicative effects (AME). This approach can be applied to binary, ordinal, and continuous network data, and provides a set of tools for inference from longitudinal networks as well. We review this approach and compare it to an alternative latent variable approach and exponential random graph models. The AME approach is shown a) to be easy to implement; b) interpretable in a general linear model framework; c) computationally straightforward; d) not prone to degeneracy; and e) notably outperforms alternatives in terms of predicting links within a network in an out of sample context and capturing network dependencies.
@@ -373,17 +373,19 @@ Using the set of out-of-sample predictions we generate from the cross-validation
 
 A more intuitive visualization of the differences between these modeling approaches can be gleaned through examining the separation plots included on the right-bottom edge of the ROC plot. This visualization tool plots each of the observations, in this case actor pairs, in the dataset according to their predicted value from left (low values) to right (high values). Models with a good fit should have all network links, here these are colored by the modeling approach, towards the right of the plot. Using this type of visualization we can again see that the AME and ERGM models performs better than the alternatives.
 
-The last diagnostic we highlight to assess predictive performance are precision-recall (PR) curves. In both ROC and PR space we utilize the TPR, also referred to as recall--though in the former it is plotted on the y-axis and the latter the x-axis. The difference, however, is that in ROC space we utilize the FPR, while in PR space we use precision. FPR measures the fraction of negative examples that are misclassified as positive, while precision measures the fraction of examples classified as positive that are truly positive. PR curves are useful in situations where correctly predicting events is more interesting than simply predicting non-events \citep{davis:goadrich:2006}. This is especially relevant in the context of studying many relational datasets in political science such as conflict, because events in such data are extremely sparse and it is relatively easy to correctly predict non-events. In the case of our application dataset, the vast majority of dyads, 80\%, do not have a network linkage, which points to the relevance of assessing performance using the PR curves as we do in the right-most plot of Figure~\ref{fig:roc}. We can see that the relative-ordering of the models remains similar but the differences in how well they perform become much more stark. Here we find that the AME approach performs notably better in actually predicting network linkages than each of the alternatives. Area under the curve (AUC) statistics are provided in Figure~\ref{fig:roc} and these also highlight AME's superior out-of-sample performance.
-
 \begin{figure}[ht]
 	\centering
-	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are provided as well for both curves.}
+	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are also provided.}
 	\begin{tabular}{cc}
 	\includegraphics[width=.4\textwidth]{roc_outSampleSmall} \\
 	\includegraphics[width=.4\textwidth]{rocPr_outSampleSmall}
 	\end{tabular}
 	\label{fig:roc}
 \end{figure}
+
+The last diagnostic we highlight to assess predictive performance are precision-recall (PR) curves. In both ROC and PR space we utilize the TPR, also referred to as recall--though in the former it is plotted on the y-axis and the latter the x-axis. The difference, however, is that in ROC space we utilize the FPR, while in PR space we use precision. FPR measures the fraction of negative examples that are misclassified as positive, while precision measures the fraction of examples classified as positive that are truly positive. PR curves are useful in situations where correctly predicting events is more interesting than simply predicting non-events \citep{davis:goadrich:2006}. This is especially relevant in the context of studying many relational datasets in political science such as conflict, because events in such data are extremely sparse and it is relatively easy to correctly predict non-events. In the case of our application dataset, the vast majority of dyads, 80\%, do not have a network linkage, which points to the relevance of assessing performance using the PR curves as we do in the right-most plot of Figure~\ref{fig:roc}. We can see that the relative-ordering of the models remains similar but the differences in how well they perform become much more stark. Here we find that the AME approach performs notably better in actually predicting network linkages than each of the alternatives. Area under the curve (AUC) statistics are provided in Figure~\ref{fig:roc} and these also highlight AME's superior out-of-sample performance.
+
+
 \FloatBarrier
 
 \subsection*{Capturing Network Attributes}
@@ -418,8 +420,8 @@ When compared to other network based approaches, AME is easier to specify and ut
 \pnasbreak
 
 % Bibliography
-% \bibliography{/Users/mdw/git/whistle/master}
-\bibliography{/Users/janus829/whistle/master}
+ \bibliography{/Users/mdw/git/whistle/master}
+%\bibliography{/Users/janus829/whistle/master}
 % \bibliography{/Users/s7m/whistle/master}
 
 \end{document}
