@@ -169,7 +169,7 @@ When modeling relational data, scholars typically employ a linear or generalized
 
 The most common type of dependency that arises in networks are first-order, or nodal dependencies, and these point to the fact that we typically find significant heterogeneity in activity levels across nodes. The implication of this across-node heterogeneity is within-node homogeneity of ties, meaning that values across a row, say $\{y_{ij},y_{ik},y_{il}\}$, will be more similar to each other than other values in the adjacency matrix because each of these values has a common sender $i$. This type of dependency manifests in cases where sender $i$ tends to be more active or less active in the network than other senders. Similarly, while some actors may be more active in sending ties to others in the network, we might also observe that others are more popular targets, this would manifest in observations down a column, $\{y_{ji},y_{ki},y_{li}\}$, being more similar. Last, we might also find that actors who are more likely to send ties in a network are also more likely to receive them, meaning that the row and column means of an adjacency matrix may be correlated. Another ubiquitous type of structural interdependency is reciprocity. This is a second-order, or dyadic, dependency relevant only to directed datasets, and asserts that values of $y_{ij}$ and $y_{ji}$ may be statistically dependent. The prevalence of these types of potential interactions within directed dyadic data also complicates the basic assumption of observational independence. In the SI Appendix, we include a lengthier discussion on the limitations of studying relational data via the typical GLM framework.
 
-The presence of these types of interdependencies in relational data complicates the \textit{a priori} assumption of observational independence.  Accordingly, inferences drawn from misspecified models, such as the earlier pseudolikelihood approaches based on logistic regressions (e.g.m $\text{logit} p_{ij} \sim \beta^\intercal X_{ij}$) that ignore potential interdependencies between dyadic observations are likely to have a number of issues including biased estimates of the effect of independent variables, uncalibrated confidence intervals, and poor predictive performance. By ignoring these interdependencies, we ignore a potentially important part of the data generating process behind relational data. 
+The presence of these types of interdependencies in relational data complicates the \textit{a priori} assumption of observational independence.  Accordingly, inferences drawn from misspecified models, such as the earlier pseudolikelihood approaches based on logistic regressions (e.g. $\text{logit } p_{ij} \sim \beta^\intercal X_{ij}$) that ignore potential interdependencies between dyadic observations are likely to have a number of issues including biased estimates of the effect of independent variables, uncalibrated confidence intervals, and poor predictive performance. By ignoring these interdependencies, we ignore a potentially important part of the data generating process behind relational data. 
 
 \section*{\textbf{Social Relations Model: Additive Part of AME}}
 
@@ -250,10 +250,10 @@ The structure of $\alpha(\textbf{u}_{i}, \textbf{u}_{j})$ can result in very dif
 
 \begin{align*}
 	\eta_{i,j} & =  \beta^\top x_{i,j} + \textbf{u}_{i}^{\top} \Lambda \textbf{u}_{j} \\
-	\bar \eta & \approx  \beta^\top \bar x ,
+	\bar \eta & \approx  \beta^\top \bar x.
 \end{align*}
 
-and so the values of $\beta$ can be interpreted as yielding the ``average'' value of $\eta_{i,j}$. On the other hand, under the LDM
+The implication of this is that the values of $\beta$ can be interpreted as yielding the ``average'' value of $\eta_{i,j}$. On the other hand, under the LDM
 
 \begin{align*}
 	\eta_{i,j} & =  \beta^\top x_{i,j} - |\textbf{u}_{i} - \textbf{u}_{j}|  \\
@@ -276,7 +276,7 @@ Thus the LFM provides two important benefits. First, we are able to capture a wi
 	y_{ij} &= g(\theta_{ij}) \\
 	&\theta_{ij} = \bm\beta^{\top} \mathbf{X}_{ij} + e_{ij} \\
 	&e_{ij} = a_{i} + b_{j}  + \epsilon_{ij} + \alpha(\textbf{u}_{i}, \textbf{v}_{j}) \text{  , where } \\
-	&\qquad \alpha(\textbf{u}_{i}, \textbf{v}_{j}) = \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} = \sum_{k \in K} d_{k} u_{ik} v_{jk} \\
+	&\qquad \alpha(\textbf{u}_{i}, \textbf{v}_{j}) = \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} = \sum_{k \in K} d_{k} u_{ik} v_{jk}. \\
 \label{eqn:ame}
 \end{aligned}
 \end{align}
@@ -289,7 +289,7 @@ A popular alternative approach to accounting for network dependence patterns is 
 ERGM approaches are useful when researchers are interested in the role that a specific list of network statistics have in giving rise to a certain network. These network statistics could include the number of transitive triads in a network, balanced triads, reciprocal pairs and so on. In the ERGM framework, a set of statistics, $S(\mathbf{Y})$, define a model. Given the chosen set of statistics, the probability of observing a particular network dataset $\mathbf{Y}$ can be expressed as:
 
 \begin{align}
-\Pr(Y = y) = \frac{ \exp( \bm\beta^{\top} S(y)  )  }{ \sum_{z \in \mathcal{Y}} \exp( \bm\beta^{\top} S(z)  )  } \text{ ,  } y \in \mathcal{Y}
+\Pr(Y = y) = \frac{ \exp( \bm\beta^{\top} S(y)  )  }{ \sum_{z \in \mathcal{Y}} \exp( \bm\beta^{\top} S(z)  )  } \text{ ,  } y \in \mathcal{Y}.
 \label{eqn:ergm}
 \end{align}
 
@@ -420,7 +420,7 @@ The AME approach to estimation and inference in network data provides a number o
 
 More broadly, relational data structures are composed of actors that are part of a system. It is unlikely that this system can be viewed simply as a collection of isolated actors or pairs of actors. The assumption  that dependencies between observations occur can at the very least be examined. Failure to take into account interdependencies leads to biased parameter estimates and poor fitting models. By using standard diagnostics such as shown in Figure~\ref{fig:ergmAmePerf}, one can easily assess whether an assumption of independence is reasonable. We stress this point because a common misunderstanding that seems to have emerged within the social science literature relying on dyadic data is that a network based approach is only necessary if one has theoretical explanations that extend beyond the dyadic. This is not at all the case and findings that continue to employ a dyadic design may misrepresent the effects of the very variables that they are interested in. The AME approach that we have detailed here provides a statistically familiar way for scholars to account for unobserved network structures in relational data. Additionally, through this approach we can visualize these dependencies in order to better learn about the network patterns that remain in the event of interest after having accounted for observed covariates.
 
-When compared to other network based approaches, AME is easier to specify and utilize. It is also more straightforward to interpret since it does not require interpretation of unusual features such as \textit{three-stars} which fall outside of the normal language for discussing social science. Further, the \pkg{amen} package facilitates the modeling of longitudinal network data. In sum, excuses for continuing to treat relational data as conditionally independent are no longer valid.
+When compared to other network based approaches, AME is easier to specify and utilize. It is also more straightforward to interpret since it does not require interpretation of unusual features such as \textit{three-stars} which fall outside of the normal language for discussing social science. Further, the \pkg{amen} package facilitates the modeling of longitudinal network data. In sum, excuses for continuing to treat relational data as conditionally independent are becoming increasingly harder to make.
 
 \acknow{S.M. and M.W. acknowledge support from National Science Foundation (NSF) Award 1259266 and P.H. acknowledges support from NSF Award 1505136.}
 
