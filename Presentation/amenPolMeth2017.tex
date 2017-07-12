@@ -85,10 +85,53 @@
 
 \begin{document}
 \frame{\titlepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{\frametitle{Networks are important; How to Study}
+Obligatory Network Graph Here. This is Sexual Network in Typical Midwest High School (Bearman, Moody, Stovel, 2004).  
+  \centering
+  \includegraphics[width=.8\textwidth]{chains.jpg}
+}
+\frame{
+  \frametitle{Promise of Exponential Random Graph Models}
+  \vspace{-5mm}
+\begin{itemize}
+  \item - Early 1970s development of pseudolikelihood estimation: Ove Frank (1971); Julian Besag (1972) proposed using a logistic regression with network characteristics as covariates. Birth of ERGM.
+  \item -  
+  $P(x)= exp(\Theta^T s(x)- \psi(\theta))$, where $x$ is an adjacency matrix that is a graph, $s(\theta)$ are some set of sufficient statistics for the graph, and $\psi(\theta)$ is a normalizing constant, often set to be $\log \sum_x e^{\theta^T z{x)}}$. This is often estimated via pseudolikelihood, simply by regressing $x \sim \text{logit} (z(x))$.
+  \item - Maximum Likelihood is a better approach with Robbins and Monro, or the importance sampling approach of Geyer \& Thompson. More advances with Bayesian approaches are available now with MCMC (Koskinen, Robins \& Pattison).
+  \item - In the 1990s, networks became more widely recognized as important and the ERGM approach was often employed to estimate models in a variety of network domains. Needle sharing communities, HIV infections, for example.
+\end{itemize}
+}
+
+\frame{
+  \frametitle{There is a problem with ERGM.}
+  \framesubtitle{It is a bug, not a feature.}
+\vspace{-5mm}
+\begin{itemize}
+\item $\bullet$ Schweinberger, M. (2011). Instability, sensitivity, and degeneracy of discrete exponential families. \textbf{Journal of the American Statistical Association}, 106(496):1361–1370.
+\item $\bullet$Schweinberger, M. and Handcock, M. S. (2015). Local dependence in random graph models: Characterization, properties and statistical inference. \textbf{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, 77(3):647–676.
+\item $\bullet$Chatterjee, S. and Diaconis, P. (2013). Estimating and understanding ex- ponential random graph models. \textbf{The Annals of Statistics}, 41(5):2428–2461.
+\item $\bullet$Rastelli, R., Friel, N., and Raftery, A. E. (2016). Properties of latent variable network models. \textbf{Network Science}, 4(4):1–26.
+\end{itemize}
+}
+
+\frame{
+  \frametitle{It is a bug, not a feature.}
+\vspace{-5mm}
+\begin{itemize}
+\item $\bullet$Probabilistic ERGM models place almost all of the probability on networks that
+are either nearly empty (degenerate) with no linkages or nearly saturated with
+all nodes being interconnected. 
+\item $\bullet$The likelihood surface contains steep or discontinuous gradients
+that render it impossible to solve numerically (or analytically).  Even (especially) for very small networks this is problematic.
+\end{itemize}
+\includegraphics[scale=.3]{disconuity.png}
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
-  \frametitle{Motivation}
+  \frametitle{Let's (re)start with the data and build up an approach}
 
   \vspace{-10mm}
   Relational data consists of 
@@ -332,10 +375,45 @@ The probability of a tie from $i$ to $j$ depends on their latent factors
 \end{aligned}
 \end{align*}
 
-Can account for both stochastic equivalence and homophily
+Can account for both stochastic equivalence and homophily.
 
 }
+
+\frame{
+  \frametitle{Inner Product versus Euclidean Distance}
+
+We focus on two approaches to the latent space:  the latent distance model
+(LDM) and the latent factor model (LFM). 
+
+\begin{align}
+\begin{aligned}
+\text{Latent distance model} \\
+  &\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = -|\textbf{u}_{i} - \textbf{u}_{j}| \\
+  &\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
+\text{Latent factor model} \\
+  &\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = \textbf{u}_{i}^{\top} \Lambda \textbf{u}_{j} \\
+  &\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
+  &\Lambda \text{ a } K \times K \text{ diagonal matrix}
+\label{eqn:latAlpha}
+\end{aligned}
+\end{align}
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frame{\frametitle{Putting it all together}
+The AME approach can be restated as simple (\textit{simple}) regression
+\begin{align}
+\begin{aligned}
+  y_{ij} &= g(\theta_{ij}) \\
+  &\theta_{ij} = \bm\beta^{\top} \mathbf{X}_{ij} + e_{ij} \\
+  &e_{ij} = a_{i} + b_{j}  + \epsilon_{ij} + \alpha(\textbf{u}_{i}, \textbf{v}_{j}) \text{  , where } \\
+  &\qquad \alpha(\textbf{u}_{i}, \textbf{v}_{j}) = \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} = \sum_{k \in K} d_{k} u_{ik} v_{jk}. \\
+\label{eqn:ame}
+\end{aligned}
+\end{align}
+
+The \texttt{amen} package implements this. Let's use it to hit some nails.
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
@@ -365,7 +443,7 @@ Cross-sectional network measuring whether an actor indicated that they collabora
 \centering
 \begingroup\scriptsize
 \begin{tabular}{lcccccc}
-   & Expected & \multirow{2}{*}{Logit} & \multirow{2}{*}{MRQAP} & \multirow{2}{*}{LSM} & \multirow{2}{*}{ERGM} & \multirow{2}{*}{AME} \\ 
+   & Expected & \multirow{2}{*}{Logit} & \multirow{2}{*}{MRQAP} & \multirow{2}{*}{LDM} & \multirow{2}{*}{ERGM} & \multirow{2}{*}{AME} \\ 
    & Effect & & & & & \\
   \hline
   \textbf{Conflicting policy preferences} &  &  &  &  &  &  \\ 
@@ -388,6 +466,7 @@ Cross-sectional network measuring whether an actor indicated that they collabora
 \end{table}
 
 }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -434,12 +513,17 @@ This procedure generates a sociomatrix of out-of-sample predictions of the obser
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
   \frametitle{Network Dependencies}
-
-
   \centering
   \includegraphics[width=1\textwidth]{netPerfCoef}
-
 }
+
+\frame{\frametitle{Conclusion}
+\begin{enumerate}
+\item AME works for binary, count, and continuous relational data. 
+\item AME allows longitudinal network data (i.e., tensors), wherein there can be different observations (nodes) in different time slices.  
+\item AME is a regression based approach that has a numerically tractable likelihood function and it is not threatened by missing data. 
+\item Is available on CRAN, with some of the more recent features to be delivered later this summer, but availble to interested beta testers.
+\end{enumerate}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{
   \frametitle{References}
@@ -453,14 +537,14 @@ Hoff Peter D. (2008) Modeling homophily and stochastic equivalence in symmetric 
 Hoff Peter D. (2009) Multiplicative latent factor models for description and prediction of social networks. {\em Computational and Mathematical Organization Theory} 15(4):261--272.
 
 \item $\bullet$
-Hoff Peter D., Fosdick Bailey, Volfovsky Alex, Katherine Stovel. (2013) Likelihoods for fixed rank nomination networks. {\em Network Science} 1(3):253--277.
+Hoff Peter D., Bailey Fosdick, Volfovsky Alex, Katherine Stovel. (2013) Likelihoods for fixed rank nomination networks. {\em Network Science} 1(3):253--277.
 
 \item $\bullet$
 Hoff Peter D. (2015) Multilinear tensor regression for longitudinal relational data.
  {\em The Annals of Applied Statistics} 9(3):1169--1193.
 
 \item $\bullet$
-Hoff Peter D., Fosdick Bailey, Volfovsky Alex, He Yu (2015) {\em amen: {Additive} and {Multiplicative} Effects Models for Networks and Relational Data}. R package version 1.1; 1.3 in 2017; 1.4 real soon now.
+Hoff Peter D., Fosdick Bailey, Volfovsky Alex, He Yu (2015). {\em amen: {Additive} and {Multiplicative} Effects Models for Networks and Relational Data}. R package version 1.1; 1.3 in 2017; 1.4 real soon now.
 \end{itemize}
 \end{minipage}
 }
@@ -474,43 +558,6 @@ Hoff Peter D., Fosdick Bailey, Volfovsky Alex, He Yu (2015) {\em amen: {Additive
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\frame{
-  \frametitle{Hope of Exponential Random Graph Models}
-  \vspace{-5mm}
-\begin{itemize}
-  \item - Early 1970s development of pseudolikelihood estimation: Ove Frank (1971); Julian Besag (1972) proposed using a logistic regression with network characteristics as covariates. Birth of ERGM.
-  \item -  
-  $P(x)= exp(\Theta^T s(x)- \psi(\theta))$, where $x$ is an adjacency matrix that is a graph, $s(\theta)$ are some set of sufficient statistics for the graph, and $\psi(\theta)$ is a normalizing constant, often set to be $\log \sum_x e^{\theta^T z{x)}}$. This is often estimated via pseudolikelihood, simply by regressing $x \sim \text{logit} (z(x))$.
-  \item - Maximum Likelihood is a better approach withRobbins and Monro, or the importance sampling approach of Geyer \& Thompson. More advances with Bayesian approaches are available now with MCMC (Koskinen, Robins \& Pattison).
-  \item - In the 1990s, networks became more widely recognized as and the ERGM approach was employed to estimate models in a variety of network domains. Needle sharing communities, HIV infections, for example.
-\end{itemize}
-}
-
-\frame{
-  \frametitle{There is a problem with ERGM.}
-  \framesubtitle{It is a bug, not a feature.}
-\vspace{-5mm}
-\begin{itemize}
-\item $\bullet$ Schweinberger, M. (2011). Instability, sensitivity, and degeneracy of discrete expo- nential families. Journal of the American Statistical Association, 106(496):1361–1370.
-\item $\bullet$Schweinberger, M. and Handcock, M. S. (2015). Local dependence in random graph models: Characterization, properties and statistical inference. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 77(3):647–676.
-\item $\bullet$Chatterjee, S. and Diaconis, P. (2013). Estimating and understanding ex- ponential random graph models. The Annals of Statistics, 41(5):2428–2461.
-\item $\bullet$Rastelli, R., Friel, N., and Raftery, A. E. (2016). Properties of latent variable network models. Network Science, 4(4):1–26.
-\end{itemize}
-}
-
-\frame{
-  \frametitle{It is a bug, not a feature.}
-\vspace{-5mm}
-\begin{itemize}
-\item $\bullet$Probabilistic ERGM models place almost all of the probability on networks that
-are either nearly empty (degenerate) with no linkages or nearly saturated with
-all nodes being interconnected. 
-\item $\bullet$The likelihood surface contains steep or discontinuous gradients
-that render it impossible to solve numerically (or analytically).  Even (especially) for very small networks this is problematic.
-\end{itemize}
-\includegraphics[scale=.3]{disconuity.png}
-}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
