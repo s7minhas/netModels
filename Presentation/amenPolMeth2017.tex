@@ -399,6 +399,14 @@ We focus on two approaches to the latent space:  the latent distance model
 \end{align}
 }
 
+\frame{frametitle{Why Euclid Was Wrong.}
+\begin{itemize}
+\item First, social distances may not be Euclidean. We know distances among preferences are not.
+\item doh
+\item reh
+\item mi
+\end{itemize}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \frame{\frametitle{Putting it all together}
 The AME approach can be restated as simple (\textit{simple}) regression
@@ -485,6 +493,7 @@ Cross-sectional network measuring whether an actor indicated that they collabora
   \frametitle{Out of Sample Performance Assessment}
 
 \begin{itemize}
+  \item - randomly select a network by sampling on links.  Tricky for ERGM.
   \item - Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
   \item - For each $s \in \{1, \ldots, S\}$:
   \begin{itemize}
@@ -493,7 +502,7 @@ Cross-sectional network measuring whether an actor indicated that they collabora
   \end{itemize}
 \end{itemize}
 
-This procedure generates a sociomatrix of out-of-sample predictions of the observed data
+This procedure generates a sociomatrix of out-of-sample predictions of the observed data.
 
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
