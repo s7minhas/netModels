@@ -138,42 +138,30 @@ digitsep=fullstop
 \thispagestyle{empty}
 \begin{frontmatter}
 
-\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
+\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models}
 
-\tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
+% \tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
 
-\author[msu]{Shahryar Minhas\corref{cor1}}
-\ead{minhassh@msu.edu}
-\cortext[cor1]{Corresponding author}
-\author[duke2]{Peter D. Hoff}
-\author[duke]{Michael D. Ward}
+% \author[msu]{Shahryar Minhas\corref{cor1}}
+% \ead{minhassh@msu.edu}
+% \cortext[cor1]{Corresponding author}
+% \author[duke2]{Peter D. Hoff}
+% \author[duke]{Michael D. Ward}
 
-\address[msu]{Department of Political Science, Michigan State University, East Lansing, MI 48824, USA}
-\address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
-\address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
+% \address[msu]{Department of Political Science, Michigan State University, East Lansing, MI 48824, USA}
+% \address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
+% \address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
 
 \begin{abstract}
-\singlespacing{\input{1_Abstract}}
+There is growing interest in the study of social networks enabling  scholars to move away from focusing on individual observations to examining more precisely the interrelationships among observations. Many network approaches have been developed in a descriptive fashion, but attention to inferential approaches using statistical models of networks has been growing. We review a latent factor approach that models interdependencies among observations using additive and multiplicative effects (AME) which can be applied to binary, ordinal, and continuous network data. We compare  this to alternative latent variable models as well as to exponential random graph models (ERGM). The AME approach can be easily implemented in the context of general linear models. It is both computationally straightforward and avoids degeneracy, which often plagues ERGM. In an out-of-sample context, it out-performs alternatives in terms of predicting links and capturing network dependencies.
 \end{abstract}
-
 \end{frontmatter}
+
 % ----------------------------------------------- %
 
-\newpage\setcounter{page}{1} 
-
-% \input{2_intro}
-% \input{3_ame}
-% \input{4_app}
-% \input{5_concl}
-% \input{6_append}
-
-\newpage
-
-% Bib stuff
-\clearpage
-\bibliography{{/Users/janus829/whistle/master}, {/Users/s7m/whistle/master}, {/Users/mdw/git/whistle/master}}
+\bibliography{/Users/janus829/whistle/master}
 % \bibliography{/Users/mdw/git/whistle/master}
 \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \newpage
 
-\end{document} 
+\end{document}
