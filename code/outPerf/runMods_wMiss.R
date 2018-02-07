@@ -5,42 +5,42 @@ source(paste0(funcPath, 'functions.R'))
 loadPkg(c('doParallel', 'foreach'))
 cores = min(8, length(nw.collabMiss))
 
-##########
-# ergm model
-cl=makeCluster(cores) ; registerDoParallel(cl)
-modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
+# ##########
+# # ergm model
+# cl=makeCluster(cores) ; registerDoParallel(cl)
+# modsErgm = foreach(ii=1:length(nw.collabMiss), .packages=c('ergm','sna') ) %dopar% {
 
-    dv = nw.collabMiss[[ii]]
-    mod <- ergm(dv ~ 
-        edges + 
-        edgecov(collab.t) + 
-        nodeifactor("orgtype", base = -1) + 
-        nodeofactor("orgtype", base = -2) + 
-        nodematch("orgtype") + 
-        edgecov(priv.ngo) + 
-        edgecov(forum) + 
-        edgecov(infrep) + 
-        nodeicov("influence") + 
-        absdiff("influence") + 
-        edgecov(prefdist) + 
-        edgecov(allopp) + 
-        odegreepopularity + 
-        twopath + 
-        gwidegree(2, fixed = TRUE) + 
-        gwesp(1, fixed = TRUE) + 
-        gwodegree(0.5, fixed = TRUE),
-        eval.loglik = TRUE, check.degeneracy = TRUE, control = control.ergm(seed = seed) )
-    sim = simulate.ergm(mod,nsim=1000)
-    probs = Reduce('+', lapply(sim, as.sociomatrix) ) / length(sim)
-    oProbs = probs[which(rposmat==ii)]
-    pred = data.frame(prob=oProbs, actual=yAct[[ii]])
-    summ=list(mod=mod,sim=sim,pred=pred)
-    return(summ)
-}
-stopCluster(cl)
-save(modsErgm, file=paste0(resultsPath, 'ergmOutPerfResults.rda'))
-rm(list='modsErgm')
-##########
+#     dv = nw.collabMiss[[ii]]
+#     mod <- ergm(dv ~ 
+#         edges + 
+#         edgecov(collab.t) + 
+#         nodeifactor("orgtype", base = -1) + 
+#         nodeofactor("orgtype", base = -2) + 
+#         nodematch("orgtype") + 
+#         edgecov(priv.ngo) + 
+#         edgecov(forum) + 
+#         edgecov(infrep) + 
+#         nodeicov("influence") + 
+#         absdiff("influence") + 
+#         edgecov(prefdist) + 
+#         edgecov(allopp) + 
+#         odegreepopularity + 
+#         twopath + 
+#         gwidegree(2, fixed = TRUE) + 
+#         gwesp(1, fixed = TRUE) + 
+#         gwodegree(0.5, fixed = TRUE),
+#         eval.loglik = TRUE, check.degeneracy = TRUE, control = control.ergm(seed = seed) )
+#     sim = simulate.ergm(mod,nsim=1000)
+#     probs = Reduce('+', lapply(sim, as.sociomatrix) ) / length(sim)
+#     oProbs = probs[which(rposmat==ii)]
+#     pred = data.frame(prob=oProbs, actual=yAct[[ii]])
+#     summ=list(mod=mod,sim=sim,pred=pred)
+#     return(summ)
+# }
+# stopCluster(cl)
+# save(modsErgm, file=paste0(resultsPath, 'ergmOutPerfResults.rda'))
+# rm(list='modsErgm')
+# ##########
 
 #########
 # latentnet mod
@@ -70,7 +70,7 @@ modsLs = foreach(ii=1:length(nw.collabMiss), .packages=c('latentnet') ) %dopar% 
     return(summ)
 }
 stopCluster(cl)
-save(modsLs, file=paste0(resultsPath, 'euclLatSpaceOutPerfResults.rda'))
+save(modsLs, file=paste0(resultsPath, 'euclLatSpaceOutPerfResults_v2.rda'))
 rm(list='modsLs')
 ##########
 

@@ -77,10 +77,14 @@ for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
 # tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs), family="Source Sans Pro Light")
-ggsave(tmp, file=paste0(graphicsPath, 'roc_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs)
+	# , family="Source Sans Pro Light"
+	)
+ggsave(tmp, file=paste0(graphicsPath, 'roc_outSampleSmall.pdf'), width=5, height=5
+	# , device=cairo_pdf
+	)
 
-# area under precision-recall curves (Beger 2016 [arxiv])
+# area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
 	r = rocdf(predDfs[[ii]]$'prob', predDfs[[ii]]$'actual', type='pr')
 	p = cbind(r, model=names(predDfs)[ii])
@@ -92,13 +96,20 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
 	# annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
 	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.35, 		
-		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
+		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
+		# , family='Source Sans Pro Black'
+		, size=4) + 
 	# annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
 	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:3], 		
-		label=rev(rownames(aucSumm)), family='Source Sans Pro Light') + 
+		label=rev(rownames(aucSumm))
+		# , family='Source Sans Pro Light'
+		) + 
 	# annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
 	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:3], 		
-		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')})),
-		family='Source Sans Pro Light')
-ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
+		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
+		# , family='Source Sans Pro Light'
+		)
+ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSampleSmall.pdf'), width=5, height=5
+	# , device=cairo_pdf
+	)
 ################################################

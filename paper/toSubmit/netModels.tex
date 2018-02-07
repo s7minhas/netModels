@@ -139,30 +139,30 @@ digitsep=fullstop
 
 \begin{document}
 
-% % saying hello ----------------------------------------------- %
-% \thispagestyle{empty}
-% \begin{frontmatter}
-%
-% \title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
-%
+% saying hello ----------------------------------------------- %
+\thispagestyle{empty}
+\begin{frontmatter}
+
+\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
+
 % \tnotetext[t1]{This research was partially supported by the National Science Foundation Award 1259266.}
-%
+
 % \author[msu]{Shahryar Minhas\corref{cor1}}
 % \ead{minhassh@msu.edu}
 % \cortext[cor1]{Corresponding author}
 % \author[duke2]{Peter D. Hoff}
 % \author[duke]{Michael D. Ward}
-%
+
 % \address[msu]{Department of Political Science, Michigan State University, East Lansing, MI 48824, USA}
 % \address[duke]{Department of Political Science, Duke University, Durham, NC 27701, USA}
 % \address[duke2]{Departments of Statistics, Duke University, Durham, NC 27701, USA}
-%
-% \begin{abstract}
-% There is growing interest in the study of social networks enabling  scholars to move away from focusing on individual observations to examining more precisely the interrelationships among observations. Many network approaches have been developed in a descriptive fashion, but attention to inferential approaches using statistical models of networks has been growing. We review a latent factor approach that models interdependencies among observations using additive and multiplicative effects (AME) which can be applied to binary, ordinal, and continuous network data. We compare  this to alternative latent variable models as well as to exponential random graph models (ERGM). The AME approach can be easily implemented in the context of general linear models. It is both computationally straightforward and avoids degeneracy, which often plagues ERGM. In an out-of-sample context, it out-performs alternatives in terms of predicting links and capturing network dependencies.
-% \end{abstract}
-% \end{frontmatter}
-%
-% % ----------------------------------------------- %
+
+\begin{abstract}
+There is growing interest in the study of social networks enabling  scholars to move away from focusing on individual observations to examining more precisely the interrelationships among observations. Many network approaches have been developed in a descriptive fashion, but attention to inferential approaches using statistical models of networks has been growing. We review a latent factor approach that models interdependencies among observations using additive and multiplicative effects (AME) which can be applied to binary, ordinal, and continuous network data. We compare  this to alternative latent variable models as well as to exponential random graph models (ERGM). The AME approach can be easily implemented in the context of general linear models. It is both computationally straightforward and avoids degeneracy, which often plagues ERGM. In an out-of-sample context, it out-performs alternatives in terms of predicting links and capturing network dependencies.
+\end{abstract}
+\end{frontmatter}
+
+% ----------------------------------------------- %
 
 \newpage\setcounter{page}{1} 
 
@@ -180,8 +180,7 @@ To highlight the differences between AME and alternative approaches for conducti
 % {\large\sffamily\bfseries{Addressing Dependencies in Dyadic Data}} 
 % \vspace{0.5em}
 
-Relational, or dyadic, data provide measurements of how pairs of actors relate to one another. The easiest way to organize such data is the directed dyadic design in which the unit of analysis is some set of $n$ actors that have been paired together to form a dataset of directed dyads. 
-Operationally, this type of data structure is represented as a $n \times n$ matrix, $\mathbf{Y}$, where the diagonals are typically undefined. The $ij^{th}$ entry defines the relationship sent from $i$ to $j$ and can be continuous or discrete.
+Relational, or dyadic, data provide measurements of how pairs of actors relate to one another. The easiest way to organize such data is the directed dyadic design in which the unit of analysis is some set of $n$ actors that have been paired together to form a dataset of directed dyads. Operationally, this type of data structure is represented as a $n \times n$ matrix, $\mathbf{Y}$, where the diagonals are typically undefined. The $ij^{th}$ entry defines the relationship sent from $i$ to $j$ and can be continuous or discrete.
 %A tabular design such as this for a set of $n$ actors, $\{i, j, k\}$ results in $n \times (n-1)$ observations, denoted
 %$Y_{ij}$, typically with values on the diagonal being undefined (or missing).
 %as shown in Table~\ref{tab:netDesign}. 
@@ -275,8 +274,7 @@ Another third-order dependence pattern that cannot be accounted for in the addit
 
 To account for third-order dependence patterns within the context of the SRRM we turn to latent variable models, which have become a popular approach for modeling relational data in fields as diverse as biology to computer science to the social sciences. These models assumes that relationships between nodes are mediated by a small number ($K$) of node-specific unobserved latent variables. One reason for their increased usage is that they enable researchers to capture and visualize third-order dependencies in a way that other approaches are not able to replicate. %Additionally, the conditional independence assumption facilitates the testing of a variety of nodal and dyadic level theories, and provides a range of computational advantages relative to ERGMs.
 
-A number of latent variable approaches have been developed to represent third-order dependencies in relational data, we focus on two here: the the latent distance model
-(LDM) and the latent factor model (LFM). For the sake of exposition, we consider the case where relations are symmetric to describe the differences between these approaches. Both of these approaches can be incorporated into an asymmetric version of the framework that we have been constructing through the inclusion of an additional term to the model for $y_{ij}$, $\alpha(u_{i}, u_{j})$, that captures latent third-order characteristics of a network, where $u_{i}$ and $u_{j}$ are node-specific latent variables. General definitions for how $\alpha(u_{i}, u_{j})$ is defined for these latent variable models are shown in Equations~\ref{eqn:latAlpha}. One other point of note about these approaches is that researchers have to specify a value for $K$.
+A number of latent variable approaches have been developed to represent third-order dependencies in relational data, we focus on two here: the the latent distance model (LDM) and the latent factor model (LFM). For the sake of exposition, we consider the case where relations are symmetric to describe the differences between these approaches. Both of these approaches can be incorporated into an asymmetric version of the framework that we have been constructing through the inclusion of an additional term to the model for $y_{ij}$, $\alpha(u_{i}, u_{j})$, that captures latent third-order characteristics of a network, where $u_{i}$ and $u_{j}$ are node-specific latent variables. General definitions for how $\alpha(u_{i}, u_{j})$ is defined for these latent variable models are shown in Equations~\ref{eqn:latAlpha}. One other point of note about these approaches is that researchers have to specify a value for $K$.
 %In the case of the latent distance and factor models, a value of $K$ equal to two or three is typically large enough to account for third-order dependencies in relational data.
 These two approaches are given below:
 
@@ -298,7 +296,8 @@ In the LDM approach introduced in \cite{hoff:etal:2002}, each node $i$ has some 
 This is problematic as real-world networks exhibit varying degrees of stochastic equivalence and homophily. In these situations, using the LDM would end up representing only a part of the network structure. In the latent factor model, each actor has an unobserved vector of characteristics, $\textbf{u}_{i} = \{u_{i,1}, \ldots, u_{i,K} \}$, which describe their behavior as an actor in the network. The probability of a tie from $i$ to $j$ depends on the extent to which $\textbf{u}_{i}$ and $\textbf{u}_{j}$ are ``similar'' (i.e., point in the same direction) and on whether the entries of $\Lambda$ are greater or less than zero.
 
 % The singular value decomposition is a model based analogue to the eigenvalue decomposition for directed networks.
-More specifically, the similarity in the latent factors, $\textbf{u}_{i} \approx \textbf{u}_{j}$, corresponds to how stochastically equivalent a pair of actors are and the eigenvalue determines whether the network exhibits positive or negative homophily. For example, say that we estimate a rank-one latent factor model (i.e., $K=1$), in this case $\textbf{u}_{i}$ is represented by a scalar $u_{i,1}$, similarly, $\textbf{u}_{j}=u_{j,1}$, and $\Lambda$ will have just one diagonal element $\lambda$. The average effect this will have on $y_{ij}$ is simply $\lambda \times u_{i} \times u_{j}$, where a positive value of $\lambda>0$ indicates homophily and $\lambda<0$ anti-homophily. This approach can represent both homophily and stochastic equivalence, and that the alternative latent variable approaches can be represented as a latent factor model but not vice versa \cite{hoff:2008}. In the directed version of this approach, we use the singular value decomposition, here actors in the network have a vector of latent characteristics to describe their behavior as a sender, denoted by $\textbf{u}$, and as a receiver, $\textbf{v}$: $\textbf{u}_{i}, \textbf{v}_{j} \in \mathbb{R}^{K}$. This can alter the probability of an interaction between $ij$ additively: $\textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j}$, where $\textbf{D}$ is a $K \times K$ diagonal matrix.
+More specifically, the similarity in the latent factors, $\textbf{u}_{i} \approx \textbf{u}_{j}$, corresponds to how stochastically equivalent a pair of actors are and the eigenvalue determines whether the network exhibits positive or negative homophily. For example, say that we estimate a rank-one latent factor model (i.e., $K=1$), in this case $\textbf{u}_{i}$ is represented by a scalar $u_{i,1}$, similarly, $\textbf{u}_{j}=u_{j,1}$, and $\Lambda$ will have just one diagonal element $\lambda$. The average effect this will have on $y_{ij}$ is simply $\lambda \times u_{i} \times u_{j}$, where a positive value of $\lambda>0$ indicates homophily and $\lambda<0$ heterophily. This approach can represent both varying degrees of homophily and stochastic equivalence. In the directed version of this approach, we use the singular value decomposition, here actors in the network have a vector of latent characteristics to describe their behavior as a sender, denoted by $\textbf{u}$, and as a receiver, $\textbf{v}$: $\textbf{u}_{i}, \textbf{v}_{j} \in \mathbb{R}^{K}$. This can alter the probability of an interaction between $ij$ additively: $\textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j}$, where $\textbf{D}$ is a $K \times K$ diagonal matrix.
+% , and that the alternative latent variable approaches can be represented as a latent factor model but not vice versa \cite{hoff:2008}
 
 Both the latent distance and factor models are ``conditional independence models'' in that they assume that ties are conditionally independent given all of the observed predictors and unknown node-specific parameters: $p( Y | X , U ) = \prod_{i<j} p( y_{i,j}  | x_{i,j} , u_i , u_j)$. Typical parametric models of this form relate $y_{i,j}$ to $(x_{i,j},u_i,u_j)$ via some sort of link function:
 
@@ -373,49 +372,49 @@ The first point to note is that, in general, the parameter estimates returned by
 % Sun Aug 21 03:32:43 2016
 \begin{table}[ht]
 \centering
-\caption{* p $<$ 0.05. ERGM results are shown with standard errors in parentheses. LDM and AME are shown with 95\% posterior credible intervals provided in brackets.}
+\caption{ERGM results are shown with standard errors in parentheses. LDM and AME are shown with 95\% posterior credible intervals provided in brackets.}
 \begin{tabular}{lccc}
   & LDM & ERGM & AME \\
   \hline
 \hline
-Intercept/Edges & 0.94$^{\ast}$ & -12.17$^{\ast}$ & -3.39$^{\ast}$ \\
+Intercept/Edges & 0.94 & -12.17 & -3.39 \\
    & [0.09; 1.82] & (1.40) & [-4.38; -2.50] \\
   \textbf{Conflicting policy preferences}  &  &  &  \\
-  $\;\;\;\;$ Business vs. NGO & -1.37$^{\ast}$ & -1.11$^{\ast}$ & -1.37$^{\ast}$ \\
+  $\;\;\;\;$ Business vs. NGO & -1.37 & -1.11 & -1.37 \\
    & [-2.42; -0.41] & (0.51) & [-2.44; -0.47] \\
-  $\;\;\;\;$ Opposition/alliance  & 0.00 & 1.22$^{\ast}$ & 1.08$^{\ast}$ \\
+  $\;\;\;\;$ Opposition/alliance  & 0.00 & 1.22 & 1.08 \\
    & [-0.40; 0.39] & (0.20) & [0.72; 1.47] \\
-  $\;\;\;\;$ Preference dissimilarity & -1.76$^{\ast}$ & -0.44 & -0.79$^{\ast}$ \\
+  $\;\;\;\;$ Preference dissimilarity & -1.76 & -0.44 & -0.79 \\
    & [-2.62; -0.90] & (0.39) & [-1.55; -0.08] \\
   \textbf{Transaction costs}  &  &  &  \\
-  $\;\;\;\;$ Joint forum participation & 1.51$^{\ast}$ & 0.90$^{\ast}$ & 0.92$^{\ast}$ \\
+  $\;\;\;\;$ Joint forum participation & 1.51 & 0.90 & 0.92 \\
    & [0.86; 2.17] & (0.28) & [0.40; 1.47] \\
   \textbf{Influence}  &  &  &  \\
-  $\;\;\;\;$ Influence attribution & 0.08 & 1.00$^{\ast}$ & 1.09$^{\ast}$ \\
+  $\;\;\;\;$ Influence attribution & 0.08 & 1.00 & 1.09 \\
    & [-0.40; 0.55] & (0.21) & [0.69; 1.53] \\
-  $\;\;\;\;$ Alter's influence indegree & 0.01 & 0.21$^{\ast}$ & 0.11$^{\ast}$ \\
+  $\;\;\;\;$ Alter's influence indegree & 0.01 & 0.21 & 0.11 \\
    & [-0.03; 0.04] & (0.04) & [0.07; 0.15] \\
-  $\;\;\;\;$ Influence absolute diff. & 0.04 & -0.05$^{\ast}$ & -0.07$^{\ast}$ \\
+  $\;\;\;\;$ Influence absolute diff. & 0.04 & -0.05 & -0.07 \\
    & [-0.01; 0.09] & (0.01) & [-0.11; -0.03] \\
-  $\;\;\;\;$ Alter = Government actor & -0.46 & 1.04$^{\ast}$ & 0.55 \\
+  $\;\;\;\;$ Alter = Government actor & -0.46 & 1.04 & 0.55 \\
    & [-1.08; 0.14] & (0.34) & [-0.07; 1.15] \\
   \textbf{Functional requirements}  &  &  &  \\
-  $\;\;\;\;$ Ego = Environmental NGO & -0.60 & 0.79$^{\ast}$ & 0.67 \\
+  $\;\;\;\;$ Ego = Environmental NGO & -0.60 & 0.79 & 0.67 \\
   & [-1.32; 0.09] & (0.17) & [-0.38; 1.71] \\
-  $\;\;\;\;$ Same actor type & 1.17$^{\ast}$ & 0.99$^{\ast}$ & 1.04$^{\ast}$ \\
+  $\;\;\;\;$ Same actor type & 1.17 & 0.99 & 1.04 \\
    & [0.63; 1.71] & (0.23) & [0.63; 1.50] \\
   \textbf{Endogenous dependencies}  &  &  &  \\
-  $\;\;\;\;$ Mutuality &  & 0.81$^{\ast}$ & 0.39 \\
+  $\;\;\;\;$ Mutuality &  & 0.81 & 0.39 \\
    &  & (0.25) & [-0.12; 0.96] \\
-  $\;\;\;\;$ Outdegree popularity  &  & 0.95$^{\ast}$ &  \\
+  $\;\;\;\;$ Outdegree popularity  &  & 0.95 &  \\
    &  & (0.09) &  \\
-  $\;\;\;\;$ Twopaths  &  & -0.04$^{\ast}$ &  \\
+  $\;\;\;\;$ Twopaths  &  & -0.04 &  \\
   &  & (0.02) &  \\
-  $\;\;\;\;$ GWIdegree (2.0)  &  & 3.42$^{\ast}$ &  \\
+  $\;\;\;\;$ GWIdegree (2.0)  &  & 3.42 &  \\
    &  & (1.47) &  \\
-  $\;\;\;\;$ GWESP (1.0)  &  & 0.58$^{\ast}$ &  \\
+  $\;\;\;\;$ GWESP (1.0)  &  & 0.58 &  \\
    &  & (0.16) &  \\
-  $\;\;\;\;$ GWOdegree (0.5)  &  & 8.42$^{\ast}$ &  \\
+  $\;\;\;\;$ GWOdegree (0.5)  &  & 8.42 &  \\
    &  & (2.11) &  \\
    \hline
 \hline

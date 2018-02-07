@@ -41,14 +41,14 @@ rocPlot = function(rocData, type='roc', legPos=c(.56,.25), colorPal = 'Set1', co
     geom_line(lwd=1) +
     ylim(0,1) + 
     scale_linetype_manual(values=linetypes) + 
-    theme_light(base_family="Source Sans Pro") + 
+    # theme_light(base_family="Source Sans Pro") + 
     theme(
   		legend.position=legPos, legend.title=element_blank(),
       legend.background=element_blank(), 
       legend.text.align = 0, legend.text=element_text(size=legText),
       legend.key=element_rect(colour = NA, fill = NA), legend.key.size=unit(legSpace,'lines'),
-      axis.text.x=element_text(family="Source Sans Pro Light"),
-      axis.text.y=element_text(family="Source Sans Pro Light"),    
+      # axis.text.x=element_text(family="Source Sans Pro Light"),
+      # axis.text.y=element_text(family="Source Sans Pro Light"),    
       axis.ticks=element_blank(),    
   		panel.border=element_blank()
 		)
