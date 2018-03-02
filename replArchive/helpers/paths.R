@@ -1,5 +1,0 @@
-dPath = paste0(getwd(),'/')
-dataPath = paste0(dPath, "data/data/")
-resultsPath = paste0(dPath, 'data/rdaResults/')
-graphicsPath = paste0(dPath, 'data/summResults/')
-funcPath = paste0(dPath, 'helpers/')
