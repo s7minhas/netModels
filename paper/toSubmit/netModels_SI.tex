@@ -167,23 +167,27 @@ digitsep=fullstop
 
 \newpage\setcounter{page}{1}
 
-\section*{Limitations of Standard Framework}
+\section*{Additive and Multiplicative Effects Gibbs Sampler}
 
-Generalized linear models are typically expressed via a stochastic and systematic component. The stochastic component reflects assumptions about the probability distribution from which the data are generated: $y_{ij} \sim P(Y | \theta_{ij})$, with a probability density or mass function such as the normal, binomial, or Poisson. Each dyad in the sample is independently drawn from a particular distribution, given $\theta_{ij}$. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. A fundamental assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of the distribution, each of the dyadic observations is conditionally independent.
+To estimate, the effects of our exogenous variables and latent attributes we utilize a Bayesian probit model in which we sample from the posterior distribution of the full conditionals until convergence. Specifically, given observed data $\textbf{Y}$ and $\textbf{X}$ -- where $\textbf{X}$ is a design array that includes our sender, receiver, and dyadic covariates -- we estimate our network of binary ties using a probit framework where: $y_{ij,t} = 1(\theta_{ij,t}>0)$ and $\theta_{ij,t} = \bm\beta^{\top}\mathbf{X}_{ij,t} + a_{i} + b_{j} + \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} + \epsilon_{ij}$. The derivation of the full conditionals is described in detail in \citet{hoff:2005} and \citet{hoff:2008}, thus here we only outline the Markov chain Monte Carlo (MCMC) algorithm for the AME model that we utilize in this paper.
 
-The importance of this assumption becomes clearer in the process of estimating a GLM via maximum likelihood. After having chosen a set of covariates and specifying a distribution, the joint density function over all dyads using the observations from Table 1 is given:
-
-\vspace{-8mm}
-\begin{align}
-\begin{aligned}
-	P(y_{ij}, y_{ik}, \ldots, y_{lk} | \theta_{ij}, \theta_{ik}, \ldots, \theta_{lk}) &= P(y_{ij} | \theta_{ij}) \times P(y_{ik} | \theta_{ik}) \times \ldots \times P(y_{lk} | \theta_{lk}) \\
-	P(\mathbf{Y} \; | \; \bm{\theta}) &= \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})  \\
-\end{aligned}
-\end{align}
-
-\noindent The joint probability is converted into a likelihood: $\displaystyle \mathcal{L} (\bm{\theta} | \mathbf{Y}) = \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})$.
-
-The parameters are estimated by maximizing the likelihood. The likelihood as defined above is only valid if  $y_{ij}$ is independent of $y_{ji}$ and $y_{ik}$ given the set of covariates we specified, or the values of $\theta_{ij}$.
+\begin{itemize}
+ \item Given initial values of $\{\bm\beta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}\}$, the algorithm proceeds as follows:
+ \begin{itemize}
+ 	\item sample $\bm\theta \; | \;  \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
+ 	\item sample $\bm\beta \; | \;  \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
+ 	\item sample $\textbf{a}, \textbf{b} \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
+	\item sample $\Sigma_{ab} \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Inverse-Wishart)
+ 	\item update $\rho$ using a Metropolis-Hastings step with proposal $p^{*} | p  \sim$ truncated normal$_{[-1,1]}(\rho, \sigma_{\epsilon}^{2})$
+ 	\item sample $\sigma_{\epsilon}^{2} \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \text{ and } \rho$ (Inverse-Gamma)
+ 	\item For each $k \in K$:
+ 	\begin{itemize}
+ 		\item Sample $\textbf{U}_{[,k]} \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}_{[,-k]}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
+ 		\item Sample $\textbf{V}_{[,k]} \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}_{[,-k]}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
+ 		\item Sample $\textbf{D}_{[k,k]}  \; | \; \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)\footnote{Subsequent to estimation, \textbf{D} matrix is absorbed into the calculation for $\textbf{V}$ as we iterate through $K$. }
+ 	\end{itemize}
+ \end{itemize}
+\end{itemize}
 
 \clearpage
 \section*{Ingold \& Fischer Model Specification and Expected Effects}
