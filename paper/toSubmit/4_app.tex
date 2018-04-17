@@ -65,7 +65,7 @@ There are also a few differences between the parameter estimates that result fro
 
 \subsection*{Tie Formation Prediction}
 
-Next, we utilize a cross-validation procedure to assess the out-of-sample performance for each of the models presented in Table~\ref{tab:regTable} as follows:
+To test which model more accurately captures the data generating process for this network, we utilize a cross-validation procedure to assess the out-of-sample performance for each of the models presented in Table~\ref{tab:regTable}. Our cross-validation approach proceeds as follows:
 
 \begin{itemize}
 	\item Randomly divide the $n \times (n-1)$ data points into $S$ sets of roughly equal size, letting $s_{ij}$ be the set to which pair $\{ij\}$ is assigned.
