@@ -41,7 +41,7 @@ ameDist = getAmeGOF('ameFitSR_2.rda')
 # org
 gofDist = list(Logit=logitDist, ERGM=ergmDist, MRQAP=qapDist, LSM=lsEuclDist, AME=ameDist)
 ################################################
-names(gofDist)[4] = 'LDM'
+
 ################################################
 # create gof df
 ggData = getGofData(gofDist, actData)

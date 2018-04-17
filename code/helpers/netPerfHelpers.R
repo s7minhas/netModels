@@ -90,13 +90,13 @@ ggGof = function(
 	if(!save){ return( tmp ) }
 	if(save){
 		tmp=tmp + theme(
-			legend.text=element_text(family="Source Sans Pro Light", size=18),
-			axis.text.x=element_text(family="Source Sans Pro Light", size=12),
-			axis.text.y=element_text(family="Source Sans Pro Light",size=12),
-			# axis.title.y=element_text(family='Source Sans Pro Semibold', size=16),
-			strip.text.x = element_text(family="Source Sans Pro Semibold", size=18)
+			legend.text=element_text(size=18),
+			axis.text.x=element_text(size=12),
+			axis.text.y=element_text(size=12),
+			# axis.title.y=element_text(size=16),
+			strip.text.x = element_text(size=18)
 			)
-		ggsave(tmp, file=fPath, width=fWidth, height=fHeight, device=cairo_pdf)
+		ggsave(tmp, file=fPath, width=fWidth, height=fHeight)
 	}
 }	
 
@@ -155,12 +155,7 @@ getNetPerfCoef = function(
 			)
 	if(!save){ return(tmp) }
 	if(save){
-		tmp = tmp + theme(
-			legend.text=element_text(family="Source Sans Pro Light"),
-			axis.title.y=element_text(family='Source Sans Pro Semibold'),
-			strip.text.x = element_text(family="Source Sans Pro Semibold")
-			)
-		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
+		ggsave(tmp, file=fPath, height=fHeight, width=fWidth)
 	}
 }
 

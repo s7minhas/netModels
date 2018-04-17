@@ -49,12 +49,10 @@ perfList = list(
 	)
 ################################################
 
-names(perfList)[c(1,3)] = c('LDM','LDM (SR)')
-
 ################################################
 # Viz 
 graphicsPath='~/Research/netModels/paper/toSubmit/'
-getNetPerfCoef(perfList[c('LDM','LDM (SR)','AME')],
+getNetPerfCoef(perfList[c('LSM','LSM (SR)','AME')],
 	perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_latSpaceSmall.pdf'))
 getNetPerfCoef(perfList, perfNetKey, actVals, pRows=1, save=TRUE, fPath=paste0(graphicsPath, 'netPerfCoef_latSpace.pdf'))
 getNetPerfDist(perfList, perfNetKey, actVals, pRows=2, save=TRUE, fPath=paste0(graphicsPath, 'netPerfDist_latSpace.pdf'))

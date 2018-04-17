@@ -36,7 +36,6 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample_latentSpace.rda') ) ){
 
 graphicsPath='~/Research/netModels/paper/toSubmit/'
 predDfs = predDfs[c('LSM','LSM (SR)','AME')]
-names(predDfs)[1:2] = c('LDM','LDM (SR)')
 
 ################################################
 # get auc summary
@@ -60,7 +59,6 @@ rocData = lapply(1:length(predDfs), function(ii){
 	p = cbind(r, model=names(predDfs)[ii])
 	return(p) })
 rocData = do.call('rbind', rocData)
-levels(rocData$model) = rev(c('LDM','LDM (SR)','AME'))
 
 # model col/lty
 ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')[c(1,2,3)]
@@ -81,8 +79,8 @@ for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
 # tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs), family="Source Sans Pro Light")
-ggsave(tmp, file=paste0(graphicsPath, 'roc_latSpace_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs))
+ggsave(tmp, file=paste0(graphicsPath, 'roc_latSpace_outSampleSmall.pdf'), width=5, height=5)
 
 # area under precision-recall curves (Beger 2016 [arxiv])
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -90,7 +88,6 @@ rocPrData = lapply(1:length(predDfs), function(ii){
 	p = cbind(r, model=names(predDfs)[ii])
 	return(p) })
 rocPrData = do.call('rbind', rocPrData)
-levels(rocPrData$model) = rev(c('LDM','LDM (SR)','AME'))
 
 # aucLabs = gsub('\\(', '\n  \\(', rownames(aucSumm))
 aucLabs = rownames(aucSumm)
@@ -99,13 +96,13 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.57, ymax=.55, color='white', fill='white', size=.5) + 
 	# annotate('text', hjust=0, x=c(-.1, .27, .46), y=.55, 
 	annotate('text', hjust=0, x=c(-.1, .27, .46), y=.35, 
-		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), family='Source Sans Pro Black', size=4) + 
+		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), size=4) + 
 	# annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
 	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:3], 		
-		label=rev(aucLabs), family='Source Sans Pro Light') + 
+		label=rev(aucLabs)) + 
 	# annotate('text', hjust=0, x=.28, y=seq(.05, .45, .1), 
 	annotate('text', hjust=0, x=.28, y=seq(.05, .45, .1)[1:3], 
-		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')})),
-		family='Source Sans Pro Light')
-ggsave(tmp, file=paste0(graphicsPath, 'rocPr_latSpace_outSampleSmall.pdf'), width=5, height=5, device=cairo_pdf)
+		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
+		)
+ggsave(tmp, file=paste0(graphicsPath, 'rocPr_latSpace_outSampleSmall.pdf'), width=5, height=5)
 ################################################	

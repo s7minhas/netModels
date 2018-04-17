@@ -144,7 +144,7 @@ digitsep=fullstop
 \thispagestyle{empty}
 \begin{frontmatter}
 
-\title{Supporting Information for ``Additive and Multiplicative Latent Factor Models for Network Inference''} % \tnoteref{t1}
+\title{Supporting Information for ``Inferential Approaches for Network Analysis: AMEN for Latent Factor Models''} % \tnoteref{t1}
 
 % \tnotetext[t1]{S.M. and M.W. acknowledge support from National Science Foundation (NSF) Award 1259266 and P.H. acknowledges support from NSF Award 1505136.}
 
@@ -245,19 +245,19 @@ Trace plot for AME model presented in paper.
 \FloatBarrier
 \newpage
 
-% \section*{Multiplicative Effects Visualization}
-%
-% When it comes to estimating higher-order effects, ERGM is able to provide explicit estimates of a variety of higher-order parameters, however, this comes with the caveat that these are the ``right'' set of endogenous dependencies. The AME approach, as shown in Equation~\ref{eqn:ame}, estimates network dependencies by examining patterns left over after taking into account the observed covariates. For the sake of space, we focus on examining the third-order dependencies left over after accounting for the observed covariates and network covariance structure modeled by the SRM. A visualization of remaining third-order dependencies is shown in Figure~\ref{fig:uv}.
-%
-% \begin{figure}[ht]
-% \centering
-% 	\includegraphics[width=.5\textwidth]{ameFitSR_2_UV}
-% 	\caption{Circle plot of estimated latent factors.}
-% 	\label{fig:uv}
-% \end{figure}
-% \FloatBarrier
-%
-% In Figure~\ref{fig:uv}, the directions of $\hat{u}_{i}$'s and $\hat{v}_{i}$'s are noted in lighter and darker shades, respectively, of an actor's type.\footnote{For example, actors from industry and business are assigned a color of blue and the direction of $\hat{u}_{i}$ for these actors is shown in light blue and $\hat{v}_{i}$ in dark blue} The size of actors is a function of the magnitude of the vectors, and dashed lines between actors indicate greater than expected levels of collaboration based on the regression term and additive effects. In the case of the application dataset that we are using here organization names have been anonymized and no additional covariate information is available. However, if we were to observe nodes sharing certain attributes clustering together in this circle plot that would mean such an attribute could be an important factor in helping us to understand collaborations among actors in this network. Given how actors of different types are distributed in almost a random fashion in this plot, we can at least be sure that it is unlikely other third-order patterns can be picked up by that factor.
+\section*{Multiplicative Effects Visualization}
+
+When it comes to estimating higher-order effects, ERGM is able to provide explicit estimates of a variety of higher-order parameters, however, this comes with the caveat that these are the ``right'' set of endogenous dependencies. The AME approach, as shown in Equation~\ref{eqn:ame}, estimates network dependencies by examining patterns left over after taking into account the observed covariates. For the sake of space, we focus on examining the third-order dependencies left over after accounting for the observed covariates and network covariance structure modeled by the SRM. A visualization of remaining third-order dependencies is shown in Figure~\ref{fig:uv}.
+
+\begin{figure}[ht]
+\centering
+	\includegraphics[width=.5\textwidth]{ameFitSR_2_UV}
+	\caption{Circle plot of estimated latent factors.}
+	\label{fig:uv}
+\end{figure}
+\FloatBarrier
+
+In Figure~\ref{fig:uv}, the directions of $\hat{u}_{i}$'s and $\hat{v}_{i}$'s are noted in lighter and darker shades, respectively, of an actor's type.\footnote{For example, actors from industry and business are assigned a color of blue and the direction of $\hat{u}_{i}$ for these actors is shown in light blue and $\hat{v}_{i}$ in dark blue} The size of actors is a function of the magnitude of the vectors, and dashed lines between actors indicate greater than expected levels of collaboration based on the regression term and additive effects. In the case of the application dataset that we are using here organization names have been anonymized and no additional covariate information is available. However, if we were to observe nodes sharing certain attributes clustering together in this circle plot that would mean such an attribute could be an important factor in helping us to understand collaborations among actors in this network. Given how actors of different types are distributed in almost a random fashion in this plot, we can at least be sure that it is unlikely other third-order patterns can be picked up by that factor.
 
 \clearpage
 \section*{Other Network Goodness of Fit Tests}
@@ -285,12 +285,12 @@ Below we show a standard set of statistics upon which comparisons are usually co
 \end{table}
 \FloatBarrier
 
-We simulate 1,000 networks from the LDM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LDM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LDM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
+We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how well they align with the observed network in terms of the statistics described in Table~\ref{tab:netStat}. The results are shown in Figure~\ref{fig:gofAll}. Values for the observed network are indicated by a gray bar and average values from the simulated networks for the AME, ERGM, and LSM are represented by a diamond, triangle, and square, respectively. The densely shaded interval around each point represents the 95\% interval from the simulations and the taller, less dense the 90\% interval.\footnote{Calculation for the incoming k-star statistic is not currently supported by the \pkg{latentnet} package.} Looking across the panels in Figure~\ref{fig:gofAll} it is clear that there is little difference between the ERGM and AME models in terms of how well they capture network dependencies. The LSM model, however, does perform somewhat worse in comparison here as well. Particularly, when it comes to assessing the number of edge-wise shared partners and in terms of capturing the indegree and outdegree distributions of the collaboration network.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{ggGofAll}
-	\caption{Goodness of fit statistics to assess how well the LDM, ERGM, and AME approaches account for network dependencies.}
+	\caption{Goodness of fit statistics to assess how well the LSM, ERGM, and AME approaches account for network dependencies.}
 	\label{fig:gofAll}
 \end{figure}
 \FloatBarrier
@@ -299,7 +299,7 @@ We simulate 1,000 networks from the LDM, ERGM, and AME model and compare how wel
 \section*{Comparison of \pkg{amen} \& \pkg{latentnet} $\sf{R}$ Packages}
 \label{sec:ameVsLatentnetAppendix}
 
-Here we provide a comparison of the AME model we present in the paper with a variety of parameterizations from the \pkg{latentnet} package. The number of dimensions in the latent space in each of these cases is set to 2. LDM (SR) represents a model in which random sender and receiver effects are included. 
+Here we provide a comparison of the AME model we present in the paper with a variety of parameterizations from the \pkg{latentnet} package. The number of dimensions in the latent space in each of these cases is set to 2. LSM (SR) represents a model in which random sender and receiver effects are included. 
 
 % latex table generated in R 3.4.0 by xtable 1.8-2 package
 % Thu Jun 22 00:28:27 2017
@@ -307,7 +307,7 @@ Here we provide a comparison of the AME model we present in the paper with a var
 \centering
 \begingroup\footnotesize
 \begin{tabular}{lccc}
-   & LDM & LDM (SR) & AME \\ 
+   & LSM & LSM (SR) & AME \\ 
   \hline
 \hline
 Intercept/Edges & 0.94 & 0.60 & -3.39 \\ 
@@ -432,12 +432,10 @@ Intercept/Edges & -3.08 & -3.39 & -3.72 & -3.93 \\
 	\label{fig:netPerfCoef_ameSR}
 \end{figure}
 
-
 % Bib stuff
 \clearpage
-\bibliography{/Users/mdw/git/whistle/master}
-%\bibliography{/Users/janus829/whistle/master}
-% \bibliography{/Users/s7m/whistle/master}
+% \bibliography{/Users/mdw/git/whistle/master}
+\bibliography{/Users/s7m/whistle/master}
 \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \newpage
 

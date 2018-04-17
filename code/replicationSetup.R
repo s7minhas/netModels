@@ -13,7 +13,7 @@ loadPkg(
     'network',      # needed to handle network data; version 1.13.0 # 1.13.0
     'sna',          # descriptive network analysis; version 2.3.2 # 2.4
     'ergm',         # ERGM estimation; tested with version 3.5.1 # 3.8.0
-    'latentnet',    # latent space models; tested with version 2.7.1 # 2.8.0
+    'latentnet',    # latent space models; tested with version 2.7.1 # 2.7.1
     'texreg',       # generate regression tables; tested with version 1.36.4 # 1.36.23
     'btergm',       # extensions of ERGMs; tested with version 1.7.0 # 1.9.0
     'lme4',         # Random effects logit model; tested with version 1.1.10 # 1.1-13
