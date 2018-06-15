@@ -52,7 +52,7 @@ varLab = frameRows; varLab[errorRows] = ''; frame[,1] = varLab; rownames(frame)[
 
 # Add logit results
 frame = insertCoefInfo(frame, model='Logit')
-frame = insertCoefInfo(frame, model='MRQAP', error='none')
+# frame = insertCoefInfo(frame, model='MRQAP', error='none')
 frame = insertCoefInfo(frame, model='LSM', error='int')
 frame = insertCoefInfo(frame, model='ERGM')
 frame = insertCoefInfo(frame, model='AME', error='int')

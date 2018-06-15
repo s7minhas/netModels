@@ -86,7 +86,7 @@ In this case, $\beta^\top \bar x$ does not represent an ``average'' value of the
 	\bar y & \approx \beta^\top \bar x + \overline{ \alpha(\textbf{u}_{i}, \textbf{u}_{j}) }   .
 \end{align*}
 
-Under the LSM, $\bar y \approx \beta^\top \bar x + \overline{ |\textbf{u}_{i} - \textbf{u}_{j}|  } < \beta^\top \bar x$, and so we no longer can interpret $\beta$ as representing the linear relationship between $y$ and $x$. Instead, it may be thought of as describing some sort of average hypothetical ``maximal'' relationship between $y_{i,j}$ and $x_{i,j}$.
+Under the LSM, $\bar y \approx \beta^\top \bar x - \overline{ |\textbf{u}_{i} - \textbf{u}_{j}|  } < \beta^\top \bar x$, and so we no longer can interpret $\beta$ as representing the linear relationship between $y$ and $x$. Instead, it may be thought of as describing some sort of average hypothetical ``maximal'' relationship between $y_{i,j}$ and $x_{i,j}$.
 
 Thus the LFM provides two important benefits. First, we are able to capture a wider assortment of dependence patterns that arise in relational data, and, second, parameter interpretation is more straightforward. The AME approach considers the regression model shown in Equation~\ref{eqn:ame}:
 

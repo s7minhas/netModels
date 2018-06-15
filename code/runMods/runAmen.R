@@ -5,7 +5,10 @@ source('~/Research/netModels/code/helpers/paths.R')
 source(paste0(funcPath, 'functions.R'))
 
 # install amen from s7minhas/github
-loadPkg('devtools') ; devtools::install_github('s7minhas/amen') ; library(amen)
+loadPkg('devtools') ;
+if(!'amen' %in% installed.packages()[,1]){
+	devtools::install_github('s7minhas/amen')}
+library(amen)
 
 # load data
 load(paste0(dataPath, 'data.rda'))
