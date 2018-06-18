@@ -52,7 +52,7 @@ varLab = frameRows; varLab[errorRows] = ''; frame[,1] = varLab; rownames(frame)[
 
 # Add logit results
 frame = insertCoefInfo(frame, model='Logit')
-# frame = insertCoefInfo(frame, model='MRQAP', error='none')
+frame = insertCoefInfo(frame, model='MRQAP', error='none')
 frame = insertCoefInfo(frame, model='LSM', error='int')
 frame = insertCoefInfo(frame, model='ERGM')
 frame = insertCoefInfo(frame, model='AME', error='int')
@@ -61,9 +61,12 @@ frame = insertCoefInfo(frame, model='AME', error='int')
 rownames(frame) = NULL
 frame[estRows[-1],1] = paste0('$\\;\\;\\;\\;$ ', frame[estRows[-1],1])
 
+# remove mrqap
+frame = frame[,-3]
+
 # print
 print.xtable(
-	xtable(frame, align='llccccc',
+	xtable(frame, align='llcccc',
 		caption='* p $<$ 0.05 (or 0 outside the 95\\% confidence interval).',
 		label='tab:regTable'), 
 	include.rownames=FALSE,

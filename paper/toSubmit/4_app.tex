@@ -6,60 +6,59 @@ The LSM we fit on this network includes a two-dimensional Euclidean distance met
 
 The first point to note is that, in general, the parameter estimates returned by the AME while similar to those of ERGM are quite different from the LSM. For example, while the LSM returns a result for the \texttt{Opposition/alliance} variable that diverges from ERGM, the AME returns a result that is similar to Ingold \& Fischer. Similar discrepancies appear for other parameters such as \texttt{Influence attribution} and \texttt{Alter's influence degree}. Each of these discrepancies are eliminated when using AME. As described previously, this is because the LSM approach complicates the interpretation of the effects of exogenous variables due to the construction of the latent variable term.\footnote{In the Appendix, we show that these differences persist even when incorporating sender and receiver random effects into the LSM.}
 
-% latex table generated in R 3.3.1 by xtable 1.8-2 package
-% Sun Aug 21 03:32:43 2016
+% latex table generated in R 3.5.0 by xtable 1.8-2 package
+% Mon Jun 18 10:02:41 2018
 \begin{table}[ht]
 \centering
-\caption{ERGM results are shown with standard errors in parentheses. LSM and AME are shown with 95\% posterior credible intervals provided in brackets.}
-\begin{tabular}{lccc}
-  & LSM & ERGM & AME \\
+\caption{Logit and ERGM results are shown with standard errors in parentheses. LSM and AME are shown with 95\% posterior credible intervals provided in brackets.}
+\begin{tabular}{lcccc}
+   & Logit & LSM & ERGM & AME \\ 
   \hline
 \hline
-Intercept/Edges & 0.94 & -12.17 & -3.39 \\
-   & [0.09; 1.82] & (1.40) & [-4.38; -2.50] \\
-  \textbf{Conflicting policy preferences}  &  &  &  \\
-  $\;\;\;\;$ Business vs. NGO & -1.37 & -1.11 & -1.37 \\
-   & [-2.42; -0.41] & (0.51) & [-2.44; -0.47] \\
-  $\;\;\;\;$ Opposition/alliance  & 0.00 & 1.22 & 1.08 \\
-   & [-0.40; 0.39] & (0.20) & [0.72; 1.47] \\
-  $\;\;\;\;$ Preference dissimilarity & -1.76 & -0.44 & -0.79 \\
-   & [-2.62; -0.90] & (0.39) & [-1.55; -0.08] \\
-  \textbf{Transaction costs}  &  &  &  \\
-  $\;\;\;\;$ Joint forum participation & 1.51 & 0.90 & 0.92 \\
-   & [0.86; 2.17] & (0.28) & [0.40; 1.47] \\
-  \textbf{Influence}  &  &  &  \\
-  $\;\;\;\;$ Influence attribution & 0.08 & 1.00 & 1.09 \\
-   & [-0.40; 0.55] & (0.21) & [0.69; 1.53] \\
-  $\;\;\;\;$ Alter's influence indegree & 0.01 & 0.21 & 0.11 \\
-   & [-0.03; 0.04] & (0.04) & [0.07; 0.15] \\
-  $\;\;\;\;$ Influence absolute diff. & 0.04 & -0.05 & -0.07 \\
-   & [-0.01; 0.09] & (0.01) & [-0.11; -0.03] \\
-  $\;\;\;\;$ Alter = Government actor & -0.46 & 1.04 & 0.55 \\
-   & [-1.08; 0.14] & (0.34) & [-0.07; 1.15] \\
-  \textbf{Functional requirements}  &  &  &  \\
-  $\;\;\;\;$ Ego = Environmental NGO & -0.60 & 0.79 & 0.67 \\
-  & [-1.32; 0.09] & (0.17) & [-0.38; 1.71] \\
-  $\;\;\;\;$ Same actor type & 1.17 & 0.99 & 1.04 \\
-   & [0.63; 1.71] & (0.23) & [0.63; 1.50] \\
-  \textbf{Endogenous dependencies}  &  &  &  \\
-  $\;\;\;\;$ Mutuality &  & 0.81 & 0.39 \\
-   &  & (0.25) & [-0.12; 0.96] \\
-  $\;\;\;\;$ Outdegree popularity  &  & 0.95 &  \\
-   &  & (0.09) &  \\
-  $\;\;\;\;$ Twopaths  &  & -0.04 &  \\
-  &  & (0.02) &  \\
-  $\;\;\;\;$ GWIdegree (2.0)  &  & 3.42 &  \\
-   &  & (1.47) &  \\
-  $\;\;\;\;$ GWESP (1.0)  &  & 0.58 &  \\
-   &  & (0.16) &  \\
-  $\;\;\;\;$ GWOdegree (0.5)  &  & 8.42 &  \\
-   &  & (2.11) &  \\
+Intercept/Edges & -4.44 & 0.94 & -12.17 & -3.39 \\ 
+   & (0.34) & [0.09; 1.82] & (1.40) & [-4.38; -2.50] \\ 
+  \textbf{Conflicting policy preferences} &  &  &  &  \\ 
+  $\;\;\;\;$ Business vs. NGO & -0.86 & -1.37 & -1.11 & -1.37 \\ 
+   & (0.46) & [-2.42; -0.41] & (0.51) & [-2.44; -0.47] \\ 
+  $\;\;\;\;$ Opposition/alliance & 1.21 & 0.00 & 1.22 & 1.08 \\ 
+   & (0.20) & [-0.40; 0.39] & (0.20) & [0.72; 1.47] \\ 
+  $\;\;\;\;$ Preference dissimilarity & -0.07 & -1.76 & -0.44 & -0.79 \\ 
+   & (0.37) & [-2.62; -0.90] & (0.39) & [-1.55; -0.08] \\ 
+  \textbf{Transaction costs} &  &  &  &  \\ 
+  $\;\;\;\;$ Joint forum participation & 0.88 & 1.51 & 0.90 & 0.92 \\ 
+   & (0.27) & [0.86; 2.17] & (0.28) & [0.40; 1.47] \\ 
+  \textbf{Influence} &  &  &  &  \\ 
+  $\;\;\;\;$ Influence attribution & 1.20 & 0.08 & 1.00 & 1.09 \\ 
+   & (0.22) & [-0.40; 0.55] & (0.21) & [0.69; 1.53] \\ 
+  $\;\;\;\;$ Alter's influence indegree & 0.10 & 0.01 & 0.21 & 0.11 \\ 
+   & (0.02) & [-0.03; 0.04] & (0.04) & [0.07; 0.15] \\ 
+  $\;\;\;\;$ Influence absolute diff. & -0.03 & 0.04 & -0.05 & -0.07 \\ 
+   & (0.02) & [-0.01; 0.09] & (0.01) & [-0.11; -0.03] \\ 
+  $\;\;\;\;$ Alter = Government actor & 0.63 & -0.46 & 1.04 & 0.55 \\ 
+   & (0.25) & [-1.08; 0.14] & (0.34) & [-0.07; 1.15] \\ 
+  \textbf{Functional requirements} &  &  &  &  \\ 
+  $\;\;\;\;$ Ego = Environmental NGO & 0.88 & -0.60 & 0.79 & 0.67 \\ 
+   & (0.26) & [-1.32; 0.09] & (0.17) & [-0.38; 1.71] \\ 
+  $\;\;\;\;$ Same actor type & 0.74 & 1.17 & 0.99 & 1.04 \\ 
+   & (0.22) & [0.63; 1.71] & (0.23) & [0.63; 1.50] \\ 
+  \textbf{Endogenous dependencies} &  &  &  &  \\ 
+  $\;\;\;\;$ Mutuality & 1.22 &  & 0.81 &  \\ 
+   & (0.21) &  & (0.25) &  \\ 
+  $\;\;\;\;$ Outdegree popularity &  &  & 0.95 &  \\ 
+   &  &  & (0.09) &  \\ 
+  $\;\;\;\;$ Twopaths &  &  & -0.04 &  \\ 
+   &  &  & (0.02) &  \\ 
+  $\;\;\;\;$ GWIdegree (2.0) &  &  & 3.42 &  \\ 
+   &  &  & (1.47) &  \\ 
+  $\;\;\;\;$ GWESP (1.0) &  &  & 0.58 &  \\ 
+   &  &  & (0.16) &  \\ 
+  $\;\;\;\;$ GWOdegree (0.5) &  &  & 8.42 &  \\ 
+   &  &  & (2.11) &  \\ 
    \hline
 \hline
 \end{tabular}
 \label{tab:regTable}
 \end{table}
-\FloatBarrier
 
 There are also a few differences between the parameter estimates that result from the ERGM and AME. Using the AME we find evidence that \texttt{Preference dissimilarity} is associated with a reduced probability of collaboration between a pair of actors, which is in line with the theoretical expectations of Ingold \& Fischer.\footnote{See the Appendix for details.} Additionally, the AME results differ from ERGM for the nodal effects related to whether a receiver of a collaboration is a government actor, \texttt{Alter=Government actor}, and whether the sender is an environmental NGO, \texttt{Ego=Environmental NGO}.
 

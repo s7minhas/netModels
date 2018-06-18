@@ -31,8 +31,10 @@ if( !file.exists( paste0(graphicsPath,'predData_outSample.rda') ) ){
 	}
 ################################################
 
+################################################
 graphicsPath='~/Research/netModels/paper/toSubmit/'
-predDfs = predDfs[c('LSM','ERGM','AME')]
+predDfs = predDfs[c('LSM','Logit','ERGM','AME')]
+################################################
 
 ################################################
 # get auc summary
@@ -58,8 +60,9 @@ rocData = lapply(1:length(predDfs), function(ii){
 rocData = do.call('rbind', rocData)
 
 # model col/lty
-ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')[c(3,2,1)]
-ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')[c(2,4,5)]
+ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))#[c(3,2,1)]
+# ggLty = c('dashed', 'dotdash', 'dotted', 'twodash', 'solid')#[c(2,4,5)]
+ggLty = c('dashed', 'dotdash', 'twodash', 'solid')#[c(2,4,5)]
 
 # Separation plots
 sepPngList = lapply(1:length(predDfs), function(ii){
@@ -76,11 +79,11 @@ for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
 # tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs)
-	# , family="Source Sans Pro Light"
-	)
-ggsave(tmp, file=paste0(graphicsPath, 'roc_outSampleSmall.pdf'), width=5, height=5
-	# , device=cairo_pdf
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:4], 
+	label=names(predDfs), family="Source Sans Pro Light" )
+ggsave(tmp, 
+	file=paste0(graphicsPath, 'roc_outSampleSmall.pdf'), 
+	width=5, height=5, device=cairo_pdf
 	)
 
 # area under precision-recall curves
@@ -94,21 +97,21 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 	guides(linetype=FALSE, color=FALSE) + 
 	# geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
 	# annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
-	annotate('text', hjust=0, x=c(-.1, .09, .28), y=.35, 		
+	annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45, 		
 		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
-		# , family='Source Sans Pro Black'
+		, family='Source Sans Pro Light'
 		, size=4) + 
 	# annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
-	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:3], 		
+	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4], 		
 		label=rev(rownames(aucSumm))
-		# , family='Source Sans Pro Light'
+		, family='Source Sans Pro Light'
 		) + 
 	# annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
-	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:3], 		
+	annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4], 		
 		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
-		# , family='Source Sans Pro Light'
+		, family='Source Sans Pro Light'
 		)
 ggsave(tmp, file=paste0(graphicsPath, 'rocPr_outSampleSmall.pdf'), width=5, height=5
-	# , device=cairo_pdf
+	, device=cairo_pdf
 	)
 ################################################
