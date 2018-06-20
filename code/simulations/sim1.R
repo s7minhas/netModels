@@ -6,7 +6,8 @@ rm(list=ls())
 toInstall = c(
   'devtools', 'latentnet', 'ROCR', 'caTools',
   'foreach', 'doParallel', 'reshape2', 'ggplot2',
-  'png', 'grid')
+  'RColorBrewer'
+  )
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
     install.packages(pkg) } }
@@ -26,6 +27,7 @@ library(reshape2)
 library(latex2exp)
 library(ggplot2)
 library(igraph)
+library(RColorBrewer)
 theme_set(theme_bw())
 
 # helpers
@@ -166,6 +168,7 @@ ggData$actorSD = paste0('$\\bar{\\sigma^{2}}$=', ggData$actorSD)
 ggData$variable = char(ggData$variable)
 ggData$variable[ggData$variable=='ame'] = 'AME'
 ggData$variable[ggData$variable=='lsm'] = 'LSM'
+ggData$variable = factor(ggData$variable)
 ggData$stat = char(ggData$stat)
 ggData$stat[ggData$stat=='roc'] = 'AUC (ROC)'
 ggData$stat[ggData$stat=='pr'] = 'AUC (PR)'
@@ -174,15 +177,23 @@ ggData$stat = factor(ggData$stat, levels=unique(ggData$stat))
 # viz
 set.seed(6886)
 facet_labeller = function(string){ TeX(string) }
-sim1Viz = ggplot(ggData, aes(x=factor(variable), y=value)) +
-  geom_boxplot(outlier.alpha = .01) +
-  geom_jitter(alpha=.2) +
+# cols = brewer.pal(4, 'Set1')[c(1,4)]
+sim1Viz = ggplot(ggData, aes(x=variable, y=value
+  # , fill=variable
+  )) +
+  geom_jitter(alpha=.2
+    # , aes(color=variable)
+    ) +
+  geom_boxplot(outlier.alpha = .01, alpha=.7, color='gray40') +
+  # scale_fill_manual(values=cols) +
+  # scale_color_manual(values=cols) +
   facet_grid(stat~actorSD, scales='free_y',
     labeller=as_labeller(facet_labeller, default = label_parsed)) +
   xlab('') + ylab('') +
   theme(
     panel.border=element_blank(),
-    axis.ticks=element_blank()
+    axis.ticks=element_blank(),
+    legend.position = 'none'
   )
 ggsave(sim1Viz, file='sim1Viz.pdf', width=8, height=5)
 
@@ -201,9 +212,10 @@ sampleNet = function(beta){
   plot(g,
     layout=layout_nicely,
     vertex.size=V(g)$size,
-    vertex.color='gray45',
-    edge.width=.3,
+    vertex.color='gray80',
+    edge.width=.05,
     edge.arrow.size=.1,
+    edge.color='gray90',
     vertex.label='' )
   # dev.copy(png,file=paste0('netViz',beta,'.png'))
   dev.off()
