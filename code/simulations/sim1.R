@@ -1,21 +1,20 @@
+#######################################################
+# clear workspace
 rm(list=ls())
 
-#
+# install libraries
 toInstall = c(
   'devtools', 'latentnet', 'ROCR', 'caTools',
-  'foreach', 'doParallel', 'reshape2', 'ggplot2'
-)
+  'foreach', 'doParallel', 'reshape2', 'ggplot2',
+  'png', 'grid')
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
-    install.packages(pkg)
-  }
-}
+    install.packages(pkg) } }
 
 if(!'amen' %in% installed.packages()[,1]){
-  devtools::install_github('s7minhas/amen')
-}
+  devtools::install_github('s7minhas/amen') }
 
-#
+# load libraries
 library(devtools)
 library(amen)
 library(latentnet)
@@ -24,9 +23,12 @@ library(caTools)
 library(foreach)
 library(doParallel)
 library(reshape2)
+library(latex2exp)
 library(ggplot2)
+library(igraph)
+theme_set(theme_bw())
 
-#helpers
+# helpers
 char <- function(x){as.character(x)}
 num <- function(x){as.numeric(char(x))}
 
@@ -44,60 +46,47 @@ auc_pr <- function(obs, pred) {
   xy <- subset(xy, !is.nan(xy$precision))
   res   <- trapz(xy$recall, xy$precision)
   return(res) }
+#######################################################  
 
-# sim function
+#######################################################
+# sim function to compare effects of degree heterogeneity
 runSim <- function(betaNode, seed){
   
-  #
-  set.seed(seed)
-  
-  #
-  n <- 100
+  # set up covars
+  set.seed(seed) ; n <- 100
   xNode <- matrix(rbinom(n, 1, .05), nrow=n, ncol=n, byrow=FALSE)
   xDyad <- matrix(rnorm(n^2), nrow=n, ncol=n)
   e <- matrix(rnorm(n^2), n, n)
   
-  #
-  b0 = -3
-  b1 = betaNode
-  b2 = 1
+  # set up covar effects
+  b0 = -3 ; b1 = betaNode ; b2 = 1
   
-  #
+  # create dv
   y <- b0*matrix(1,n,n) + b1*xNode + b2*xDyad + e
   y <- 1*(y>0)
   
-  #
+  # run ame
   ameMod <- ame(
-    Y=y, model='bin', 
-    symmetric=FALSE, R=2, 
-    rvar=FALSE, cvar=FALSE,
-    seed=6886,
+    Y=y, model='bin', symmetric=FALSE, R=2, 
+    rvar=FALSE, cvar=FALSE, seed=6886,
     plot=FALSE, print=FALSE, gof=FALSE)
   
-  #
-  lsmMod <- ergmm(
-    y ~ euclidean(d=2)
-  )
+  # run lsm
+  lsmMod <- ergmm( y ~ euclidean(d=2) )
   
-  #
-  amePred = ameMod$'EZ'
-  diag(amePred) = NA
-  amePred = c(amePred)
-  amePred = amePred[!is.na(amePred)]
+  # org ame preds
+  amePred = ameMod$'EZ' ; diag(amePred) = NA
+  amePred = c(amePred) ; amePred = amePred[!is.na(amePred)]
   amePred = pnorm(amePred)
   
-  #
-  lsmPred = predict(lsmMod)
-  diag(lsmPred) = NA
-  lsmPred = lsmPred[!is.na(lsmPred)]
-  lsmPred = c(lsmPred)
+  # org lsm preds
+  lsmPred = predict(lsmMod) ; diag(lsmPred) = NA
+  lsmPred = c(lsmPred) ; lsmPred = lsmPred[!is.na(lsmPred)]
   
-  #
-  diag(y) = NA
-  y = c(y)
-  y = y[!is.na(y)]
+  # reorg y
+  diag(y) = NA ; y = c(y) ; y = y[!is.na(y)]
   
-  #
+  # calc auc stats and store
   res = list(
     roc=c(
       ame=auc_roc(c(y), amePred),
@@ -106,92 +95,119 @@ runSim <- function(betaNode, seed){
     pr=c(
       ame=auc_pr(c(y), amePred),
       lsm=auc_pr(c(y), lsmPred)
-    )
-  )
+    ) )
+  return(res) }
+#######################################################  
+
+#######################################################
+# params for sim
+nodeEffect = seq(0,2.5,.5) ; sims <- 50
+# run ame v lsm sims comparing degree heterogeneity 
+setwd('~/Research/netModels/code/simulations/')
+if(!file.exists('sim1Results.rda')){
+  # create output object to stores
+  results <- list()
+  # loop through node effects
+  for(i in 1:length(nodeEffect)){
+    # parallelize across # of sims
+    cl=makeCluster(50) ; registerDoParallel(cl)
+    out <- foreach(sim=1:sims, 
+      .packages=c('amen','latentnet','ROCR','caTools')
+    ) %dopar% { runSim(nodeEffect[i], sim) } ; stopCluster(cl)
+    
+    # pull out roc results
+    rocResults <- do.call('rbind', lapply(out, function(x){x$'roc'}))
+    
+    # pull our pr results
+    prResults <- do.call('rbind', lapply(out, function(x){x$'pr'}))
+    
+    # combine
+    rocResults <- data.frame(
+      rocResults, nodeEffect=nodeEffect[i], stat='roc')
+    prResults <- data.frame(
+      prResults, nodeEffect=nodeEffect[i], stat='pr')
+    results[[i]] <- rbind(rocResults, prResults) }
   
-  return(res)  
-}
+  # org results from loop across node effects
+  results <- do.call('rbind', results)
+  save(results, file='sim1Results.rda') }
+load('sim1Results.rda')
+#######################################################
 
-#
-nodeEffect = seq(.5,2.5,.5)
-results <- list()
-for(i in 1:length(nodeEffect)){
-  sims <- 50
-  cl=makeCluster(50) ; registerDoParallel(cl)
-  out <- foreach(sim=1:sims, 
-                 .packages=c('amen','latentnet','ROCR','caTools')
-  ) %dopar% {
-    runSim(nodeEffect[i], sim)
-  }
-  stopCluster(cl)
-  rocResults <- do.call('rbind', lapply(out, function(x){x$'roc'}))
-  prResults <- do.call('rbind', lapply(out, function(x){x$'pr'}))
-  rocResults <- data.frame(
-    rocResults, nodeEffect=nodeEffect[i], stat='roc')
-  prResults <- data.frame(
-    prResults, nodeEffect=nodeEffect[i], stat='pr')
-  
-  results[[i]] <- rbind(rocResults, prResults)
-}
+#######################################################
+# calc actor variance stats for sim networks
+netStats = function(betaNode, seed, returnY=FALSE){
+  set.seed(seed)
+  n <- 100
+  xNode <- matrix(rbinom(n, 1, .05), nrow=n, ncol=n, byrow=FALSE)
+  xDyad <- matrix(rnorm(n^2), nrow=n, ncol=n)
+  e <- matrix(rnorm(n^2), n, n)
+  b0 = -3 ; b1 = betaNode ; b2 = 1
+  y <- b0*matrix(1,n,n) + b1*xNode + b2*xDyad + e
+  y <- 1*(y>0)  
+  aDegree <- apply(y,1,sum) + apply(y,2,sum)
+  out <- c(nodeEffect=betaNode, sim=seed, actorSD=sd(aDegree))
+  if(returnY){ out <- y }
+  return( out ) }
+yVals = do.call('rbind', lapply(nodeEffect, function(beta){
+  do.call('rbind', lapply(1:sims, function(sim){
+    netStats(beta,sim) })) }))
+#######################################################
 
-results <- do.call('rbind', results)
-save(results, file='sim1Results.rda')
-
-
+#######################################################
+# org data for plotting
 ggData = melt(results, id=c('nodeEffect','stat'))
+stats=tapply(yVals[,'actorSD'],yVals[,'nodeEffect'],mean)
+ggData$actorSD = stats[match(ggData$nodeEffect,names(stats))]
+ggData$actorSD = round(ggData$actorSD, 2)
 
+# clean up labels
+ggData$actorSD = paste0('$\\bar{\\sigma^{2}}$=', ggData$actorSD)
+ggData$variable = char(ggData$variable)
+ggData$variable[ggData$variable=='ame'] = 'AME'
+ggData$variable[ggData$variable=='lsm'] = 'LSM'
+ggData$stat = char(ggData$stat)
+ggData$stat[ggData$stat=='roc'] = 'AUC (ROC)'
+ggData$stat[ggData$stat=='pr'] = 'AUC (PR)'
+ggData$stat = factor(ggData$stat, levels=unique(ggData$stat))
+
+# viz
+set.seed(6886)
+facet_labeller = function(string){ TeX(string) }
 sim1Viz = ggplot(ggData, aes(x=factor(variable), y=value)) +
-  geom_boxplot() +
-  geom_point(alpha=.6) +
-  facet_grid(stat~nodeEffect, scales='free_y') +
+  geom_boxplot(outlier.alpha = .01) +
+  geom_jitter(alpha=.2) +
+  facet_grid(stat~actorSD, scales='free_y',
+    labeller=as_labeller(facet_labeller, default = label_parsed)) +
+  xlab('') + ylab('') +
   theme(
     panel.border=element_blank(),
     axis.ticks=element_blank()
   )
-ggsave(sim1Viz, file='simViz.pdf')
+ggsave(sim1Viz, file='sim1Viz.pdf', width=8, height=5)
 
-# set.seed(6886)
-# betaNode = 2.5
-# 
-# #
-# n <- 100
-# xNode <- matrix(rbinom(n, 1, .05), nrow=n, ncol=n, byrow=FALSE)
-# xDyad <- matrix(rnorm(n^2), nrow=n, ncol=n)
-# e <- matrix(rnorm(n^2), n, n)
-# 
-# #
-# b0 = -3
-# b1 = betaNode
-# b2 = 1
-# 
-# #
-# y <- b0*matrix(1,n,n) + b1*xNode + b2*xDyad + e
-# y <- 1*(y>0)
-# 
-# g <- graph_from_adjacency_matrix(y, mode='directed', weighted=NULL, diag=FALSE)
-# 
-# # of ties
-# tiesSum = degree(g)
-# # condition size based on # of ties
-# # V(g)$size <- sqrt(tiesSum + 1)
-# # V(g)$size <- tiesSum/4
-# V(g)$size <- tiesSum
-# 
-# #
-# iso <- V(g)[degree(g)==0]
-# g <- delete.vertices(g, iso)
-# 
-# par(mfrow=c(1,1))
-# set.seed(6886)
-# plot(g,
-#      layout=layout_nicely,
-#      vertex.size=V(g)$size,
-#      vertex.color='white',
-#      edge.width=.25,
-#      edge.arrow.size=.1,
-#      vertex.label=''
-# )
-# 
-# sd(degree(g))
-# 
-# barplot(sort(tiesSum))
+# plot representative nets
+sampleNet = function(beta){
+  y <- netStats(beta, 1, TRUE)
+  g <- graph_from_adjacency_matrix(y, mode='directed', weighted=NULL, diag=FALSE)
+  tiesSum = degree(g) ; V(g)$size <- tiesSum
+  iso <- V(g)[degree(g)==0] ; g <- delete.vertices(g, iso)
+
+  # par(mfrow=c(1,1), bg=NA)
+  fName = paste0('netViz',beta,'.pdf')
+  par(mfrow=c(1,1), bg='white')
+  set.seed(6886)
+  pdf(file=fName)
+  plot(g,
+    layout=layout_nicely,
+    vertex.size=V(g)$size,
+    vertex.color='gray45',
+    edge.width=.3,
+    edge.arrow.size=.1,
+    vertex.label='' )
+  # dev.copy(png,file=paste0('netViz',beta,'.png'))
+  dev.off()
+  system(paste('pdfcrop',fName,fName))
+}
+shh = lapply(nodeEffect, sampleNet)
+#######################################################
