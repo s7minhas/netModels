@@ -26,10 +26,7 @@ library(doParallel)
 library(reshape2)
 library(ggplot2)
 
-#helpers
-char <- function(x){as.character(x)}
-num <- function(x){as.numeric(char(x))}
-
+#
 #' Area under the ROC curve
 auc_roc <- function(obs, pred) {
   pred <- prediction(pred, obs)
@@ -46,31 +43,31 @@ auc_pr <- function(obs, pred) {
   return(res) }
 
 # sim function
-runSim <- function(betaNode, seed){
+runSim <- function(rho, seed){
   
   #
   set.seed(seed)
   
   #
   n <- 100
-  xNode <- matrix(rbinom(n, 1, .05), nrow=n, ncol=n, byrow=FALSE)
   xDyad <- matrix(rnorm(n^2), nrow=n, ncol=n)
   e <- matrix(rnorm(n^2), n, n)
   
   #
-  b0 = -3
-  b1 = betaNode
-  b2 = 1
+  b0 = -1
+  b1 = 1
   
   #
-  y <- b0*matrix(1,n,n) + b1*xNode + b2*xDyad + e
+  y <- b0*matrix(1,n,n) + b1*xDyad + e
+  y <- y + rho*t(y)
   y <- 1*(y>0)
+  actRho = cor(c(y), c(t(y)), use='pairwise.complete.obs')
   
   #
   ameMod <- ame(
     Y=y, model='bin', 
     symmetric=FALSE, R=2, 
-    rvar=FALSE, cvar=FALSE,
+    rvar=FALSE, cvar=FALSE, 
     seed=6886,
     plot=FALSE, print=FALSE, gof=FALSE)
   
@@ -101,97 +98,53 @@ runSim <- function(betaNode, seed){
   res = list(
     roc=c(
       ame=auc_roc(c(y), amePred),
-      lsm=auc_roc(c(y), lsmPred)
+      lsm=auc_roc(c(y), lsmPred),
+      actRho=actRho
     ),
     pr=c(
       ame=auc_pr(c(y), amePred),
-      lsm=auc_pr(c(y), lsmPred)
+      lsm=auc_pr(c(y), lsmPred),
+      actRho=actRho
     )
   )
-  
   return(res)  
 }
 
 #
-nodeEffect = seq(.5,2.5,.5)
+rhoEffect = seq(0,.6,.2)
 results <- list()
-for(i in 1:length(nodeEffect)){
+for(i in 1:length(rhoEffect)){
   sims <- 50
   cl=makeCluster(50) ; registerDoParallel(cl)
   out <- foreach(sim=1:sims, 
                  .packages=c('amen','latentnet','ROCR','caTools')
   ) %dopar% {
-    runSim(nodeEffect[i], sim)
+    runSim(rhoEffect[i], sim)
   }
   stopCluster(cl)
   rocResults <- do.call('rbind', lapply(out, function(x){x$'roc'}))
   prResults <- do.call('rbind', lapply(out, function(x){x$'pr'}))
   rocResults <- data.frame(
-    rocResults, nodeEffect=nodeEffect[i], stat='roc')
+    rocResults, rhoEffect=rhoEffect[i], stat='roc')
   prResults <- data.frame(
-    prResults, nodeEffect=nodeEffect[i], stat='pr')
+    prResults, rhoEffect=rhoEffect[i], stat='pr')
   
   results[[i]] <- rbind(rocResults, prResults)
 }
 
 results <- do.call('rbind', results)
-save(results, file='sim1Results.rda')
+save(results, file='sim2Results.rda')
 
 
-ggData = melt(results, id=c('nodeEffect','stat'))
+ggData = melt(results, id=c('rhoEffect','actRho','stat'))
 
-sim1Viz = ggplot(ggData, aes(x=factor(variable), y=value)) +
-  geom_boxplot() +
-  geom_point(alpha=.6) +
-  facet_grid(stat~nodeEffect, scales='free_y') +
+set.seed(6886)
+sim2Viz = ggplot(ggData, aes(x=factor(variable), y=value)) +
+  geom_jitter(alpha=.5) +  
+  geom_boxplot(outlier.alpha=.01,alpha=.7) +
+  facet_grid(stat~rhoEffect, scales='free_y') +
   theme(
     panel.border=element_blank(),
     axis.ticks=element_blank()
   )
-ggsave(sim1Viz, file='simViz.pdf')
-
-# set.seed(6886)
-# betaNode = 2.5
-# 
-# #
-# n <- 100
-# xNode <- matrix(rbinom(n, 1, .05), nrow=n, ncol=n, byrow=FALSE)
-# xDyad <- matrix(rnorm(n^2), nrow=n, ncol=n)
-# e <- matrix(rnorm(n^2), n, n)
-# 
-# #
-# b0 = -3
-# b1 = betaNode
-# b2 = 1
-# 
-# #
-# y <- b0*matrix(1,n,n) + b1*xNode + b2*xDyad + e
-# y <- 1*(y>0)
-# 
-# g <- graph_from_adjacency_matrix(y, mode='directed', weighted=NULL, diag=FALSE)
-# 
-# # of ties
-# tiesSum = degree(g)
-# # condition size based on # of ties
-# # V(g)$size <- sqrt(tiesSum + 1)
-# # V(g)$size <- tiesSum/4
-# V(g)$size <- tiesSum
-# 
-# #
-# iso <- V(g)[degree(g)==0]
-# g <- delete.vertices(g, iso)
-# 
-# par(mfrow=c(1,1))
-# set.seed(6886)
-# plot(g,
-#      layout=layout_nicely,
-#      vertex.size=V(g)$size,
-#      vertex.color='white',
-#      edge.width=.25,
-#      edge.arrow.size=.1,
-#      vertex.label=''
-# )
-# 
-# sd(degree(g))
-# 
-# barplot(sort(tiesSum))
+ggsave(sim2Viz, file='sim2Viz.pdf')
