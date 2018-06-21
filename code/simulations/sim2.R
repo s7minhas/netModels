@@ -6,7 +6,7 @@ rm(list=ls())
 toInstall = c(
   'devtools', 'latentnet', 'ROCR', 'caTools',
   'foreach', 'doParallel', 'reshape2', 'ggplot2',
-  'latex2exp'
+  'latex2exp', 'Cairo'
 )
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
@@ -26,6 +26,7 @@ library(doParallel)
 library(reshape2)
 library(ggplot2)
 library(latex2exp)
+library(Cairo)
 
 # helpers
 char <- function(x){as.character(x)}
@@ -166,7 +167,11 @@ sim2Viz = ggplot(ggData, aes(x=factor(variable), y=value)) +
   xlab('') + ylab('') +
   theme(
     panel.border=element_blank(),
-    axis.ticks=element_blank()
+    axis.ticks=element_blank(),
+    axis.text.y=element_text(family="Source Sans Pro"),
+    axis.text.x=element_text(family="Source Sans Pro"),    
+    axis.title=element_text(family='Source Sans Pro Semibold'),
+    strip.text = element_text(family="Source Sans Pro Semibold")        
   )
-ggsave(sim2Viz, file='sim2Viz.pdf', width=8, height=5)  
+ggsave(sim2Viz, file='sim2Viz.pdf', width=8, height=5, device=cairo_pdf)  
 #######################################################

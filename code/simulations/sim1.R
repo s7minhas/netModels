@@ -6,7 +6,7 @@ rm(list=ls())
 toInstall = c(
   'devtools', 'latentnet', 'ROCR', 'caTools',
   'foreach', 'doParallel', 'reshape2', 'ggplot2',
-  'RColorBrewer'
+  'RColorBrewer', 'Cairo'
   )
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
@@ -27,7 +27,7 @@ library(reshape2)
 library(latex2exp)
 library(ggplot2)
 library(igraph)
-library(RColorBrewer)
+library(Cairo)
 theme_set(theme_bw())
 
 # helpers
@@ -181,21 +181,22 @@ facet_labeller = function(string){ TeX(string) }
 sim1Viz = ggplot(ggData, aes(x=variable, y=value
   # , fill=variable
   )) +
-  geom_jitter(alpha=.2
-    # , aes(color=variable)
-    ) +
+  geom_jitter(alpha=.2) +
   geom_boxplot(outlier.alpha = .01, alpha=.7, color='gray40') +
-  # scale_fill_manual(values=cols) +
-  # scale_color_manual(values=cols) +
   facet_grid(stat~actorSD, scales='free_y',
     labeller=as_labeller(facet_labeller, default = label_parsed)) +
   xlab('') + ylab('') +
   theme(
     panel.border=element_blank(),
+    panel.grid=element_blank(),
     axis.ticks=element_blank(),
-    legend.position = 'none'
+    legend.position = 'none',
+    axis.text.y=element_text(family="Source Sans Pro"),
+    axis.text.x=element_text(family="Source Sans Pro"),    
+    axis.title=element_text(family='Source Sans Pro Semibold'),
+    strip.text = element_text(family="Source Sans Pro Semibold")    
   )
-ggsave(sim1Viz, file='sim1Viz.pdf', width=8, height=5)
+ggsave(sim1Viz, file='sim1Viz.pdf', width=8, height=5, device=cairo_pdf)
 
 # plot representative nets
 sampleNet = function(beta){
