@@ -4,9 +4,9 @@ rm(list=ls())
 
 # install libraries
 toInstall = c(
-  'devtools', 'latentnet', 'ROCR', 'caTools',
-  'foreach', 'doParallel', 'reshape2', 'ggplot2',
-  'RColorBrewer', 'Cairo'
+  'devtools', 'amen', 'latentnet', 'ROCR', 
+  'caTools', 'foreach', 'doParallel', 'reshape2', 
+  'latex2exp', 'ggplot2', 'igraph', 'Cairo'
   )
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
@@ -166,7 +166,7 @@ ggData$actorSD = round(ggData$actorSD, 2)
 # clean up labels
 ggData$actorSD = paste0('$\\bar{\\sigma^{2}}$=', ggData$actorSD)
 ggData$variable = char(ggData$variable)
-ggData$variable[ggData$variable=='ame'] = 'AME'
+ggData$variable[ggData$variable=='ame'] = 'LFM'
 ggData$variable[ggData$variable=='lsm'] = 'LSM'
 ggData$variable = factor(ggData$variable)
 ggData$stat = char(ggData$stat)

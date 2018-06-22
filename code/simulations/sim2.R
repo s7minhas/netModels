@@ -4,10 +4,10 @@ rm(list=ls())
 
 # install libraries
 toInstall = c(
-  'devtools', 'latentnet', 'ROCR', 'caTools',
-  'foreach', 'doParallel', 'reshape2', 'ggplot2',
-  'latex2exp', 'Cairo'
-)
+  'devtools', 'amen', 'latentnet', 'ROCR', 
+  'caTools', 'foreach', 'doParallel', 
+  'reshape2', 'ggplot2', 'latex2exp', 'Cairo'
+  )
 for(pkg in toInstall){
   if(!pkg %in% installed.packages()[,1]){
     install.packages(pkg) } }
@@ -27,6 +27,7 @@ library(reshape2)
 library(ggplot2)
 library(latex2exp)
 library(Cairo)
+theme_set(theme_bw())
 
 # helpers
 char <- function(x){as.character(x)}
@@ -149,7 +150,7 @@ ggData$rhoVal = rhoStats[match(ggData$rhoEffect, names(rhoStats))]
 # clean up labels
 ggData$rhoVal = paste0('$\\bar{\\rho}$=', round(ggData$rhoVal,2))
 ggData$variable = char(ggData$variable)
-ggData$variable[ggData$variable=='ame'] = 'AME'
+ggData$variable[ggData$variable=='ame'] = 'LFM'
 ggData$variable[ggData$variable=='lsm'] = 'LSM'
 ggData$stat = char(ggData$stat)
 ggData$stat[ggData$stat=='roc'] = 'AUC (ROC)'
