@@ -433,20 +433,29 @@ Intercept/Edges & 0.94 & 0.60 & -3.39 \\
 
 \subsection*{Simulation Based Comparison of \pkg{amen} \& \pkg{latentnet}}
 
-We construct a simulation study to examine differences in the ability of LSM and AME to capture network dependencies. 
+We construct a simulation study to examine differences in the ability of LSM and AME to capture network dependencies under varying scenarios of ``egalitarianism''. By egalitarianism here we refer to how equally balanced the nodes are in terms of their number of ties. We construct six simulation scenarios representing varying degrees of egalitarianism. 
+
+For each scenario, we simulate fifty binary, directed networks with 100 nodes each and then evaluate the performance of AME (specifically, the LFM portion) and LSM to predict this network structure. The results are shown in Figure~\ref{fig:sim_egal} below. Each panel here represents one scenario in which we vary the degree of egalitariansim. The left most panel represents the situation in which the structure of the network is most egalitarian. The numbers at the top of each panel indicate the standard deviation of the degree distribution averaged across fifty simulations. Across the diagnoal of the visualization, we also provide an example of the type of network that was simulated. The size of nodes in each example network corresponds to the number of ties that node has. As we go from left to right, we can see much greater variance in the size of nodes within the network, which indicates that the level of egalitarianism is changing. 
+
+We run an AME (specifically, the LFM portion) and LSM on each of the simulated networks from each scenario, and compare the predictive performance based on AUC (ROC) and AUC (PR) statistics.\footnote{The additive effects from the SRM were excluded for AME to make the test more fair.} We set $K=2$ for both the AME and LSM and estimate each model without any covariates. The results of this analysis indicate that under these varying scenarios of egalitarianism AME consistently performs better than LSM. However, the performance of both models tends to decline as the structure of the simulated networks become less egalitarian (i.e., the extent of tie formation among just a few nodes becomes much higher than the typical node in the network). If covariate information was provided to the model about which nodes were more likely to form ties, then the predictive performance of both models would obvioulsy improve. 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{sim1Viz_nets.pdf}
-	\caption{Predictive performance of AME vs LSM for networks with varying degree distributions. }
+	\caption{Predictive performance of AME vs LSM for networks under five scenarios (the panels) that vary the extent to which the distribution of ties are egalitarian. We use a box plot to represent the performance of AME and LSM across fifty simulations for each scenario. The set of network visualizations across the diagonal of the plot illustrate a representative network from one simulation under that scenario, and the size of nodes corresponds to their number of ties. The labels at the top of each panel indicate the standard deviation of the number of ties, which are averaged across the fifty simulations for that scenario.}
+	\label{fig:sim_egal}	
 \end{figure}
 
+Next, we construct a second simulation study to compare the predictive performance of LSM and AME under varying levels of reciprocity. Here again we simulate a set of scenarios, and for each scenario we simulate fifty binary, directed networks with 100 nodes. The results are shown in Figure~\ref{fig:sim_recip}. Each panel here represents represents one scenario with a certain degree of reciprocity. The left-most panel highlights the case where there is little to no reciprocity in the network and the right-most where the level of reciprocity is quite high. The average level of reciprocity across the fifty simulated networks is given at the top of each panel. 
+
+To compare AME and LSM, we again utilize AUC (ROC) and AUC (PR) statistics. $K=2$ for both models and no covariate information is provided.\footnote{The AME is run without the additive effects portion from the SRM to make the test more fair.} Here again we find that the AME consistently outpeforms the LSM, though at higher levels of reciprocity the performance difference between the two approaches does shorten. 
 
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=1\textwidth]{sim2Viz.pdf}
-	\caption{Predictive performance of AME vs LSM for networks with varying levels of reciprocity. }
+	\caption{Predictive performance of AME vs LSM for networks with varying levels of reciprocity. We use a box plot to represent the performance of AME and LSM across fifty simulations for each scenario. The labels at the top of each panel indicate the average level of reciprocity across the fifty simulated in that scenario.}
+	\label{fig:sim_recip}		
 \end{figure}
 
 % Bib stuff
