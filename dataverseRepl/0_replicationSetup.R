@@ -1,6 +1,5 @@
-# Majority of code from cranmer et al. repl file
 ########## LOAD PACKAGES AND SET RANDOM SEED ##########
-if( !exists('fergmm')  ){ rm(list=ls()) } 
+rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
