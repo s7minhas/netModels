@@ -76,7 +76,7 @@ lazyCleanTable = function(coefMatrix, sigCol=3, estCol=1, digits=2, pval=0.05, c
 		coefMatrixChar = trim(coefMatrixChar)
 
 		sigCoefs = which(coefMatrix[,sigCol]<pval)
-		coefMatrixChar[sigCoefs,estCol] = paste0(coefMatrixChar[sigCoefs,estCol], '$^{\\ast}$')
+		# coefMatrixChar[sigCoefs,estCol] = paste0(coefMatrixChar[sigCoefs,estCol], '$^{\\ast}$')
 
 		return(coefMatrixChar)
 	}
