@@ -1,50 +1,52 @@
 #set up workspace ################### 
-rm(list=ls())
+if( !exists('pergmm')  ){ rm(list=ls()) } 
 
 seed <- 12345
 set.seed(seed)
-mainPath = '~/Research/netModels/dataverseRepl/'
-
-# version numbers provided for original paper and version for current model run
-if(!('network' %in% installed.packages() & '1.13.0'==installed.packages()['network','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/network_1.13.0.tar.gz'), repos = NULL, type="source") }
-if(!('sna' %in% installed.packages() & '2.3-2'==installed.packages()['sna','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/sna_2.3-2.tar.gz'), repos = NULL, type="source") }    
-if(!('ergm' %in% installed.packages() & '3.6.0'==installed.packages()['ergm','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/ergm_3.6.0.tar.gz'), repos = NULL, type="source") }
-if(!('latentnet' %in% installed.packages() & '2.7.1'==installed.packages()['latentnet','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/latentnet_2.7.1.tar.gz'), repos = NULL, type="source") }
-if(!('btergm' %in% installed.packages() & '1.7.0'==installed.packages()['btergm','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/btergm_1.7.0.tar.gz'), repos = NULL, type="source") }
-
-# load libraries
-library(network)
-library(sna)
-library(ergm)
-library(latentnet)
-library(btergm)
-
-# amen
-if(!'devtools' %in% installed.packages()){
-  install.packages('devtools', repos="https://cloud.r-project.org") }
-if(!'amen' %in% installed.packages()[,1]){
-    devtools::install_github('s7minhas/amen', ref='pa2018_version') }
-library(amen)
+mainPath = '/home/minhas/dataverseRepl/'
 
 # other necessary libraries
 oPkgs = c(
+  'network', 'sna', 'ergm', 'latentnet', 'btergm',
+  #'Cairo',
   'reshape2','plyr','ggplot2','latex2exp',
-  'Cairo','xtable','ROCR','caTools',
+  'xtable','ROCR','caTools',
   'RColorBrewer', 'png', 'grid')
 for(pkg in oPkgs){
   if(!pkg %in% installed.packages())
     install.packages(pkg, repos="https://cloud.r-project.org") }
 
+# match versions as closely as possible to cranmer et al. 2017
+iPkgs = apply(installed.packages()[,c('Package','Version')], 1, function(x){paste0(x[1],x[2])})
+if(!('network1.13.0' %in% iPkgs)){
+    install.packages(paste0(mainPath, 'pkgs/network_1.13.0.tar.gz'), repos = NULL, type="source") }
+if(!('sna2.4' %in% iPkgs)){
+    install.packages(paste0(mainPath, 'pkgs/sna_2.4.tar.gz'), repos = NULL, type="source") }    
+if(!('ergm3.8.0' %in% iPkgs)){
+    install.packages(paste0(mainPath, 'pkgs/ergm_3.8.0.tar.gz'), repos = NULL, type="source") }
+if(!('latentnet2.7.1' %in% iPkgs)){
+    install.packages(paste0(mainPath, 'pkgs/latentnet_2.7.1.tar.gz'), repos = NULL, type="source") }        
+if(!('btergm1.9.0' %in% iPkgs)){
+    install.packages(paste0(mainPath, 'pkgs/btergm_1.9.0.tar.gz'), repos = NULL, type="source") }
+
+# static version of amen
+if(!'devtools' %in% installed.packages()){
+  install.packages('devtools', repos="https://cloud.r-project.org") }
+if(!'amen' %in% installed.packages()[,1]){
+    devtools::install_github('s7minhas/amen', ref='pa2018_version') }
+
+# load libraries
+library(network) # version 1.13.0
+library(sna) # version 2.4
+library(ergm) # version 3.8
+library(latentnet) # version 2.7.1
+library(btergm) # version 1.9.0
+library(amen) # version 1.4
 library(reshape2) # version 1.4.3
 library(plyr) # version 1.8.4
 library(ggplot2) # version 3.0.0
 library(latex2exp) # version 0.4.0
-library(Cairo) # version 1.5-9
+# library(Cairo) # version 1.5-9
 library(xtable) # version 1.8-2
 library(ROCR) # version 1.0-7
 library(caTools) # version 1.17.1
@@ -62,6 +64,7 @@ trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 #################### 
 
 #load data ################### 
+##*** note that lines 71 to 151 comes primarily from cranmer et al. 2017
 
 # policy forum affiliation data
 # 1 = affiliation; 0 = no affiliation
@@ -198,12 +201,14 @@ yAct = lapply(1:k, function(x){ Y[which(rposmat==x)] })
 #################### 
 
 #save all data ################### 
-save(
-  nw.collab, collab.t, priv.ngo, forum, infrep, prefdist, allopp, # dv and covars for ergm/latentnet
-  gov.ifactor, ngo.ofactor, # lsm covars  
-  Y, Xd, Xs, Xr, n, # data for amen
-  logit.data, # data for logit
-  covariates, # qap covars
-  yMiss, nw.collabMiss, yAct, rposmat, # dv info
-  file=paste0(mainPath, 'data/data.rda')) 
+if( !exists('pergmm')  ){
+  save(
+    nw.collab, collab.t, priv.ngo, forum, infrep, prefdist, allopp, # dv and covars for ergm/latentnet
+    gov.ifactor, ngo.ofactor, # lsm covars  
+    Y, Xd, Xs, Xr, n, # data for amen
+    logit.data, # data for logit
+    covariates, # qap covars
+    yMiss, nw.collabMiss, yAct, rposmat, # dv info
+    file=paste0(mainPath, 'data/data.rda')) 
+}
 #################### 

@@ -3,12 +3,13 @@ rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
-mainPath = '~/Research/netModels/dataverseRepl/'
+mainPath = '/home/minhas/dataverseRepl/'
 
 # load libraries
 pkgs = c(
     'network','sna','ergm','latentnet','btergm','amen',
-    'reshape2','plyr','ggplot2','latex2exp','Cairo',
+    'reshape2','plyr','ggplot2','latex2exp',
+    #'Cairo',
     'xtable','ROCR','caTools','RColorBrewer','png','grid')
 shh=lapply(pkgs, library, character.only=TRUE)
 

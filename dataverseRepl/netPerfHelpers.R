@@ -205,13 +205,15 @@ getNetPerfDist = function(
 			)
 	if(!save){ return(tmp) }
 	if(save){
-		tmp = tmp + theme(
-				legend.text=element_text(family="Source Sans Pro Light"),
-				axis.text.x=element_text(family="Source Sans Pro Light"),
-				axis.title.y=element_text(family='Source Sans Pro Semibold'),
-				strip.text.x = element_text(family="Source Sans Pro Semibold")
-		  		)
-		ggsave(tmp, file=fPath, height=fHeight, width=fWidth, device=cairo_pdf)
+		# tmp = tmp + theme(
+		# 		legend.text=element_text(family="Source Sans Pro Light"),
+		# 		axis.text.x=element_text(family="Source Sans Pro Light"),
+		# 		axis.title.y=element_text(family='Source Sans Pro Semibold'),
+		# 		strip.text.x = element_text(family="Source Sans Pro Semibold")
+		#   		)
+		ggsave(tmp, file=fPath, height=fHeight, width=fWidth
+		       #, device=cairo_pdf
+		       )
 	}
 }
 ########################################################################
