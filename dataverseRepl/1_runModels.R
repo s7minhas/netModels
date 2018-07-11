@@ -106,7 +106,7 @@ if(!file.exists(paste0(mainPath, 'results/ameEst.rda'))){
         plot=FALSE, print=FALSE) 
 
     # reduce obj to save
-    ameFit = ameFit[c('BETA','GOF')]
+    ameFit = ameFit[c('BETA','GOF', 'U', 'V', 'ysList')]
     save(ameFit, file=paste0(mainPath, 'results/ameEst.rda'))
 }
 load(paste0(mainPath, 'results/ameEst.rda'))

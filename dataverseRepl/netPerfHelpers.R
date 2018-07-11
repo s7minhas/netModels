@@ -29,8 +29,7 @@ getLsGof = function(gofObject, lsVars=c('.dspart', '.espart', '.dist','.ideg','.
 }
 
 # extract gof from ame filepath
-getAmeGOF = function(fName, netNames=gofNames, netMethods=gofMethods){
-	load(paste0(resultsPath, fName))
+getAmeGOF = function(ameFit, netNames=gofNames, netMethods=gofMethods){
 	yDraws = ameFit$'ysList'[ sample(1000:length(ameFit$'ysList'), 100, replace=FALSE) ]
 	yAmeSim = lapply(yDraws, function(z){ getNetStats(z, netNames, netMethods) } )
 	ameDist = lapply(names(yAmeSim[[1]]), function(v){

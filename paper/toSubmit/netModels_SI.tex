@@ -139,6 +139,14 @@ digitsep=fullstop
 \makeatother
 
 \begin{document}
+	
+% appendix labeling
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{A.\arabic{table}}
+\setcounter{table}{0}
+\renewcommand{\thesection}{A.\arabic{section}}
+\setcounter{section}{0}	
 
 % saying hello ----------------------------------------------- %
 \thispagestyle{empty}

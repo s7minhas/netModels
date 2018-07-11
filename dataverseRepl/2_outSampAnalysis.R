@@ -4,7 +4,6 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
-mainPath = '~/Research/netModels/dataverseRepl/'
 
 # install libraries for parallelization
 oPkgs = c('doParallel','foreach')
