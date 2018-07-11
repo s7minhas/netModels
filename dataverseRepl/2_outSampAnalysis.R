@@ -4,6 +4,7 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
+mainPath = '~/Research/netModels/dataverseRepl/'
 
 # install libraries for parallelization
 oPkgs = c('doParallel','foreach')
@@ -191,16 +192,15 @@ tmp = rocPlot(rocData, linetypes=ggLty, colorManual=ggCols)+guides(linetype = FA
 for(ii in 1:length(sepPngList)){
   tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
   yLo = yLo + .1 ; yHi = yHi + .1 }
-# tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1), label=names(predDfs), family="Source Sans Pro Light")
-tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:4], 
-                     label=names(predDfs)
-                     #, family="Source Sans Pro Light"
-                     )
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:4],
+  label=names(predDfs)
+  #, family="Source Sans Pro Light"
+  )
 ggsave(tmp, file=paste0(mainPath, 'floats/Figure2a_color.pdf'), width=5, height=5
-       # , device=cairo_pdf
-)       
+  # , device=cairo_pdf
+  )       
 
-# area under precision-recall curves (Beger 2016 [arxiv])
+# area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
     r = rocdf(predDfs[[ii]]$'prob', predDfs[[ii]]$'actual', type='pr')
     p = cbind(r, model=names(predDfs)[ii])
@@ -209,23 +209,74 @@ rocPrData = do.call('rbind', rocPrData)
 
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
   guides(linetype=FALSE, color=FALSE) + 
-  # geom_rect(xmin=-.05, ymin=.01, xmax=.45, ymax=.55, color='white', fill='white', size=.5) + 
-  # annotate('text', hjust=0, x=c(-.1, .09, .28), y=.55, 
-  annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45, 		
-           label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
-           # , family='Source Sans Pro Light'
-           , size=4) + 
-  # annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1), 
-  annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4], 		
-           label=rev(rownames(aucSumm))
-           # , family='Source Sans Pro Light'
-  ) + 
-  # annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1), 
-  annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4], 		
-           label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
-           # , family='Source Sans Pro Light'
-  )
+  annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45,
+    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
+    # , family='Source Sans Pro Light'
+    , size=4) + 
+  annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4],
+    label=rev(rownames(aucSumm))
+    # , family='Source Sans Pro Light'
+    ) + 
+  annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4],
+    label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
+    # , family='Source Sans Pro Light'
+    )
 ggsave(tmp, file=paste0(mainPath, 'floats/Figure2b_color.pdf'), width=5, height=5
-       # , device=cairo_pdf
-       )
+  # , device=cairo_pdf
+  )
+
+# redo plots in grey scale
+nGroups = length(levels(rocData$model))
+ggCols = brewer.pal(nGroups+3, 'Greys')[4:(nGroups+3)]
+
+# Separation plots grey scale
+sepPngList = lapply(1:length(predDfs), function(ii){
+    fSepPath = paste0(mainPath,'floats/sep_',names(predDfs)[ii],'_outSample_bw.png')
+    # save as pngs for potential use outside of roc
+    tmp=ggSep(actual=predDfs[[ii]]$'actual', proba=predDfs[[ii]]$'prob', 
+        color='darkgrey', lty=ggLty[ii], fPath=fSepPath, save=FALSE ) +
+        geom_line(
+          aes(y = proba, x = seq(length.out = length(actual))), 
+          linetype=ggLty[ii], color=ggCols[ii], lwd = 4)
+    ggsave(tmp, file=fSepPath, width=12, height=2)
+    sepG = rasterGrob(readPNG(fSepPath), interpolate=TRUE)
+    return(sepG)
+})
+
+tmp = rocPlot(rocData, linetypes=ggLty, colorManual=ggCols)+guides(linetype = FALSE, color = FALSE) ; yLo = -.04 ; yHi = .14
+for(ii in 1:length(sepPngList)){
+  tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
+  yLo = yLo + .1 ; yHi = yHi + .1 }
+tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:4], 
+  label=names(predDfs)
+  #, family="Source Sans Pro Light"
+  )
+ggsave(tmp, file=paste0(mainPath, 'floats/Figure2a_bw.pdf'), width=5, height=5
+  # , device=cairo_pdf
+)       
+
+# area under precision-recall curves
+rocPrData = lapply(1:length(predDfs), function(ii){
+    r = rocdf(predDfs[[ii]]$'prob', predDfs[[ii]]$'actual', type='pr')
+    p = cbind(r, model=names(predDfs)[ii])
+    return(p) })
+rocPrData = do.call('rbind', rocPrData)
+
+tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
+  guides(linetype=FALSE, color=FALSE) + 
+  annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45,    
+    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
+    # , family='Source Sans Pro Light'
+    , size=4) + 
+  annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4],
+    label=rev(rownames(aucSumm))
+    # , family='Source Sans Pro Light'
+    ) + 
+  annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4],
+    label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
+    # , family='Source Sans Pro Light'
+    )
+ggsave(tmp, file=paste0(mainPath, 'floats/Figure2b_bw.pdf'), width=5, height=5
+  # , device=cairo_pdf
+  )
 ################################################
