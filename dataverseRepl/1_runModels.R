@@ -4,38 +4,25 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '~/Research/netModels/dataverseRepl/'
-source(paste0(mainPath, 'functions.R'))
 
-# version numbers for each pkg
-loadPkg(
-  c(
-    'network',      # needed to handle network data; version 1.13.0.1
-    'sna',          # descriptive network analysis; version 2.4
-    'lme4',         # Random effects logit model; version 1.1.17
-    'sandwich',     # Huber-White correction; version 2.4-0
-    'lmtest'       # Robust significance test; version 0.9.36
-    )
-  )
+# load libraries
+pkgs = c(
+    'network','sna','ergm','latentnet','btergm','amen',
+    'reshape2','plyr','ggplot2','latex2exp','Cairo',
+    'xtable','ROCR','caTools','RColorBrewer','png','grid')
+shh=lapply(pkgs, library, character.only=TRUE)
 
-# install ergm and latentnet pkgs from source for consistency with cranmer et al. 
-if(!('ergm' %in% installed.packages() & '3.6.0'==installed.packages()['ergm','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/ergm_3.6.0.tar.gz'), repos = NULL, type="source") }
-if(!('latentnet' %in% installed.packages() & '2.7.1'==installed.packages()['latentnet','Version'])){
-install.packages(paste0(mainPath, 'pkgs/latentnet_2.7.1.tar.gz'), repos = NULL, type="source") }
-if(!('btergm' %in% installed.packages() & '1.7.0'==installed.packages()['btergm','Version'])){
-    install.packages(paste0(mainPath, 'pkgs/btergm_1.7.0.tar.gz'), repos = NULL, type="source") }
-library(ergm)
-library(latentnet)
-library(btergm)
+# Set a theme for gg
+theme_set(theme_bw())
 
-# amen
-loadPkg('devtools') ;
-if(!'amen' %in% installed.packages()[,1]){ devtools::install_github('s7minhas/amen')}
-library(amen)
+# misc
+char = function(x){ as.character(x) }
+num = function(x){ as.numeric(char(x)) }
+trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 
 # load data
 load(paste0(mainPath, 'data/data.rda'))
-#################### 1œ12
+####################
 
 #run logit ################### 
 if(!file.exists(paste0(mainPath, 'results/logitEst.rda'))){
@@ -51,7 +38,6 @@ load(paste0(mainPath, 'results/logitEst.rda'))
 
 #run ERGM ################### 
 if(!file.exists(paste0(mainPath, 'results/ergmEst.rda'))){
-    print(Sys.time())
     model.ergm <- ergm(nw.collab ~ 
         edges + 
         edgecov(collab.t) + 
@@ -74,7 +60,6 @@ if(!file.exists(paste0(mainPath, 'results/ergmEst.rda'))){
         control = control.ergm(seed = seed, MCMC.samplesize = 5000, 
         MCMC.interval = 5000)
     )
-    print(Sys.time())
     save(model.ergm, file=paste0(mainPath, 'results/ergmEst.rda'))
 }
 load(paste0(mainPath, 'results/ergmEst.rda'))
@@ -83,7 +68,6 @@ load(paste0(mainPath, 'results/ergmEst.rda'))
 #run LSM ################### 
 if(!file.exists(paste0(mainPath, 'results/lsmEst.rda'))){
     set.seed(seed)
-    print(Sys.time())
     model.ls <- ergmm(nw.collab ~ 
         euclidean(d = 2, G = 0) +  # 2 dimensions and 0 clusters
         edgecov(gov.ifactor) + 
@@ -99,7 +83,6 @@ if(!file.exists(paste0(mainPath, 'results/lsmEst.rda'))){
         seed = seed, 
         control = control.ergmm(sample.size = 10000, burnin = 50000, interval = 100)
     )
-    print(Sys.time())
     save(model.ls, file=paste0(mainPath, 'results/lsmEst.rda'))
 }
 load(paste0(mainPath, 'results/lsmEst.rda'))
@@ -194,7 +177,10 @@ source(paste0(mainPath, 'netPerfHelpers.R'))
 # actual values
 actVals = gofstats(Y)
 perfNetKey = cbind(v=names(actVals), 
-    c=c('Sender variation', 'Receiver variation', 'Dyadic dependency', 'Triadic dependency') )
+    c=c('Sender variation', 
+        'Receiver variation', 
+        'Dyadic dependency', 
+        'Triadic dependency') )
 
 # ERGM
 ergmSims = simulate.ergm(model.ergm,nsim=1000)
@@ -206,7 +192,7 @@ amePerf = ameFit$'GOF'[-1,]
 
 # LS - EUCL
 # lsEuclSim = simulate.ergmm(model.ls, nsim=100)
-lsEuclSim = simulate(model.ls, nsim=100)
+lsEuclSim = simulate.ergmm(model.ls, nsim=100)
 lsEuclPerf = do.call('rbind', lapply(lsEuclSim$'networks', function(x){ 
     gofstats( as.sociomatrix( x ) ) }))
 
@@ -216,5 +202,19 @@ perfList = list(AME=amePerf, ERGM=ergmPerf, LSM=lsEuclPerf)
 # viz
 getNetPerfCoef(
     perfList, perfNetKey, actVals, 
-    pRows=1, save=TRUE, fPath=paste0(mainPath, 'floats/Figure3.pdf'))
+    pRows=1, save=TRUE, 
+    fPath=paste0(mainPath, 'floats/Figure3_color.pdf'))
+
+fig3=getNetPerfCoef(
+    perfList, perfNetKey, actVals, 
+    pRows=1, save=FALSE) +
+    theme_bw() + 
+    scale_color_manual(values=rep('black',3)) +
+    theme(
+        legend.position='none', legend.title=element_blank(),
+        legend.key=element_rect(color=NA),
+        axis.ticks=element_blank(), panel.border=element_blank()
+        )    
+ggsave(fig3, width=9, height=4,
+    file=paste0(mainPath, 'floats/Figure3_bw.pdf'))
 #################### 

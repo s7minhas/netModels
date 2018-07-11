@@ -1,7 +1,6 @@
 ########################################################################
 # Helpers to make gof plots
 # many depends on btergm
-loadPkg('btergm')
 
 # gof names
 gofNames = c("Dyad-wise shared partners", "Edge-wise shared partners", 
@@ -160,7 +159,6 @@ getNetPerfCoef = function(
 }
 
 # net perf ame dist, requires plyr
-loadPkg('plyr')
 getNetPerfDist = function(
 	perfList, perfNetKey,actVals,
 	bColPal='Set1',

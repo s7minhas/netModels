@@ -4,24 +4,61 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '~/Research/netModels/dataverseRepl/'
-source(paste0(mainPath, 'functions.R'))
 
 # version numbers provided for original paper and version for current model run
-loadPkg(
-  c(
-    'network',      # needed to handle network data; version 1.13.0.1
-    'sna',          # descriptive network analysis; version 2.4
-    'ergm',         # ERGM estimation; version 3.8.0
-    'latentnet',    # latent space models; version 2.8.0
-    'texreg',       # generate regression tables; version 1.36.23
-    'btergm',       # extensions of ERGMs; version 1.9.1
-    'lme4',         # Random effects logit model; version 1.1.17
-    'sandwich',     # Huber-White correction; version 2.4-0
-    'lmtest',       # Robust significance test; version 0.9.36
-    'gee',          # GEE models; version 4.13.19
-    'latticeExtra'  # nicer output of MCMC diagnostics; version 0.6-28
-    )
-  )
+if(!('network' %in% installed.packages() & '1.13.0'==installed.packages()['network','Version'])){
+    install.packages(paste0(mainPath, 'pkgs/network_1.13.0.tar.gz'), repos = NULL, type="source") }
+if(!('sna' %in% installed.packages() & '2.3-2'==installed.packages()['sna','Version'])){
+    install.packages(paste0(mainPath, 'pkgs/sna_2.3-2.tar.gz'), repos = NULL, type="source") }    
+if(!('ergm' %in% installed.packages() & '3.6.0'==installed.packages()['ergm','Version'])){
+    install.packages(paste0(mainPath, 'pkgs/ergm_3.6.0.tar.gz'), repos = NULL, type="source") }
+if(!('latentnet' %in% installed.packages() & '2.7.1'==installed.packages()['latentnet','Version'])){
+    install.packages(paste0(mainPath, 'pkgs/latentnet_2.7.1.tar.gz'), repos = NULL, type="source") }
+if(!('btergm' %in% installed.packages() & '1.7.0'==installed.packages()['btergm','Version'])){
+    install.packages(paste0(mainPath, 'pkgs/btergm_1.7.0.tar.gz'), repos = NULL, type="source") }
+
+# load libraries
+library(network)
+library(sna)
+library(ergm)
+library(latentnet)
+library(btergm)
+
+# amen
+if(!'devtools' %in% installed.packages()){
+  install.packages('devtools', repos="https://cloud.r-project.org") }
+if(!'amen' %in% installed.packages()[,1]){
+    devtools::install_github('s7minhas/amen', ref='pa2018_version') }
+library(amen)
+
+# other necessary libraries
+oPkgs = c(
+  'reshape2','plyr','ggplot2','latex2exp',
+  'Cairo','xtable','ROCR','caTools',
+  'RColorBrewer', 'png', 'grid')
+for(pkg in oPkgs){
+  if(!pkg %in% installed.packages())
+    install.packages(pkg, repos="https://cloud.r-project.org") }
+
+library(reshape2) # version 1.4.3
+library(plyr) # version 1.8.4
+library(ggplot2) # version 3.0.0
+library(latex2exp) # version 0.4.0
+library(Cairo) # version 1.5-9
+library(xtable) # version 1.8-2
+library(ROCR) # version 1.0-7
+library(caTools) # version 1.17.1
+library(RColorBrewer) # version 1.1-2
+library(png) # version 0.1-7
+library(grid) # version 3.5.0
+
+# Set a theme for gg
+theme_set(theme_bw())
+
+# misc
+char = function(x){ as.character(x) }
+num = function(x){ as.numeric(char(x)) }
+trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 #################### 
 
 #load data ################### 

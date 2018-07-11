@@ -1,5 +1,3 @@
-loadPkg(c('ROCR', 'caTools','RColorBrewer'))
-
 # Roc curve, depends ROCR
 roc = function(prediction, actual){
       pred = prediction(prediction, actual)
