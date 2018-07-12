@@ -4,7 +4,7 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
-mainPath = '~/Research/netModels/dataverseRepl/'
+# mainPath = '~/Research/netModels/dataverseRepl/'
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -27,6 +27,7 @@ num = function(x){ as.numeric(char(x)) }
 trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 source(paste0(mainPath, 'coefHelpers.R'))
 source(paste0(mainPath, 'netPerfHelpers.R'))
+source(paste0(mainPath, 'binPerfHelpers.R'))
 
 # load data
 load(paste0(mainPath, 'data/data.rda'))

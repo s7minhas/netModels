@@ -4,7 +4,7 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
-mainPath = '~/Research/netModels/dataverseRepl/'
+# mainPath = '~/Research/netModels/dataverseRepl/'
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -61,4 +61,4 @@ legend(x=.45, y=1.2, typeKey$type, pch=21, col="black", pt.bg=typeKey$ucol,
 legend(x=-1.2, y=-.6, typeKey$type, pch=21, col="black", pt.bg=typeKey$vcol, 
 		pt.cex=2, cex=1.25, bty="n", ncol=1)
 dev.off()
-system( paste0('pdfcrop ', fName, ' ', fName) )
+# system( paste0('pdfcrop ', fName, ' ', fName) )

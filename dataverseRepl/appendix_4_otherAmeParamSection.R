@@ -4,10 +4,14 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
-mainPath = '~/Research/netModels/dataverseRepl/'
+# mainPath = '~/Research/netModels/dataverseRepl/'
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
+
+# install lme4 if not there
+if( any( !c('foreach','doParallel') %in% installed.packages() ) ){
+  install.packages(c('foreach','doParallel'), repos="https://cloud.r-project.org") }
 
 # load libraries
 pkgs = c(
@@ -27,6 +31,7 @@ num = function(x){ as.numeric(char(x)) }
 trim = function (x) { gsub("^\\s+|\\s+$", "", x) }
 source(paste0(mainPath, 'coefHelpers.R'))
 source(paste0(mainPath, 'netPerfHelpers.R'))
+source(paste0(mainPath, 'binPerfHelpers.R'))
 
 # load data
 load(paste0(mainPath, 'data/data.rda'))
@@ -212,10 +217,10 @@ save(amePred, file=paste0(graphicsPath, 'ameOutSamp_k4.rda'))
 #org preds #########
 fPaths = c(
 	paste0(graphicsPath, 'ameOutSamp_k1.rda'),
-	paste0(resultsPath, 'ameOutSamp.rda')
+	paste0(resultsPath, 'ameOutSamp.rda'),
 	paste0(graphicsPath, 'ameOutSamp_k',3:4,'.rda')
 	)
-predDfs = lapply(fPaths, load)
+predDfs = lapply(fPaths, function(x){load(x);return(amePred)})
 names(predDfs) = paste0('AME (k=',1:4,')')
 ##########
 

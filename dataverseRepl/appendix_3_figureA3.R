@@ -4,10 +4,14 @@ rm(list=ls())
 seed <- 12345
 set.seed(seed)
 mainPath = '/home/minhas/dataverseRepl/'
-mainPath = '~/Research/netModels/dataverseRepl/'
+# mainPath = '~/Research/netModels/dataverseRepl/'
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
+
+# install lme4 if not there
+if(!'lme4' %in% installed.packages()){
+  install.packages('lme4', repos="https://cloud.r-project.org") }
 
 # load libraries
 pkgs = c(
