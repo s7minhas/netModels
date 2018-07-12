@@ -3,8 +3,10 @@ rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
-# mainPath = '~/Research/netModels/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -17,7 +19,6 @@ if( any( !c('foreach','doParallel') %in% installed.packages() ) ){
 pkgs = c(
     'amen',
     'reshape2','plyr','ggplot2','latex2exp',
-    #'Cairo',
     'foreach', 'doParallel',
     'xtable','ROCR','caTools','RColorBrewer','png','grid')
 shh=lapply(pkgs, library, character.only=TRUE)
@@ -258,12 +259,10 @@ for(ii in 1:length(sepPngList)){
   tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
   yLo = yLo + .1 ; yHi = yHi + .1 }
 tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:4],
-  label=names(predDfs)
-  #, family="Source Sans Pro Light"
-  )
-ggsave(tmp, file=paste0(graphicsPath, 'FigureA4a.pdf'), width=5, height=5
-  # , device=cairo_pdf
-  )       
+  label=names(predDfs) )
+ggsave(tmp, 
+    file=paste0(graphicsPath, 'FigureA4a.pdf'), 
+    width=5, height=5 )       
 
 # area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -274,20 +273,17 @@ rocPrData = do.call('rbind', rocPrData)
 
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
   guides(linetype=FALSE, color=FALSE) + 
-  annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45,
-    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
-    # , family='Source Sans Pro Light'
-    , size=4) + 
-  annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4],
-    label=rev(rownames(aucSumm))
-    # , family='Source Sans Pro Light'
-    ) + 
+  annotate('text', hjust=0, x=c(-.1, .09, .24), y=.45,
+    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), size=4) + 
+  annotate('text', hjust=0, x=-.15, y=seq(.05, .45, .1)[1:4],
+    label=rev(rownames(aucSumm)) ) + 
   annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4],
     label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
-    # , family='Source Sans Pro Light'
     )
-ggsave(tmp, file=paste0(graphicsPath, 'FigureA4b.pdf'), width=5, height=5
-  # , device=cairo_pdf
+tmp
+ggsave(tmp, 
+    file=paste0(graphicsPath, 'FigureA4b.pdf'), 
+    width=5, height=5
   )
 #########
 ################################################

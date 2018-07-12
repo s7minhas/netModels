@@ -3,7 +3,10 @@ if( !exists('pergmm')  ){ rm(list=ls()) }
 
 seed <- 12345
 set.seed(seed)
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 
 # other necessary libraries
 oPkgs = c(

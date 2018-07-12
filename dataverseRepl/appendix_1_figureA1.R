@@ -3,8 +3,10 @@ rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
-# mainPath = '~/Research/netModels/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
 
 # install gridExta if not there
@@ -15,7 +17,6 @@ if(!'gridExtra' %in% installed.packages()){
 pkgs = c(
     'amen',
     'reshape2','plyr','ggplot2','latex2exp','gridExtra',
-    #'Cairo',
     'xtable','ROCR','caTools','RColorBrewer','png','grid')
 shh=lapply(pkgs, library, character.only=TRUE)
 
@@ -33,15 +34,9 @@ source(paste0(mainPath, 'coefHelpers.R'))
 # ggtheme for charts
 convTheme = theme(
   panel.border=element_blank(), axis.ticks=element_blank(), 
-	axis.text.x=element_text(
-	  # family="Source Sans Pro Light", 
-	  size=4.5), 
-	axis.text.y=element_text(
-	  # family="Source Sans Pro Light", 
-	  size=4.5), 
-	strip.text.x = element_text(size=7, color='black'
-	                            # ,family="Source Sans Pro Semibold"
-	                            ) 
+	axis.text.x=element_text( size=4.5), 
+	axis.text.y=element_text( size=4.5), 
+	strip.text.x = element_text(size=7, color='black' ) 
 	)
 ####################
 
@@ -82,10 +77,9 @@ ggDist = ggplot(ggDens, aes(x=x)) +
 	geom_vline(data=ggMu, aes(xintercept=mu), linetype='solid', size=1, color='black') +
 	convTheme
 
-ggsave(grid.arrange(ggConv, ggDist, ncol=2), file=paste0(graphicsPath,fName), 
-	width=4, height=6
-	#, device=cairo_pdf
-	)
-# system(paste('pdfcrop', paste0(graphicsPath,fName), paste0(graphicsPath,fName)))
+ggsave(
+	grid.arrange(ggConv, ggDist, ncol=2), 
+	file=paste0(graphicsPath,fName), 
+	width=4, height=6 )
 })
 ####################

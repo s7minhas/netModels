@@ -3,8 +3,10 @@ rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
-# mainPath = '~/Research/netModels/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -17,7 +19,6 @@ if(!'lme4' %in% installed.packages()){
 pkgs = c(
     'ergm', 'latentnet', 'btergm', 'lme4',
     'reshape2','plyr','ggplot2','latex2exp',
-    #'Cairo',
     'xtable','ROCR','caTools','RColorBrewer','png','grid')
 shh=lapply(pkgs, library, character.only=TRUE)
 
@@ -77,6 +78,9 @@ gofDist = list(ERGM=ergmDist, LSM=lsEuclDist, AME=ameDist)
 ggData = getGofData(gofDist, actData)
 
 # plot
-ggGof( ggData, pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
-	save=TRUE, fPath=paste0(graphicsPath, 'FigureA3.pdf'), fWidth=12, fHeight=16)
+ggGof( ggData, 
+    pRows=length(unique(ggData$var)), pCols=1, modSpace=.6, 
+	save=TRUE, 
+    fPath=paste0(graphicsPath, 'FigureA3.pdf'), 
+    fWidth=12, fHeight=16)
 ################################################

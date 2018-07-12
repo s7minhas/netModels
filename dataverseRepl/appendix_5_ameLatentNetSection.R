@@ -3,8 +3,10 @@ rm(list=ls())
 
 seed <- 12345
 set.seed(seed)
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
-# mainPath = '~/Research/netModels/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -13,7 +15,6 @@ graphicsPath = paste0(mainPath, 'appendix_results_floats/')
 pkgs = c(
     'network','sna','ergm','latentnet','btergm','amen',
     'reshape2','plyr','ggplot2','latex2exp',
-    #'Cairo',
     'foreach', 'doParallel',
     'xtable','ROCR','caTools','RColorBrewer','png','grid')
 shh=lapply(pkgs, library, character.only=TRUE)
@@ -96,9 +97,7 @@ varLab = frameRows; varLab[errorRows] = ''; frame[,1] = varLab; rownames(frame)[
 
 # Add logit results
 frame = insertCoefInfo(frame, model='LSM', error='int')
-# frame = insertCoefInfo(frame, model='LSM (Bilinear)', error='int')
 frame = insertCoefInfo(frame, model='LSM (SR)', error='int')
-# frame = insertCoefInfo(frame, model='LSM (Bilinear + SR)', error='int')
 frame = insertCoefInfo(frame, model='AME', error='int')
 
 # cleanup
@@ -230,9 +229,9 @@ for(ii in 1:length(sepPngList)){
 	tmp = tmp + annotation_custom(sepPngList[[ii]], xmin=.5, xmax=1.05, ymin=yLo, ymax=yHi)
 	yLo = yLo + .1 ; yHi = yHi + .1 }
 tmp = tmp + annotate('text', hjust=0, x=.51, y=seq(0.05,0.45,.1)[1:3], label=names(predDfs))
-ggsave(tmp, file=paste0(graphicsPath, 'FigureA6a.pdf'), width=5, height=5
-  # , device=cairo_pdf
-  )       
+ggsave(tmp, 
+    file=paste0(graphicsPath, 'FigureA6a.pdf'), 
+    width=5, height=5 )       
 
 # area under precision-recall curves
 rocPrData = lapply(1:length(predDfs), function(ii){
@@ -244,15 +243,16 @@ rocPrData = do.call('rbind', rocPrData)
 aucLabs = rownames(aucSumm)
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
 	guides(linetype=FALSE, color=FALSE) + 
-	annotate('text', hjust=0, x=c(-.1, .27, .46), y=.35, 
+	annotate('text', hjust=0, x=c(-.1, .27, .42), y=.35, 
 		label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), size=4) + 
 	annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:3], 		
 		label=rev(aucLabs)) + 
 	annotate('text', hjust=0, x=.28, y=seq(.05, .45, .1)[1:3], 
 		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
 		)
-ggsave(tmp, file=paste0(graphicsPath, 'FigureA6b.pdf'), width=5, height=5
-  # , device=cairo_pdf
-  )
+tmp
+ggsave(tmp, 
+    file=paste0(graphicsPath, 'FigureA6b.pdf'), 
+    width=5, height=5 )
 #########
 ################################################

@@ -3,7 +3,10 @@
 rm(list=ls())
 
 # paths
+# example linux path
 mainPath = '/home/minhas/dataverseRepl/'
+# example mac path
+mainPath = '~/Research/netModels/dataverseRepl/' 
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
 
 # install libraries
@@ -181,10 +184,7 @@ ggData$stat = factor(ggData$stat, levels=unique(ggData$stat))
 # viz
 set.seed(6886)
 facet_labeller = function(string){ TeX(string) }
-# cols = brewer.pal(4, 'Set1')[c(1,4)]
-sim1Viz = ggplot(ggData, aes(x=variable, y=value
-  # , fill=variable
-  )) +
+sim1Viz = ggplot(ggData, aes(x=variable, y=value )) +
   geom_jitter(alpha=.2) +
   geom_boxplot(outlier.alpha = .01, alpha=.7, color='gray40') +
   facet_grid(stat~actorSD, scales='free_y',
@@ -222,7 +222,6 @@ sampleNet = function(beta){
     edge.arrow.size=.1,
     edge.color='gray90',
     vertex.label='' )
-  # dev.copy(png,file=paste0('netViz',beta,'.png'))
   dev.off()
   system(paste('pdfcrop',fName,fName))
 }

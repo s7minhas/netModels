@@ -1,5 +1,4 @@
 *.aux
-*.bbl
 *.blg
 *.cb
 *.cb2
@@ -17,7 +16,6 @@
 *.lb
 *.fdb_latexmk
 *.bib.bak
-*.synctex.gz
 *.lb
 *.DS_Store
 *.Rapp.history
@@ -25,3 +23,4 @@
 *.snm
 *.nav
 *.fls
+*.synctex.gz
