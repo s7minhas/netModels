@@ -1,0 +1,67 @@
+\section*{\textbf{Addressing Dependencies in Dyadic Data}}
+
+Relational, or dyadic, data provide measurements of how pairs of actors relate to one another. The easiest way to organize such data is the directed dyadic design in which the unit of analysis is some set of $n$ actors that have been paired together to form a dataset of $z$ directed dyads. A tabular design such as this for a set of $n$ actors, $\{i, j, k, l \}$ results in $n \times (n-1)$ observations, as shown in Table~\ref{tab:canDesign}. 
+
+\begin{table}[ht]
+	\captionsetup{justification=raggedright }
+	\centering
+	\begin{minipage}{.45\textwidth}
+		\centering
+		\begingroup
+		\setlength{\tabcolsep}{10pt}
+		\begin{tabular}{ccc}
+			Sender & Receiver & Event \\
+			\hline\hline
+			$i$ & $j$ & $y_{ij}$ \\
+			\multirow{2}{*}{\vdots} & $k$ & $y_{ik}$ \\
+			~ & $l$ & $y_{il}$ \\
+			$j$ & $i$ & $y_{ji}$ \\
+			\multirow{2}{*}{\vdots} & $k$ & $y_{jk}$ \\
+			~ & $l$ & $y_{jl}$ \\
+			$k$ & $i$ & $y_{ki}$ \\
+			\multirow{2}{*}{\vdots} & $j$ & $y_{kj}$ \\
+			~ & $l$ & $y_{kl}$ \\
+			$l$ & $i$ & $y_{li}$ \\
+			\multirow{2}{*}{\vdots} & $j$ & $y_{lj}$ \\
+			~ & $k$ & $y_{lk}$ \\
+			\hline\hline
+		\end{tabular}
+		\endgroup
+		\caption{Structure of datasets used in canonical design.} 
+		\label{tab:canDesign}
+	\end{minipage}
+	$\mathbf{\longrightarrow}$
+	\begin{minipage}{.45\textwidth}
+		\centering
+		\begingroup
+		\setlength{\tabcolsep}{10pt}
+		\renewcommand{\arraystretch}{1.5}
+		\begin{tabular}{c||cccc}
+		~ & $i$ & $j$ & $k$ & $l$ \\ \hline\hline
+		$i$ & \footnotesize{NA} & $y_{ij}$ & $y_{ik}$ & $y_{il}$ \\
+		$j$ & $y_{ji}$ & \footnotesize{NA}  & $y_{jk}$ & $y_{jl}$ \\
+		$k$ & $y_{ki}$ & $y_{kj}$ & \footnotesize{NA}  & $y_{kl}$ \\
+		$l$ & $y_{li}$ & $y_{lj}$ & $y_{lk}$ & \footnotesize{NA}  \\
+		\end{tabular}
+		\endgroup
+		\caption{Adjacency matrix representation of data in Table~\ref{tab:canDesign}. Senders are represented by the rows and receivers by the columns. }
+		\label{tab:netDesign}
+	\end{minipage}
+\end{table}
+
+% This type of model is typically expressed via a stochastic and systematic component \citep{pawitan:2013}. 
+When modeling these types of data, scholars typically employ a generalized linear model (GLM) estimated via maximum-likelihood. The stochastic component of this model reflects our assumptions about the probability distribution from which the data are generated: $y_{ij} \sim P(Y | \theta_{ij})$, with a probability density or mass function such as the normal, binomial, or Poisson, and we assume that each dyad in the sample is independently drawn from that particular distribution, given $\theta_{ij}$. The systematic component characterizes the model for the parameters of that distribution and describes how $\theta_{ij}$ varies as a function of a set of nodal and dyadic covariates, $\mathbf{X}_{ij}$: $\theta_{ij} = \bm\beta^{T} \mathbf{X}_{ij}$. The key assumption we make when applying this modeling technique is that given $\mathbf{X}_{ij}$ and the parameters of our distribution, each of the dyadic observations is conditionally independent. Specifically, we construct the joint density function over all dyads using the observations from Table 1 as an example.
+
+\vspace{-8mm}
+\begin{align}
+\begin{aligned}
+	P(y_{ij}, y_{ik}, \ldots, y_{lk} | \theta_{ij}, \theta_{ik}, \ldots, \theta_{lk}) &= P(y_{ij} | \theta_{ij}) \times P(y_{ik} | \theta_{ik}) \times \ldots \times P(y_{lk} | \theta_{lk}) \\
+	P(\mathbf{Y} \; | \; \bm{\theta}) &= \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})  \\
+\end{aligned}
+\end{align}
+
+\noindent We next convert the joint probability into a likelihood: $\displaystyle \mathcal{L} (\bm{\theta} | \mathbf{Y}) = \prod_{\alpha=1}^{n \times (n-1)} P(y_{\alpha} | \theta_{\alpha})$.
+
+The likelihood as defined above is only valid if we are able to make the assumption that, for example, $y_{ij}$ is independent of $y_{ji}$ and $y_{ik}$ given the set of covariates we specified.\footnote{The difficulties of applying the GLM framework to data that have structural interdependencies between observations is a problem that has long been recognized. \citet{beck:katz:1995}, for example, detail the issues with pooling observations in time-series cross-section datasets.} Assuming that the dyad $y_{ij}$ is conditionally independent of the dyad $y_{ji}$ asserts that there is no level of reciprocity in a dataset, an assumption that in many cases would seem quite untenable. A harder problem to handle is the assumption that $y_{ij}$ is conditionally independent of $y_{ik}$, the difficulty here follows from the possibility that $i$'s relationship with $k$ is dependent on how $i$ relates to $j$ and how $j$ relates to $k$, or more simply put the ``enemy of my enemy [may be] my friend''. Accordingly, inferences drawn from misspecified models that ignore potential interdependencies between dyadic observations are likely to have a number of issues including biased estimates of the effect of independent variables, uncalibrated confidence intervals, and poor predictive performance.
+
+% The presence of these types of interdependencies in relational data complicates the \textit{a priori} assumption of observational independence. Without this assumption the joint density function cannot be written in the way described above and  a valid likelihood does not exist.\footnote{This problem has been noted in works such as \citet{lai:1995,manger:etal:2012,kinne:2013}.} Accordingly, inferences drawn from misspecified models that ignore potential interdependencies between dyadic observations are likely to have a number of issues including biased estimates of the effect of independent variables, uncalibrated confidence intervals, and poor predictive performance. By ignoring these interdependencies, we ignore a potentially important part of the data generating process behind relational data. 

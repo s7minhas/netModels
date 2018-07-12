@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ./netModels.aux
+The style file: apsr.bst
+Database file #1: /Users/janus829/whistle/master.bib
+Warning--empty institution in handcock:2003b
+You've used 108 entries,
+            2874 wiz_defined-function locations,
+            1248 strings with 21502 characters,
+and the built_in function-call counts, 479736 in all, are:
+= -- 78689
+> -- 5782
+< -- 2
++ -- 37130
+- -- 2032
+* -- 41244
+:= -- 95805
+add.period$ -- 437
+call.type$ -- 108
+change.case$ -- 1406
+chr.to.int$ -- 108
+cite$ -- 109
+duplicate$ -- 1665
+empty$ -- 3783
+format.name$ -- 2125
+if$ -- 86330
+int.to.chr$ -- 5
+int.to.str$ -- 0
+missing$ -- 116
+newline$ -- 456
+num.names$ -- 1282
+pop$ -- 370
+preamble$ -- 1
+purify$ -- 1620
+quote$ -- 0
+skip$ -- 1442
+stack$ -- 0
+substring$ -- 111442
+swap$ -- 238
+text.length$ -- 1514
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 408
+warning$ -- 1
+while$ -- 2566
+width$ -- 0
+write$ -- 1520
+(There was 1 warning)

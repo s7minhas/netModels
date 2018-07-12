@@ -1,0 +1,118 @@
+\section*{\textbf{Additive Part of AME}}
+
+The dependencies that tend to develop in relational data can be more easily understood when we move away from stacking dyads on top of one another and turn instead to a matrix design as illustrated in Table~\ref{tab:netDesign}. Operationally, this type of data structure is represented as a $n \times n$ matrix, $\mathbf{Y}$, where the diagonals are typically undefined. The $ij^{th}$ entry defines the relationship sent from $i$ to $j$ and can be continuous or discrete. Relations between actors in a network setting at times does not involve senders and receivers. Networks such as these are referred to as undirected and all the relations between actors are symmetric, meaning $y_{ij}=y_{ji}$.
+
+The most common type of dependency that arises in networks are first-order, or nodal dependencies, and these point to the fact that we typically find significant heterogeneity in activity levels across nodes. The implication of this across-node heterogeneity is within-node homogeneity of ties, meaning that values across a row, say $\{y_{ij},y_{ik},y_{il}\}$, will be more similar to each other than other values in the adjacency matrix because each of these values has a common sender $i$. This type of dependency manifests in cases where sender $i$ tends to be more active or less active in the network than other senders. Similarly, while some actors may be more active in sending ties to others in the network, we might also observe that others are more popular targets, this would manifest in observations down a column, $\{y_{ji},y_{ki},y_{li}\}$, being more similar. Last, we might also find that actors who are more likely to send ties in a network are also more likely to receive them, meaning that the row and column means of an adjacency matrix may be correlated. Another ubiquitous type of structural interdependency is reciprocity. This is a second-order, or dyadic, dependency relevant only to directed datasets, and asserts that values of $y_{ij}$ and $y_{ji}$ may be statistically dependent. The prevalence of these types of potential interactions within directed dyadic data also complicates the basic assumption of observational independence.
+ 
+We model first- and second-order dependencies in AME using a set of additive effects that are motivated by the social relations model (SRM) developed by \citep{warner:etal:1979,li:loken:2002}. Specifically, we decompose the variance of observations in an adjacency matrix in terms of heterogeneity across row means (out-degree), heterogeneity along column means (in-degree), correlation between row and column means, and correlations within dyads:
+
+\begin{align}
+\begin{aligned}
+	y_{ij} &= \mu + e_{ij} \\
+	e_{ij} &= a_{i} + b_{j} + \epsilon_{ij} \\
+	\{ (a_{1}, b_{1}), \ldots, (a_{n}, b_{n}) \} &\simiid N(0,\Sigma_{ab}) \\ 
+	\{ (\epsilon_{ij}, \epsilon_{ji}) : \; i \neq j\} &\simiid N(0,\Sigma_{\epsilon}), \text{ where } \\
+	\Sigma_{ab} = \begin{pmatrix} \sigma_{a}^{2} & \sigma_{ab} \\ \sigma_{ab} & \sigma_{b}^2   \end{pmatrix} \;\;\;\;\; &\Sigma_{\epsilon} = \sigma_{\epsilon}^{2} \begin{pmatrix} 1 & \rho \\ \rho & 1  \end{pmatrix} .
+\label{eqn:srmCov}
+\end{aligned}
+\end{align}
+
+$\mu$ here provides a baseline measure of the density mean of a network, and $e_{ij}$ represents residual variation. The residual variation decomposes into parts: a row/sender effect ($a_{i}$), a column/receiver effect ($b_{j}$), and a within-dyad effect ($\epsilon_{ij}$). The row and column effects are modeled jointly to account for correlation in how active an actor is in sending and receiving ties. Heterogeneity in the row and column means is captured by $\sigma_{a}^{2}$ and $\sigma_{b}^{2}$, respectively, and $\sigma_{ab}$ describes the linear relationship between these two effects (i.e., whether actors who send  a lot of ties also receive  a lot of ties). Beyond these first-order dependencies, second-order dependencies are described by $\sigma_{\epsilon}^{2}$ and a within dyad correlation, or reciprocity, parameter $\rho$. 
+
+We incorporate the covariance structure described in Equation~\ref{eqn:srmCov} into the systematic component of a GLM framework: $\bm\beta^{\top} \mathbf{X}_{ij} + a_{i} + b_{j} + \epsilon_{ij}$, where $ \bm\beta^{\top} \mathbf{X}_{ij}$ accommodates the inclusion of dyadic, sender, and receiver covariates. This approach incorporates row, column, and within-dyad dependence in way that is widely used and understood by applied researchers: a regression framework and additive random effects to accommodate variances and covariances often seen in relational data. Furthermore, this handles a diversity of outcome distributions. 
+
+\section*{Multiplicative Part of AME}
+
+Missing from the additive effects portion of the model is an accounting of third-order dependence patterns that can arise in relational data. A third-order dependency is defined as the dependency between triads, not dyads. The ubiquity of third-order effects in relational datasets can arise from the presence of some set of shared attributes between nodes that affects their probability of interacting with one another.\footnote{Another reason why we may see the emergence of third-order effects is the ``sociology'' explanation: that individuals want to close triads because this is putatively a more stable or preferable social situation (\citealt{wasserman:faust:1994}).}
+
+For example, finding common in the political economy literature is that democracies are more likely to form trade agreements with one another, and the shared attribute here is a country's political system. A binary network where actors tend to form ties with others based on some set of shared characteristics often leads to a network graph with a high number of ``transitive triads'' in which  sets of actors $\{i,j,k\}$ are each linked to one another. The left-most plot in Figure~\ref{fig:homphStochEquivNet} provides a representation of a network that exhibits this type of pattern. The relevant implication of this when it comes to conducting statistical inference is that--unless we are able to specify the list of exogenous variable that may explain this prevalence of triads--the probability of $j$ and $k$ forming a tie is not independent of the ties that already exist between those actors and $i$.
+
+\begin{figure}[ht]
+	\centering
+	\caption{Graph on the left is a representation of an undirected network that exhibits a high degree of homophily (linkages forming because of shared attributes), while on the right we show an undirected network that exhibits stochastic equivalence.}	
+	\begin{tabular}{lcr}
+	\includegraphics[width=.33\textwidth]{homophNet} & \hspace{2cm} &
+	\includegraphics[width=.33\textwidth]{stochEquivNet}	
+	\end{tabular}
+	\label{fig:homphStochEquivNet}
+\end{figure}
+
+Another third-order dependence pattern that cannot be accounted for in the additive effects framework is stochastic equivalence. A pair of actors $ij$ are stochastically equivalent if the probability of $i$ relating to, and being related to, by every other actor is the same as the probability for $j$. This refers to the idea that there will be groups of nodes in a network with similar relational patterns. The occurrence of a dependence pattern such as this is not uncommon in the social science applications. Recent work estimates a stochastic equivalence structure to explain the formation of preferential trade agreements (PTAs) between countries \cite{manger:etal:2012}. Specifically, they suggest that PTA formation is related to differences in per capita income levels between countries. Countries falling into high, middle, and low income per capita levels will have patterns of PTA formation that are determined by the groups into which they fall. Such a structure is represented in the right-most panel of Figure~\ref{fig:homphStochEquivNet}, here the lightly shaded group of nodes at the top can represent high-income countries, nodes on the bottom-left middle-income, and the darkest shade of nodes low-income countries. The behavior of actors in a network can at times be governed by group level dynamics, and failing to account for such dynamics leaves potentially important parts of the data generating process ignored.
+
+We account for third order dependence patterns using a latent variable framework, and our goal in doing so is twofold: 1) be able to adequately represent third order dependence patterns, 2) improve our ability to conduct inference on exogenous covariates. Latent variable models assume that relationships between nodes are mediated by a small number ($K$) of node-specific unobserved latent variables. We contrast the approach that we utilize within AME, the latent factor model (LFM), to the latent space model, which is among the most widely used in the networks literature.\footnote{An alternative approach with a similar latent variable formulation is known as the stochastic block model \citep{nowicki:snijders:2001}, however, this approach is typically only used to model community structure in networks and not used to conduct inference on exogenous covariates.} For the sake of exposition, we consider the case where relations are symmetric to describe the differences between these approaches. These approaches can be incorporated into the framework that we have been constructing through the inclusion of an additional term, $\alpha(\mu_{i}, \mu_{j})$, that captures latent third order characteristics of a network. General definitions for how $\alpha(u_{i}, u_{j})$ are defined for these latent variable models are shown in Equations~\ref{eqn:latAlpha}:
+
+\begin{align}
+\begin{aligned}
+\text{Latent space model} \\
+	&\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = -|\textbf{u}_{i} - \textbf{u}_{j}| \\
+	&\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
+\text{Latent factor model} \\
+	&\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = \textbf{u}_{i}^{\top} \Lambda \textbf{u}_{j} \\
+	&\textbf{u}_{i} \in \mathbb{R}^{K}, \; i \in \{1, \ldots, n \} \\
+	&\Lambda \text{ a } K \times K \text{ diagonal matrix}
+\label{eqn:latAlpha}
+\end{aligned}
+\end{align}
+
+In the LSM approach, each node $i$ has some unknown latent position in $K$ dimensional space, $\textbf{u}_{i} \in \mathbb{R}^{K}$, and the probability of a tie between a pair $ij$ is a function of the negative Euclidean distance between them: $-|\textbf{u}_{i} - \textbf{u}_{j}|$. Because latent distances for a triple of actors obey the triangle inequality, this formulation models the tendencies toward homophily commonly found in social networks. This approach is implemented in the \pkg{latentnet} which is part of the \pkg{statnet} $\sf{R}$ package \cite{krivitsky:handcock:2015}. However, this approach also comes with an important shortcoming: it confounds stochastic equivalence and homophily. Consider two nodes $i$ and $j$ that are proximate to one another in $K$ dimensional Euclidean space, this suggests not only that $|\textbf{u}_{i} - \textbf{u}_{j}|$ is small but also that $|\textbf{u}_{i} - \textbf{u}_{l}| \approx |\textbf{u}_{j} - \textbf{u}_{l}|$, the result being that nodes $i$ and $j$ will by construction assumed to possess the same relational patterns with other actors such as $l$ (i.e., that they are stochastically equivalent). Thus LSMs confound strong ties with stochastic equivalence. This approach cannot adequately model data with many ties between nodes that have different network roles. This is problematic as real-world networks exhibit varying degrees of stochastic equivalence and homophily. In these situations, using the LSM would end up representing only a part of the network structure. 
+
+In the latent factor model, each actor has an unobserved vector of characteristics, $\textbf{u}_{i} = \{u_{i,1}, \ldots, u_{i,K} \}$, which describe their behavior as an actor in the network. The probability of a tie from $i$ to $j$ depends on the extent to which $\textbf{u}_{i}$ and $\textbf{u}_{j}$ are ``similar'' (i.e., point in the same direction) and on whether the entries of $\Lambda$ are greater or less than zero. More specifically, the similarity in the latent factors, $\textbf{u}_{i} \approx \textbf{u}_{j}$, corresponds to how stochastically equivalent a pair of actors are and the eigenvalue determines whether the network exhibits positive or negative homophily. For example, say that we estimate a rank-one latent factor model (i.e., $K=1$), in this case $\textbf{u}_{i}$ is represented by a scalar $u_{i,1}$, similarly, $\textbf{u}_{j}=u_{j,1}$, and $\Lambda$ will have just one diagonal element $\lambda$. The average effect this will have on $y_{ij}$ is simply $\lambda \times u_{i} \times u_{j}$, where a positive value of $\lambda>0$ indicates homophily and $\lambda<0$ heterophily. This approach can represent both varying degrees of homophily and stochastic equivalence.\footnote{In the directed version of this approach, we use the singular value decomposition, here actors in the network have a vector of latent characteristics to describe their behavior as a sender, denoted by $\textbf{u}$, and as a receiver, $\textbf{v}$: $\textbf{u}_{i}, \textbf{v}_{j} \in \mathbb{R}^{K}$. This can alter the probability of an interaction between $ij$ additively: $\textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j}$, where $\textbf{D}$ is a $K \times K$ diagonal matrix.}
+
+In addition to summarizing dependence patterns in networks, scholars are often concerned with accounting for interdependencies so that they can better estimate the effects of exogenous covariates. Both the latent space and factor models attempt to do this as they are ``conditional independence models'' --  in that they assume that ties are conditionally independent given all of the observed predictors and unknown node-specific parameters: $p( Y | X , U ) = \prod_{i<j} p( y_{i,j}  | x_{i,j} , u_i , u_j)$. Typical parametric models of this form relate $y_{i,j}$ to $(x_{i,j},u_i,u_j)$ via a link function:
+
+\begin{align*}
+	p(y_{i,j} | x_{i,j}, u_i , u_j ) & = f( y_{i,j} : \eta_{i,j} ) \\
+	\eta_{i,j} &= \beta^\top x_{i,j} + \alpha(\textbf{u}_{i}, \textbf{u}_{j}).
+\end{align*}
+
+However, the structure of $\alpha(\textbf{u}_{i}, \textbf{u}_{j})$ can result in very different interpretations for any estimates of the regression coefficients $\beta$. For example, suppose the latent effects $\{ u_1,\ldots, u_n\}$ are near zero on average (if not, their mean can be absorbed into an intercept parameter and row and column additive effects). Under the LFM, the average value of $\alpha(\textbf{u}_{i}, \textbf{u}_{j}) = \textbf{u}_{i}^{\top} \Lambda \textbf{u}_{j}$ will be near zero and so we have
+
+\begin{align*}
+	\eta_{i,j} & =  \beta^\top x_{i,j} + \textbf{u}_{i}^{\top} \Lambda \textbf{u}_{j} \\
+	\bar \eta & \approx  \beta^\top \bar x.
+\end{align*}
+
+The implication of this is that the values of $\beta$ can be interpreted as yielding the ``average'' value of $\eta_{i,j}$. On the other hand, under the LSM
+
+\begin{align*}
+	\eta_{i,j} & =  \beta^\top x_{i,j} - |\textbf{u}_{i} - \textbf{u}_{j}|  \\
+	\bar \eta & \approx  \beta^\top \bar x - \overline{ |\textbf{u}_{i} - \textbf{u}_{j}| } <  \beta^\top \bar x .
+\end{align*}
+
+In this case, $\beta^\top \bar x$ does not represent an ``average'' value of the predictor $\eta_{i,j}$, it represents a maximal value as if all actors were zero distance from each other in the latent social space. For example, consider the simplest case of a normally distributed network  outcome with an identity link:
+
+\begin{align*}
+	y_{i,j} & = \beta^\top x_{i,j} + \alpha(\textbf{u}_{i}, \textbf{u}_{j}) + \epsilon_{i,j} \\
+	\bar y & \approx \beta^\top \bar x + \overline{ \alpha(\textbf{u}_{i}, \textbf{u}_{j}) }   .
+\end{align*}
+
+Under the LSM, $\bar y \approx \beta^\top \bar x - \overline{ |\textbf{u}_{i} - \textbf{u}_{j}|  } < \beta^\top \bar x$, and so we no longer can interpret $\beta$ as representing the linear relationship between $y$ and $x$. Instead, it may be thought of as describing some sort of average hypothetical ``maximal'' relationship between $y_{i,j}$ and $x_{i,j}$.
+
+Thus the LFM provides two important benefits. First, we are able to capture a wider assortment of dependence patterns that arise in relational data, and, second, parameter interpretation is more straightforward. The AME approach considers the regression model shown in Equation~\ref{eqn:ame}:
+
+\begin{align}
+\begin{aligned}
+	y_{ij} &= g(\theta_{ij}) \\
+	&\theta_{ij} = \bm\beta^{\top} \mathbf{X}_{ij} + e_{ij} \\
+	&e_{ij} = a_{i} + b_{j}  + \epsilon_{ij} + \alpha(\textbf{u}_{i}, \textbf{v}_{j}) \text{  , where } \\
+	&\qquad \alpha(\textbf{u}_{i}, \textbf{v}_{j}) = \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} = \sum_{k \in K} d_{k} u_{ik} v_{jk}. \\
+\label{eqn:ame}
+\end{aligned}
+\end{align}
+
+Using this framework, we are able to model the dyadic observations as conditionally independent given $\bm\theta$, where $\bm\theta$ depends on the the unobserved random effects, $\mathbf{e}$. $\mathbf{e}$ is then modeled to account for the potential first, second, and third-order dependencies that we have discussed. As described in Equation~\ref{eqn:srmCov}, $a_{i} + b_{j}  + \epsilon_{ij}$, are the additive random effects in this framework and account for sender, receiver, and within-dyad dependence. The multiplicative effects, $\textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j}$, are used to capture higher-order dependence patterns that are left over in $\bm\theta$ after accounting for any known covariate information.\footnote{The MCMC algorithm describing the estimation procedure is available in the Appendix.} 
+
+\subsubsection*{\textbf{ERGMs}}
+
+An alternative approach to accounting for third-order dependence patterns are ERGMs. Whereas AME seeks to estimate interdependencies in a network through a set of latent variables, ERGM approaches are useful when researchers are interested in the role that a specific network statistic(s) has in giving rise to an observed network. These network statistics could include the number of transitive triads in a network, balanced triads, reciprocal pairs and so on.\footnote{\citet{morris:etal:2008} and \citet{snijders:etal:2006} provide a detailed list of network statistics that can be included in an ERGM model specification.} In the ERGM framework, a set of statistics, $S(\mathbf{Y})$, define a model. Given the chosen set of statistics, the probability of observing a particular network dataset $\mathbf{Y}$ can be expressed as:
+
+\begin{align}
+\Pr(Y = y) = \frac{ \exp( \bm\beta^{T} S(y)  )  }{ \sum_{z \in \mathcal{Y}} \exp( \bm\beta^{T} S(z)  )  } \text{ ,  } y \in \mathcal{Y}
+\label{eqn:ergm}
+\end{align}
+
+$\bm\beta$ represents a vector of model coefficients for the specified network statistics, $\mathcal{Y}$ denotes the set of all obtainable networks, and the denominator is used as a normalizing factor \citep{hunter:etal:2008}. This approach provides a way to state that the probability of observing a given network depends on the patterns that it exhibits, which are operationalized in the list of network statistics specified by the researcher. Within this approach one can test the role that a variety of network statistics play in giving rise to a particular network. Additionally, researchers can easily accommodate nodal and dyadic covariates. Further because of the Hammersley-Clifford theorem any probability distribution over networks can be represented by the form shown in Equation~\ref{eqn:ergm}. 
+
+A notable issue when estimating ERGMs, however, is that the estimated model can become degenerate. Degeneracy here means that the model places a large amount of probability on a small subset of networks that fall in the set of obtainable networks, $\mathcal{Y}$, but share little resemblance with the observed network, $\mathbf{Y}$ \citep{schweinberger:2011}.\footnote{For example, most of the probability may be placed on empty graphs, no edges between nodes, or nearly complete graphs, almost every node is connected by an edge.} Some have argued that model degeneracy is simply a result of model misspecification \citep{handcock:2003a,goodreau:etal:2008,handcock:etal:2008}. However, this points to an important caveat in interpreting the implications of the Hammersley-Clifford theorem. Though this theorem ensures that any network can be represented through an ERGM, it says nothing about the complexity of the sufficient statistics ($S(y)$) required to do so. Failure to properly account for higher-order dependence structures through an appropriate specification can at best lead to model degeneracy, which provides an obvious indication that the specification needs to be altered, and at worst deliver a result that converges but does not appropriately capture the interdependencies in the network. The consequence of the latter case is a set of inferences that will continue to be biased as a result of unmeasured heterogeneity, thus defeating the major motivation for pursuing an inferential network model in the first place.
+
+In the following section we undertake a comparison of the latent distance model, ERGM, and the AME model using an application presented in \citet{cranmer:etal:2016}.\footnote{The reason we use the same dataset is because of the model specification issue that arises when using ERGMs. As \citet[p. 8]{cranmer:etal:2016} note, when using ERGMs scholars must model third-order effects and ``must also specify them in a complete and correct manner'' or the model will be misspecified. Thus to avoid providing an incorrect specification when comparing ERGM with the AME we use the specification that they constructed.} In doing so, we are able to compare and contrast these various approaches.
