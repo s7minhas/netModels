@@ -1,0 +1,22 @@
+\begin{thebibliography}{3}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+
+\bibitem[{Hoff(2005)}]{hoff:2005}
+Hoff, P.~D., 2005. Bilinear mixed-effects models for dyadic data. Journal of
+  the American Statistical Association 100~(4690), 286--295.
+
+\bibitem[{Hoff(2008)}]{hoff:2008}
+Hoff, P.~D., 2008. Modeling homophily and stochastic equivalence in symmetric
+  relational data. In: Platt, J.~C., Koller, D., Singer, Y., Roweis, S.~T.
+  (Eds.), Advances in Neural Information Processing Systems 20. Processing
+  Systems 21. MIT Press, Cambridge, MA, USA, pp. 657--664.
+
+\bibitem[{Morris et~al.(2008)Morris, Handcock, and Hunter}]{morris:etal:2008}
+Morris, M., Handcock, M.~S., Hunter, D.~R., 2008. Specification of
+  exponential-family random graph models: {T}erms and computational aspects.
+  Journal of Statistical Software 24~(4), 1554--7660.
+
+\end{thebibliography}
