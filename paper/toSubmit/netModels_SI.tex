@@ -244,8 +244,8 @@ Trace plot for AME model presented in paper.
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.45\textwidth]{ameConv1_SR2} &
-	\includegraphics[width=.45\textwidth]{ameConv2_SR2}
+	\includegraphics[width=.45\textwidth]{FigureA1a} &
+	\includegraphics[width=.45\textwidth]{FigureA1b}
 	\end{tabular}
 	\caption{Trace plot for AME model presented in paper. In this model, we utilize the SRM to account for first and second-order dependence. To account for third order dependencies we use the latent factor approach with $K=2$.}
 	\label{fig:ameConv}
@@ -259,7 +259,7 @@ When it comes to estimating higher-order effects, ERGM is able to provide explic
 
 \begin{figure}[ht]
 \centering
-	\includegraphics[width=.5\textwidth]{ameFitSR_2_UV}
+	\includegraphics[width=.5\textwidth]{FigureA2}
 	\caption{Circle plot of estimated latent factors.}
 	\label{fig:uv}
 \end{figure}
@@ -297,7 +297,7 @@ We simulate 1,000 networks from the LSM, ERGM, and AME model and compare how wel
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{ggGofAll}
+	\includegraphics[width=1\textwidth]{FigureA3}
 	\caption{Goodness of fit statistics to assess how well the LSM, ERGM, and AME approaches account for network dependencies. Grey bars indicate true values.}
 	\label{fig:gofAll}
 \end{figure}
@@ -318,32 +318,32 @@ Here we provide a comparison of the AME model we present in the paper that uses 
    & AME (k=1) & AME (k=2) & AME (k=3) & AME (k=4) \\
   \hline
 \hline
-Intercept/Edges & -3.08 & -3.39 & -3.72 & -3.93 \\
-   & [-3.91; -2.30] & [-4.38; -2.50] & [-4.84; -2.73] & [-5.12; -2.87] \\
-  \textbf{Conflicting policy preferences} &  &  &  &  \\
-  $\;\;\;\;$ Business vs. NGO & -1.28 & -1.37 & -1.48 & -1.51 \\
-   & [-2.20; -0.47] & [-2.44; -0.47] & [-2.63; -0.49] & [-2.69; -0.47] \\
-  $\;\;\;\;$ Opposition/alliance & 0.95 & 1.08 & 1.19 & 1.28 \\
-   & [0.64; 1.27] & [0.72; 1.47] & [0.80; 1.64] & [0.86; 1.77] \\
-  $\;\;\;\;$ Preference dissimilarity & -0.65 & -0.79 & -0.89 & -0.95 \\
-   & [-1.30; -0.03] & [-1.55; -0.08] & [-1.71; -0.12] & [-1.80; -0.14] \\
-  \textbf{Transaction costs} &  &  &  &  \\
-  $\;\;\;\;$ Joint forum participation & 0.84 & 0.92 & 1.01 & 1.06 \\
-   & [0.38; 1.31] & [0.40; 1.47] & [0.44; 1.62] & [0.43; 1.72] \\
-  \textbf{Influence} &  &  &  &  \\
-  $\;\;\;\;$ Influence attribution & 1.00 & 1.09 & 1.21 & 1.28 \\
-   & [0.63; 1.39] & [0.69; 1.53] & [0.75; 1.71] & [0.80; 1.84] \\
-  $\;\;\;\;$ Alter's influence indegree & 0.10 & 0.11 & 0.12 & 0.13 \\
-   & [0.07; 0.14] & [0.07; 0.15] & [0.08; 0.17] & [0.09; 0.18] \\
-  $\;\;\;\;$ Influence absolute diff. & -0.06 & -0.07 & -0.07 & -0.08 \\
-   & [-0.10; -0.03] & [-0.11; -0.03] & [-0.12; -0.04] & [-0.12; -0.04] \\
-  $\;\;\;\;$ Alter = Government actor & 0.52 & 0.55 & 0.60 & 0.64 \\
-   & [-0.04; 1.07] & [-0.07; 1.15] & [-0.07; 1.27] & [-0.07; 1.35] \\
-  \textbf{Functional requirements} &  &  &  &  \\
-  $\;\;\;\;$ Ego = Environmental NGO & 0.61 & 0.67 & 0.76 & 0.80 \\
-   & [-0.31; 1.56] & [-0.38; 1.71] & [-0.38; 1.90] & [-0.40; 2.04] \\
-  $\;\;\;\;$ Same actor type & 0.97 & 1.04 & 1.11 & 1.17 \\
-   & [0.60; 1.35] & [0.63; 1.50] & [0.64; 1.59] & [0.68; 1.68] \\
+Intercept/Edges & -3.08 & -3.40 & -3.74 & -3.92 \\ 
+   & [-3.91; -2.30] & [-4.40; -2.51] & [-4.80; -2.75] & [-5.13; -2.87] \\ 
+  \textbf{Conflicting policy preferences} &  &  &  &  \\ 
+  $\;\;\;\;$ Business vs. NGO & -1.28 & -1.38 & -1.51 & -1.50 \\ 
+   & [-2.20; -0.46] & [-2.47; -0.49] & [-2.64; -0.53] & [-2.69; -0.52] \\ 
+  $\;\;\;\;$ Opposition/alliance & 0.95 & 1.08 & 1.19 & 1.27 \\ 
+   & [0.65; 1.28] & [0.72; 1.49] & [0.80; 1.63] & [0.84; 1.76] \\ 
+  $\;\;\;\;$ Preference dissimilarity & -0.65 & -0.79 & -0.92 & -0.96 \\ 
+   & [-1.29; -0.02] & [-1.55; -0.07] & [-1.76; -0.12] & [-1.80; -0.15] \\ 
+  \textbf{Transaction costs} &  &  &  &  \\ 
+  $\;\;\;\;$ Joint forum participation & 0.84 & 0.92 & 1.02 & 1.05 \\ 
+   & [0.37; 1.31] & [0.40; 1.46] & [0.46; 1.62] & [0.43; 1.73] \\ 
+  \textbf{Influence} &  &  &  &  \\ 
+  $\;\;\;\;$ Influence attribution & 1.00 & 1.10 & 1.21 & 1.27 \\ 
+   & [0.64; 1.39] & [0.70; 1.55] & [0.77; 1.70] & [0.80; 1.83] \\ 
+  $\;\;\;\;$ Alter's influence indegree & 0.10 & 0.11 & 0.13 & 0.13 \\ 
+   & [0.07; 0.14] & [0.07; 0.15] & [0.08; 0.17] & [0.09; 0.18] \\ 
+  $\;\;\;\;$ Influence absolute diff. & -0.06 & -0.07 & -0.08 & -0.08 \\ 
+   & [-0.10; -0.03] & [-0.11; -0.03] & [-0.13; -0.04] & [-0.12; -0.04] \\ 
+  $\;\;\;\;$ Alter = Government actor & 0.52 & 0.56 & 0.66 & 0.63 \\ 
+   & [-0.04; 1.07] & [-0.06; 1.16] & [-0.04; 1.46] & [-0.08; 1.36] \\ 
+  \textbf{Functional requirements} &  &  &  &  \\ 
+  $\;\;\;\;$ Ego = Environmental NGO & 0.61 & 0.68 & 0.77 & 0.79 \\ 
+   & [-0.31; 1.56] & [-0.36; 1.73] & [-0.35; 1.93] & [-0.38; 2.04] \\ 
+  $\;\;\;\;$ Same actor type & 0.97 & 1.03 & 1.14 & 1.18 \\ 
+   & [0.60; 1.36] & [0.62; 1.48] & [0.66; 1.66] & [0.70; 1.70] \\ 
    \hline
 \hline
 \end{tabular}
@@ -356,8 +356,8 @@ Intercept/Edges & -3.08 & -3.39 & -3.72 & -3.93 \\
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.5\textwidth]{roc_ameSR_outSample} &
-	\includegraphics[width=.5\textwidth]{rocPr_ameSR_outSample}
+	\includegraphics[width=.5\textwidth]{FigureA4a} &
+	\includegraphics[width=.5\textwidth]{FigureA4b}
 	\end{tabular}
 	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are provided as well for both curves.}
 	\label{fig:roc_ame}
@@ -365,7 +365,7 @@ Intercept/Edges & -3.08 & -3.39 & -3.72 & -3.93 \\
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{netPerfCoef_ameSR}
+	\includegraphics[width=1\textwidth]{FigureA5}
 	\caption{Network goodness of fit summary using \pkg{amen}.}
 	\label{fig:netPerfCoef_ameSR}
 \end{figure}
@@ -386,32 +386,32 @@ Here we provide a comparison of the AME model we present in the paper with a var
    & LSM & LSM (SR) & AME \\ 
   \hline
 \hline
-Intercept/Edges & 0.94 & 0.60 & -3.39 \\ 
-   & [0.09; 1.82] & [-1.10; 2.37] & [-4.38; -2.50] \\ 
+Intercept/Edges & 0.95 & 0.61 & -3.40 \\ 
+   & [0.09; 1.85] & [-1.07; 2.34] & [-4.40; -2.51] \\ 
   \textbf{Conflicting policy preferences} &  &  &  \\ 
-  $\;\;\;\;$ Business vs. NGO & -1.37 & -3.07 & -1.37 \\ 
-   & [-2.42; -0.41] & [-4.77; -1.56] & [-2.44; -0.47] \\ 
-  $\;\;\;\;$ Opposition/alliance & 0.00 & 0.31 & 1.08 \\ 
-   & [-0.40; 0.39] & [-0.24; 0.86] & [0.72; 1.47] \\ 
-  $\;\;\;\;$ Preference dissimilarity & -1.76 & -1.88 & -0.79 \\ 
-   & [-2.62; -0.90] & [-3.07; -0.68] & [-1.55; -0.08] \\ 
+  $\;\;\;\;$ Business vs. NGO & -1.37 & -3.06 & -1.38 \\ 
+   & [-2.39; -0.40] & [-4.72; -1.59] & [-2.47; -0.49] \\ 
+  $\;\;\;\;$ Opposition/alliance & 0.00 & 0.30 & 1.08 \\ 
+   & [-0.40; 0.40] & [-0.26; 0.86] & [0.72; 1.49] \\ 
+  $\;\;\;\;$ Preference dissimilarity & -1.77 & -1.88 & -0.79 \\ 
+   & [-2.64; -0.91] & [-3.06; -0.69] & [-1.55; -0.07] \\ 
   \textbf{Transaction costs} &  &  &  \\ 
-  $\;\;\;\;$ Joint forum participation & 1.51 & 1.56 & 0.92 \\ 
-   & [0.86; 2.17] & [0.69; 2.41] & [0.40; 1.47] \\ 
+  $\;\;\;\;$ Joint forum participation & 1.51 & 1.55 & 0.92 \\ 
+   & [0.85; 2.17] & [0.66; 2.40] & [0.40; 1.46] \\ 
   \textbf{Influence} &  &  &  \\ 
-  $\;\;\;\;$ Influence attribution & 0.08 & 0.30 & 1.09 \\ 
-   & [-0.40; 0.55] & [-0.37; 0.96] & [0.69; 1.53] \\ 
+  $\;\;\;\;$ Influence attribution & 0.08 & 0.30 & 1.10 \\ 
+   & [-0.40; 0.54] & [-0.38; 0.96] & [0.70; 1.55] \\ 
   $\;\;\;\;$ Alter's influence indegree & 0.01 & 0.06 & 0.11 \\ 
    & [-0.03; 0.04] & [-0.03; 0.14] & [0.07; 0.15] \\ 
   $\;\;\;\;$ Influence absolute diff. & 0.04 & -0.08 & -0.07 \\ 
    & [-0.01; 0.09] & [-0.14; -0.02] & [-0.11; -0.03] \\ 
-  $\;\;\;\;$ Alter = Government actor & -0.46 & -0.11 & 0.55 \\ 
-   & [-1.08; 0.14] & [-1.91; 1.76] & [-0.07; 1.15] \\ 
+  $\;\;\;\;$ Alter = Government actor & -0.46 & -0.09 & 0.56 \\ 
+   & [-1.08; 0.14] & [-1.85; 1.77] & [-0.06; 1.16] \\ 
   \textbf{Functional requirements} &  &  &  \\ 
-  $\;\;\;\;$ Ego = Environmental NGO & -0.60 & -1.69 & 0.67 \\ 
-   & [-1.32; 0.09] & [-3.74; 0.23] & [-0.38; 1.71] \\ 
-  $\;\;\;\;$ Same actor type & 1.17 & 1.82 & 1.04 \\ 
-   & [0.63; 1.71] & [1.10; 2.54] & [0.63; 1.50] \\ 
+  $\;\;\;\;$ Ego = Environmental NGO & -0.60 & -1.72 & 0.68 \\ 
+   & [-1.30; 0.08] & [-3.76; 0.25] & [-0.36; 1.73] \\ 
+  $\;\;\;\;$ Same actor type & 1.17 & 1.81 & 1.03 \\ 
+   & [0.62; 1.72] & [1.09; 2.56] & [0.62; 1.48] \\ 
    \hline
 \hline
 \end{tabular}
@@ -423,8 +423,8 @@ Intercept/Edges & 0.94 & 0.60 & -3.39 \\
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{cc}
-	\includegraphics[width=.5\textwidth]{roc_latSpace_outSampleSmall} &
-	\includegraphics[width=.5\textwidth]{rocPr_latSpace_outSampleSmall}
+	\includegraphics[width=.5\textwidth]{FigureA6a} &
+	\includegraphics[width=.5\textwidth]{FigureA6b}
 	\end{tabular}
 	\caption{Assessments of out-of-sample predictive performance using ROC curves, separation plots, and PR curves. AUC statistics are provided as well for both curves.}
 	\label{fig:roc_latentSpace}
@@ -432,7 +432,7 @@ Intercept/Edges & 0.94 & 0.60 & -3.39 \\
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{netPerfCoef_latSpaceSmall}
+	\includegraphics[width=1\textwidth]{FigureA7}
 	\caption{Network goodness of fit summary using \pkg{amen}.}
 	\label{fig:netPerfCoef_latSpace}
 \end{figure}
@@ -449,7 +449,7 @@ We run a LFM and LSM on each of the simulated networks from each scenario, and c
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{sim1Viz_nets.pdf}
+	\includegraphics[width=1\textwidth]{FigureA8}
 	\caption{Predictive performance of LFM vs LSM for networks under five scenarios (the panels) that vary the extent to which the distribution of ties are egalitarian. We use a box plot to represent the performance of LFM and LSM across fifty simulations for each scenario. The set of network visualizations across the diagonal of the plot illustrate a representative network from one simulation under that scenario, and the size of nodes corresponds to their number of ties. The labels at the top of each panel indicate the standard deviation of the number of ties, which are averaged across the fifty simulations for that scenario.}
 	\label{fig:sim_egal}	
 \end{figure}
@@ -460,7 +460,7 @@ To compare LFM and LSM, we again utilize AUC (ROC) and AUC (PR) statistics. $K$ 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{sim2Viz.pdf}
+	\includegraphics[width=1\textwidth]{FigureA9}
 	\caption{Predictive performance of LFM vs LSM for networks with varying levels of reciprocity. We use a box plot to represent the performance of LFM and LSM across fifty simulations for each scenario. The labels at the top of each panel indicate the average level of reciprocity across the fifty simulated in that scenario.}
 	\label{fig:sim_recip}		
 \end{figure}
