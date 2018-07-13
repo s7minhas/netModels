@@ -52,7 +52,7 @@ loaded via a namespace (and not attached):
 
 #### Running the scripts
 
-Scripts that should be run in the following order (before running any of the scripts please modify the path to match your local environment, the path is specified in the first few lines of each of the scripts): 
+Scripts that should be run in the following order (before running any of the scripts please modify the `mainPath` object to match your local environment, the path is specified in the first few lines of each of the scripts): 
 
 - 0_replicationSetup.R: Creates data object for analysis and installs necessary packages.
     + This should take about five-ten minutes to run .

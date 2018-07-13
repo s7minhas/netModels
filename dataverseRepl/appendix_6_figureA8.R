@@ -3,8 +3,8 @@
 rm(list=ls())
 
 # paths
-# example linux path
-mainPath = '/home/minhas/dataverseRepl/'
+# # example linux path
+# mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
 mainPath = '~/Research/netModels/dataverseRepl/' 
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
