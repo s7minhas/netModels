@@ -6,7 +6,7 @@ rm(list=ls())
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
 
 # install libraries
@@ -200,7 +200,7 @@ sim1Viz = ggplot(ggData, aes(x=variable, y=value )) +
     axis.title=element_text(family='Source Sans Pro Semibold'),
     strip.text = element_text(family="Source Sans Pro Semibold")    
   )
-ggsave(sim1Viz, file='FigureA8.pdf', width=8, height=5, device=cairo_pdf)
+ggsave(sim1Viz, file='FigureA8_base.pdf', width=8, height=5, device=cairo_pdf)
 
 # plot representative nets
 sampleNet = function(beta){

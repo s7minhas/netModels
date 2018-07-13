@@ -6,7 +6,7 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -234,6 +234,9 @@ aucSumm = do.call('rbind',
 aucSumm = aucSumm[order(aucSumm[,1],decreasing=TRUE),]
 aucSumm = trim(format(round(aucSumm, 2), nsmall=2))
  
+# org preds by osamp perf
+predDfs = predDfs[paste0('AME (k=',c(1,4,2,3),')')]
+
 # Roc Plot
 rocData = lapply(1:length(predDfs), function(ii){
     r = roc(predDfs[[ii]]$'prob', predDfs[[ii]]$'actual')
@@ -242,7 +245,7 @@ rocData = lapply(1:length(predDfs), function(ii){
 rocData = do.call('rbind', rocData)
 
 # model col/lty
-ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))
+ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))[c(4,1,3,2)]
 ggLty = c('dashed', 'dotdash', 'twodash', 'solid')
 
 # Separation plots
@@ -280,7 +283,6 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
   annotate('text', hjust=0, x=.1, y=seq(.05, .45, .1)[1:4],
     label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
     )
-tmp
 ggsave(tmp, 
     file=paste0(graphicsPath, 'FigureA4b.pdf'), 
     width=5, height=5

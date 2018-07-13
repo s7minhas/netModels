@@ -1058,7 +1058,7 @@ body .markdown-body
 </style><title>README</title></head><body><article class="markdown-body"><h2 id="replication-instructions-for-the-paper">Replication instructions for the paper<a class="headerlink" href="#replication-instructions-for-the-paper" title="Permanent link"></a></h2>
 <p>Replicating the figures and tables in the main text will take 5-10 minutes on a standard laptop if the provided MCMC results are used. If the provided results are deleted, the running time for the main text figures and tables is detailed below. We recommend replicating the figures and tables in the appendix with use of an EC2 instance (setup details provided in the next section). </p>
 <h4 id="setup-information">Setup information<a class="headerlink" href="#setup-information" title="Permanent link"></a></h4>
-<p>All of the analysis reported in the manuscript and the appendix is run on a m4.10xlarge EC2 instance. Once the instance is active, ssh into it and run the following lines to set up the R environment and RStudio server: </p>
+<p>All of the analyses reported in the manuscript and the appendix are run on a m4.10xlarge EC2 instance. Once the instance is active, ssh into it and run the following lines to set up the R environment and RStudio server: </p>
 <div class="codehilite"><pre>sudo adduser minhas
 sudo add-apt-repository &#39;deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/&#39;
 sudo apt-get update
@@ -1104,7 +1104,7 @@ loaded via a namespace (and not attached):
 <p>Scripts that should be run in the following order (before running any of the scripts please modify the <code>mainPath</code> object to match your local environment, the path is specified in the first few lines of each of the scripts): </p>
 <ul>
 <li>0_replicationSetup.R: Creates data object for analysis and installs necessary packages.<ul>
-<li>This should take about five-ten minutes to run .</li>
+<li>This should take about five-ten minutes to run. </li>
 </ul>
 </li>
 <li>1_runModels.R: This script will generate Table 3 and Figure 3 in the manuscript. Results are saved in the <code>floats</code> directory as <code>Table3.tex</code> and <code>Figure3_bw.pdf</code>.<ul>

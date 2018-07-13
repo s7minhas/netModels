@@ -6,7 +6,7 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 
 # load libraries
 pkgs = c(
@@ -101,6 +101,13 @@ if(!file.exists(paste0(mainPath, 'results/ameEst.rda'))){
     latDims = 2
 
     # Run amen in parallel
+    #### for your own applications use the ame function
+    #### we use ameTest here simply in order to save
+    #### additional information to facilitate
+    #### a network goodness of fit comparison with ergmmm
+    #### and ergm in appendix_3_figureA3.R. ameTest only
+    #### differs in that it saves an additional object
+    #### names ysList.
     ameFit = ameTest(Y=Y, Xdyad=Xd, Xrow=Xs, Xcol=Xr, 
         model='bin', symmetric=FALSE, R=latDims, 
         nscan=imps, seed=seed, burn=brn, odens=ods, 
@@ -194,8 +201,7 @@ ergmPerf = do.call('rbind', lapply(ergmSims, function(x){
 amePerf = ameFit$'GOF'[-1,]
 
 # LS - EUCL
-# lsEuclSim = simulate.ergmm(model.ls, nsim=100)
-lsEuclSim = simulate.ergmm(model.ls, nsim=100)
+lsEuclSim = simulate.ergmm(model.ls, nsim=1000)
 lsEuclPerf = do.call('rbind', lapply(lsEuclSim$'networks', function(x){ 
     gofstats( as.sociomatrix( x ) ) }))
 
@@ -203,11 +209,6 @@ lsEuclPerf = do.call('rbind', lapply(lsEuclSim$'networks', function(x){
 perfList = list(AME=amePerf, ERGM=ergmPerf, LSM=lsEuclPerf)
 
 # viz
-getNetPerfCoef(
-    perfList, perfNetKey, actVals, 
-    pRows=1, save=TRUE, 
-    fPath=paste0(mainPath, 'floats/Figure3_color.pdf'))
-
 fig3=getNetPerfCoef(
     perfList, perfNetKey, actVals, 
     pRows=1, save=FALSE) +
@@ -220,4 +221,9 @@ fig3=getNetPerfCoef(
         )    
 ggsave(fig3, width=9, height=4,
     file=paste0(mainPath, 'floats/Figure3_bw.pdf'))
+
+fig3=getNetPerfCoef(
+    perfList, perfNetKey, actVals, 
+    pRows=1, save=TRUE,
+    fPath=paste0(mainPath, 'floats/Figure3_color.pdf'))
 #################### 

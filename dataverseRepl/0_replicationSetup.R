@@ -6,12 +6,11 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 
 # other necessary libraries
 oPkgs = c(
   'network', 'sna', 'ergm', 'latentnet', 'btergm',
-  #'Cairo',
   'reshape2','plyr','ggplot2','latex2exp',
   'xtable','ROCR','caTools',
   'RColorBrewer', 'png', 'grid')
@@ -186,7 +185,11 @@ for(p in 1:dim(Xd)[3]){
 ####################   
 
 #create data with missingness for cross val perf test ################### 
-k=45
+k=45 # number of folds in crossval
+#### typically the number of folds should be much smaller 
+#### when just using ame. in other applications we just use a 
+#### 10 fold cross-validation. here we set such a high number
+#### because of computational issues associated with ergm
 set.seed(6886) ; rpos = sample(1:k, length(collab), replace=TRUE)
 rposmat = matrix(rpos, nrow=nrow(Y), ncol=ncol(Y))
 diag(rposmat) = NA

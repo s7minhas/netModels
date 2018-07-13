@@ -6,7 +6,7 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')

@@ -6,7 +6,7 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 resultsPath = paste0(mainPath, 'results/')
 dataPath = paste0(mainPath, 'data/')
 graphicsPath = paste0(mainPath, 'appendix_results_floats/')
@@ -212,7 +212,7 @@ rocData = lapply(1:length(predDfs), function(ii){
 rocData = do.call('rbind', rocData)
 
 # model col/lty
-ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))
+ggCols = brewer.pal(length(levels(rocData$model)), 'Set1')
 ggLty = c('dotdash', 'twodash', 'solid')
 
 # Separation plots
@@ -250,7 +250,6 @@ tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, lin
 	annotate('text', hjust=0, x=.28, y=seq(.05, .45, .1)[1:3], 
 		label=rev(apply(aucSumm, 1, function(x){paste(x, collapse='     ')}))
 		)
-tmp
 ggsave(tmp, 
     file=paste0(graphicsPath, 'FigureA6b.pdf'), 
     width=5, height=5 )

@@ -4,7 +4,7 @@ Replicating the figures and tables in the main text will take 5-10 minutes on a 
 
 #### Setup information
 
-All of the analysis reported in the manuscript and the appendix is run on a m4.10xlarge EC2 instance. Once the instance is active, ssh into it and run the following lines to set up the R environment and RStudio server: 
+All of the analyses reported in the manuscript and the appendix are run on a m4.10xlarge EC2 instance. Once the instance is active, ssh into it and run the following lines to set up the R environment and RStudio server: 
 
 ```
 sudo adduser minhas
@@ -55,7 +55,7 @@ loaded via a namespace (and not attached):
 Scripts that should be run in the following order (before running any of the scripts please modify the `mainPath` object to match your local environment, the path is specified in the first few lines of each of the scripts): 
 
 - 0_replicationSetup.R: Creates data object for analysis and installs necessary packages.
-    + This should take about five-ten minutes to run .
+    + This should take about five-ten minutes to run. 
 - 1_runModels.R: This script will generate Table 3 and Figure 3 in the manuscript. Results are saved in the `floats` directory as `Table3.tex` and `Figure3_bw.pdf`.
     + Original results from the authors are already included in the `results` directory, if the relevant files are deleted, then this script will take approximately one hour to run. 
 - 2_outSampAnalysis.R: This script will generate Figure 2 in the manuscript. Results are saved in the `floats` directory as `Figure2a_bw.pdf` and `Figure2b_bw.pdf`.

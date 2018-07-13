@@ -6,7 +6,7 @@ set.seed(seed)
 # # example linux path
 # mainPath = '/home/minhas/dataverseRepl/'
 # example mac path
-mainPath = '~/Research/netModels/dataverseRepl/' 
+mainPath = '~/dataverseRepl/' 
 
 # install libraries for parallelization
 oPkgs = c('doParallel','foreach')
@@ -176,7 +176,7 @@ rocData = lapply(1:length(predDfs), function(ii){
 rocData = do.call('rbind', rocData)
 
 # model col/lty
-ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))
+ggCols = rev(brewer.pal(length(levels(rocData$model)), 'Set1'))[c(2,1,3,4)]
 ggLty = c('dashed', 'dotdash', 'twodash', 'solid')
 
 # Separation plots
@@ -261,9 +261,7 @@ rocPrData = do.call('rbind', rocPrData)
 tmp=rocPlot(rocPrData, type='pr', legText=12, legPos=c(.25,.35), legSpace=2, linetypes=ggLty, colorManual=ggCols) +
   guides(linetype=FALSE, color=FALSE) + 
   annotate('text', hjust=0, x=c(-.1, .09, .22), y=.45,    
-    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)')
-    , family='Source Sans Pro Light'
-    , size=4) + 
+    label=c('  ', ' AUC\n(ROC)', 'AUC\n(PR)'), size=4) + 
   annotate('text', hjust=0, x=-.1, y=seq(.05, .45, .1)[1:4],
     label=rev(rownames(aucSumm))
     ) + 
