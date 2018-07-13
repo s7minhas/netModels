@@ -59,11 +59,11 @@ digitsep=fullstop
 
 % footnotes at bottom
 \usepackage[bottom]{footmisc}
-   \renewcommand{\footnotelayout}{\doublespacing} % set spacing in footnotes
-   \newlength{\myfootnotesep}
-   \setlength{\myfootnotesep}{\baselineskip}
-   \addtolength{\myfootnotesep}{-\footnotesep}
-   \setlength{\footnotesep}{\myfootnotesep} % set spacing between footnotes
+   % \renewcommand{\footnotelayout}{\doublespacing} % set spacing in footnotes
+   % \newlength{\myfootnotesep}
+   % \setlength{\myfootnotesep}{\baselineskip}
+   % \addtolength{\myfootnotesep}{-\footnotesep}
+   % \setlength{\footnotesep}{\myfootnotesep} % set spacing between footnotes
 
 % to change enumeration symbols begin{enumerate}[(a)]
 \usepackage{enumerate}
@@ -143,7 +143,11 @@ digitsep=fullstop
 \thispagestyle{empty}
 \begin{frontmatter}
 
-\title{Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1}}
+\title{
+Inferential Approaches for Network Analysis: \\ AMEN for Latent Factor Models\tnoteref{t1} \\
+ \vspace{.5cm}
+ \Large{\textbf{Forthcoming Political Analysis}}
+}
 
 \tnotetext[t1]{Shahryar Minhas and Michael D. Ward acknowledge support from National Science Foundation (NSF) Award 1259266 and Peter D. Hoff acknowledges support from NSF Award 1505136. Replication files for this project can be accessed at \url{https://github.com/s7minhas/netmodels}.}
 
@@ -162,6 +166,8 @@ digitsep=fullstop
 		We introduce a Bayesian approach to conduct inferential analyses on dyadic data while accounting for interdependencies between observations through a set of additive and multiplicative effects (AME). The AME model is built on a generalized linear modeling framework and is thus flexible enough to be applied to a variety of contexts. We contrast the AME model to two prominent approaches in the literature: the latent space model (LSM) and the exponential random graph model (ERGM).  Relative to these approaches, we show that the AME approach is a) to be easy to implement; b) interpretable in a general linear model framework; c) computationally straightforward; d) not prone to degeneracy; e) captures 1st, 2nd, and 3rd order network dependencies; and f) notably outperforms ERGMs and LSMs on a variety of metrics and in an out-of-sample context. In summary, AME offers a straightforward way to undertake nuanced, principled inferential network analysis for a wide range of social science questions.
 		}
 \end{abstract}
+
+
 \end{frontmatter}
 
 % ----------------------------------------------- %
@@ -496,15 +502,15 @@ More broadly, relational data structures are composed of actors that are part of
 \renewcommand{\thesection}{A.\arabic{section}}
 \setcounter{section}{0}	
 
-\section*{Appendix}
 \clearpage
+\section*{Appendix}
 
 \subsection*{Additive and Multiplicative Effects Gibbs Sampler}
 
 To estimate, the effects of our exogenous variables and latent attributes we utilize a Bayesian probit model in which we sample from the posterior distribution of the full conditionals until convergence. Specifically, given observed data $\textbf{Y}$ and $\textbf{X}$ -- where $\textbf{X}$ is a design array that includes our sender, receiver, and dyadic covariates -- we estimate our network of binary ties using a probit framework where: $y_{ij,t} = 1(\theta_{ij,t}>0)$ and $\theta_{ij,t} = \bm\beta^{\top}\mathbf{X}_{ij,t} + a_{i} + b_{j} + \textbf{u}_{i}^{\top} \textbf{D} \textbf{v}_{j} + \epsilon_{ij}$. The derivation of the full conditionals is described in detail in \citet{hoff:2005} and \citet{hoff:2008}, thus here we only outline the Markov chain Monte Carlo (MCMC) algorithm for the AME model that we utilize in this paper.
 
 \begin{itemize}
- \item Given initial values of $\{\bm\beta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}\}$, the algorithm proceeds as follows:
+ \item Given initial values of $\{\bm\beta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}\}$, MCMC proceeds as follows:
  \begin{itemize}
  	\item sample $\bm\theta \; | \;  \bm\beta, \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
  	\item sample $\bm\beta \; | \;  \textbf{X}, \bm\theta, \textbf{a}, \textbf{b}, \textbf{U}, \textbf{V}, \Sigma_{ab}, \rho, \text{ and } \sigma_{\epsilon}^{2}$ (Normal)
@@ -793,9 +799,8 @@ To compare LFM and LSM, we again utilize AUC (ROC) and AUC (PR) statistics. $K$ 
 
 % Bib stuff
 \clearpage
+\section*{References}
 \bibliography{/Users/s7m/whistle/master}
-% \bibliography{/Users/mdw/git/whistle/master}
-% \bibliographystyle{elsarticle-harv}\biboptions{authoryear}
 \bibliographystyle{APSR}\biboptions{authoryear}
 \newpage
 
