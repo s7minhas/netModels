@@ -11,3 +11,7 @@ We introduce a Bayesian approach to conduct inferential analyses on dyadic data 
 Replication Instructions
 ---
 Follow instructions in dataverseRepl directory. Any questions should be addressed to [Shahryar Minhas](http://s7minhas.com/).
+
+Publication Outlet
+---
+Forthcoming in Political Analysis
